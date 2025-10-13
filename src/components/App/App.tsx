@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AppRootProps } from '@grafana/data';
 import { ROUTES } from '../../constants';
 import React from 'react';
+
 const PageOne = React.lazy(() => import('../../pages/PageOne'));
 const PageTwo = React.lazy(() => import('../../pages/PageTwo'));
 const PageThree = React.lazy(() => import('../../pages/PageThree'));
