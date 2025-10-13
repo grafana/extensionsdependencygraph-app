@@ -8,16 +8,31 @@ const cache = new Map<string, unknown>();
 const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
- * Gets plugin data from data.json file.
+ * Gets plugin data from window.grafanaBootData.settings.apps or falls back to data.json file.
  *
  * @returns Plugin data object containing all plugin configurations
  *
  * @public
  */
 export const getPluginData = (): Record<string, AppPluginConfig> => {
-  // Always use data.json for dependency graph data
+  // Try to get data from window.grafanaBootData.settings.apps first
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const grafanaBootData = (window as any).grafanaBootData;
+    if (grafanaBootData?.settings?.apps) {
+      if (ENABLE_DEBUG_LOGS) {
+        console.log('Using window.grafanaBootData.settings.apps', Object.keys(grafanaBootData.settings.apps).length, 'plugins');
+      }
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      return grafanaBootData.settings.apps as Record<string, AppPluginConfig>;
+    }
+  } catch (error) {
+    console.warn('Could not load plugin data from window.grafanaBootData, falling back to data.json', error);
+  }
+
+  // Fall back to data.json for dependency graph data (for testing/development)
   if (ENABLE_DEBUG_LOGS) {
-    console.log('Using data.json', Object.keys(pluginData).length, 'plugins');
+    console.log('Using fallback data.json', Object.keys(pluginData).length, 'plugins');
   }
   // Type assertion to handle the data from data.json
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
