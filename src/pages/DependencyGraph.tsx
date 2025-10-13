@@ -1,11 +1,12 @@
-import { DependencyGraphTab } from '../dependency-graph/DependencyGraphTab';
-import { PluginPage } from '@grafana/runtime';
 import React from 'react';
+import { PluginPage } from '@grafana/runtime';
+
+import { DependencyGraphPage } from '../dependency-graph/DependencyGraphPage';
 
 function DependencyGraph() {
   return (
     <PluginPage>
-      <DependencyGraphTab />
+      <DependencyGraphPage />
     </PluginPage>
   );
 }
