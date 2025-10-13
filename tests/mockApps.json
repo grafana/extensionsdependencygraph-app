@@ -1,0 +1,282 @@
+{
+  "grafana-assistant-app": {
+    "id": "grafana-assistant-app",
+    "path": "https://plugins-cdn.grafana-ops.net/grafana-assistant-app/0.2.0+12fc84adce56455e65d499c9d719aff152b1052e/public/plugins/grafana-assistant-app/module.js",
+    "version": "0.2.0+12fc84adce56455e65d499c9d719aff152b1052e",
+    "preload": false,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "targets": ["grafana/extension-sidebar/v0-alpha"],
+          "title": "Grafana Assistant",
+          "description": "Opens Grafana Assistant"
+        },
+        {
+          "targets": ["grafana/dashboard/panel/menu"],
+          "title": "✨ Explain in Assistant",
+          "description": "✨ Explain in Assistant"
+        },
+        {
+          "targets": ["grafana/commandpalette/action"],
+          "title": "✨ Open Assistant",
+          "description": "✨ Open Assistant"
+        }
+      ],
+      "addedComponents": [
+        {
+          "targets": ["grafana/extension-sidebar/v0-alpha"],
+          "title": "Grafana Assistant",
+          "description": "Opens Grafana Assistant"
+        },
+        {
+          "targets": ["grafana/datasources/config/status"],
+          "title": "Explain in Assistant",
+          "description": "Explain in Assistant"
+        },
+        {
+          "targets": ["grafana/traceview/header/actions"],
+          "title": "Analyze trace with AI assistant",
+          "description": "AI Trace Analysis"
+        }
+      ],
+      "exposedComponents": [],
+      "extensionPoints": [],
+      "addedFunctions": [
+        {
+          "targets": ["grafana/grafana-assistant-app/add-callback-function/v0-alpha"],
+          "title": "addCallbackFunction",
+          "description": "addCallbackFunction"
+        }
+      ]
+    },
+    "dependencies": {
+      "grafanaDependency": ">=12.0.0-0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": [] }
+    },
+    "moduleHash": "sha256-x2MUjGhZnJ8Uo8IXynz5v3XzaM7V73X39cfIArhNeFI="
+  },
+  "grafana-exploretraces-app": {
+    "id": "grafana-exploretraces-app",
+    "path": "public/plugins/grafana-exploretraces-app/module.js",
+    "version": "1.1.4",
+    "preload": true,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "targets": ["grafana/dashboard/panel/menu"],
+          "title": "Open in Traces Drilldown",
+          "description": "Open current query in the Traces Drilldown app"
+        },
+        {
+          "targets": ["grafana/explore/toolbar/action"],
+          "title": "Open in Grafana Traces Drilldown",
+          "description": "Try our new queryless experience for traces"
+        }
+      ],
+      "addedComponents": [
+        {
+          "targets": ["grafana-asserts-app/entity-assertions-widget/v1"],
+          "title": "Asserts widget",
+          "description": "A block with assertions for a given service"
+        },
+        {
+          "targets": ["grafana-asserts-app/insights-timeline-widget/v1"],
+          "title": "Insights Timeline Widget",
+          "description": "Widget for displaying insights timeline in other apps"
+        }
+      ],
+      "exposedComponents": [
+        {
+          "id": "grafana-exploretraces-app/open-in-explore-traces-button/v1",
+          "title": "Open in Traces Drilldown button",
+          "description": "A button that opens a traces view in the Traces Drilldown app."
+        },
+        {
+          "id": "grafana-exploretraces-app/embedded-trace-exploration/v1",
+          "title": "Embedded Trace Exploration",
+          "description": "A component that renders a trace exploration view that can be embedded in other parts of Grafana."
+        }
+      ],
+      "extensionPoints": [{ "id": "grafana-exploretraces-app/investigation/v1", "title": "", "description": "" }],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.5.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": {
+        "exposedComponents": [
+          "grafana-asserts-app/entity-assertions-widget/v1",
+          "grafana-asserts-app/insights-timeline-widget/v1"
+        ]
+      }
+    }
+  },
+  "grafana-extensionsinsights-app": {
+    "id": "grafana-extensionsinsights-app",
+    "path": "public/plugins/grafana-extensionsinsights-app/module.js",
+    "version": "1.0.0",
+    "preload": false,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [],
+      "addedComponents": [],
+      "exposedComponents": [],
+      "extensionPoints": [],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=10.4.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": [] }
+    }
+  },
+  "grafana-lokiexplore-app": {
+    "id": "grafana-lokiexplore-app",
+    "path": "public/plugins/grafana-lokiexplore-app/module.js",
+    "version": "1.0.29",
+    "preload": true,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "targets": [
+            "grafana/dashboard/panel/menu",
+            "grafana/explore/toolbar/action",
+            "grafana-metricsdrilldown-app/open-in-logs-drilldown/v1",
+            "grafana-assistant-app/navigateToDrilldown/v1"
+          ],
+          "title": "Open in Grafana Logs Drilldown",
+          "description": "Open current query in the Grafana Logs Drilldown view"
+        }
+      ],
+      "addedComponents": [
+        {
+          "targets": ["grafana-asserts-app/insights-timeline-widget/v1"],
+          "title": "Insights Timeline Widget",
+          "description": "Widget for displaying insights timeline in other apps"
+        }
+      ],
+      "exposedComponents": [
+        {
+          "id": "grafana-lokiexplore-app/open-in-explore-logs-button/v1",
+          "title": "Open in Logs Drilldown button",
+          "description": "A button that opens a logs view in the Logs Drilldown app."
+        },
+        {
+          "id": "grafana-lokiexplore-app/embedded-logs-exploration/v1",
+          "title": "Embedded Logs Exploration",
+          "description": "A component that renders a logs exploration view that can be embedded in other parts of Grafana."
+        }
+      ],
+      "extensionPoints": [{ "id": "grafana-lokiexplore-app/investigation/v1", "title": "", "description": "" }],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.6.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": {
+        "exposedComponents": [
+          "grafana-adaptivelogs-app/temporary-exemptions/v1",
+          "grafana-lokiexplore-app/embedded-logs-exploration/v1",
+          "grafana-asserts-app/insights-timeline-widget/v1"
+        ]
+      }
+    }
+  },
+  "grafana-metricsdrilldown-app": {
+    "id": "grafana-metricsdrilldown-app",
+    "path": "public/plugins/grafana-metricsdrilldown-app/module.js",
+    "version": "1.0.17",
+    "preload": true,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "targets": [
+            "grafana/dashboard/panel/menu",
+            "grafana/explore/toolbar/action",
+            "grafana-assistant-app/navigateToDrilldown/v1",
+            "grafana/alerting/alertingrule/queryeditor"
+          ],
+          "title": "Open in Grafana Metrics Drilldown",
+          "description": "Open current query in the Grafana Metrics Drilldown view"
+        },
+        {
+          "targets": ["grafana-metricsdrilldown-app/grafana-assistant-app/navigateToDrilldown/v0-alpha"],
+          "title": "Navigate to metrics drilldown",
+          "description": "Build a url path to the metrics drilldown"
+        },
+        {
+          "targets": ["grafana/datasources/config/actions", "grafana/datasources/config/status"],
+          "title": "Open in Metrics Drilldown",
+          "description": "Browse metrics in Grafana Metrics Drilldown"
+        }
+      ],
+      "addedComponents": [],
+      "exposedComponents": [
+        {
+          "id": "grafana-metricsdrilldown-app/label-breakdown-component/v1",
+          "title": "Label Breakdown",
+          "description": "A metrics label breakdown view from the Metrics Drilldown app."
+        }
+      ],
+      "extensionPoints": [
+        { "id": "grafana-exploremetrics-app/investigation/v1", "title": "", "description": "" },
+        { "id": "grafana-metricsdrilldown-app/open-in-logs-drilldown/v1", "title": "", "description": "" }
+      ],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.6.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": [] }
+    }
+  },
+  "grafana-pyroscope-app": {
+    "id": "grafana-pyroscope-app",
+    "path": "public/plugins/grafana-pyroscope-app/module.js",
+    "version": "1.10.1",
+    "preload": true,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "targets": [
+            "grafana/explore/toolbar/action",
+            "grafana/traceview/details",
+            "grafana-assistant-app/navigateToDrilldown/v1"
+          ],
+          "title": "Open in Grafana Profiles Drilldown",
+          "description": "Try our new queryless experience for profiles"
+        }
+      ],
+      "addedComponents": [],
+      "exposedComponents": [],
+      "extensionPoints": [
+        { "id": "grafana-pyroscope-app/investigation/v1", "title": "", "description": "" },
+        { "id": "grafana-pyroscope-app/settings/v1", "title": "", "description": "" }
+      ],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.5.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": ["grafana-o11yinsights-app/insights-launcher/v1"] }
+    }
+  }
+}
