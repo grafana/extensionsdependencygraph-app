@@ -14,7 +14,7 @@ import { useDependencyGraphControls } from './hooks/useDependencyGraphControls';
  * Main dependency graph page component
  * This component orchestrates all the dependency graph functionality
  */
-export function DependencyGraphPage(): JSX.Element {
+export function DependencyGraphPage(): React.JSX.Element {
   const controls = useDependencyGraphControls();
   const styles = useStyles2(getStyles);
 
