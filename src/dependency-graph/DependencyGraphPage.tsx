@@ -1,14 +1,12 @@
-import React from 'react';
-import { css } from '@emotion/css';
-
-import { useStyles2 } from '@grafana/ui';
-
 import { DependencyGraphControlsComponent } from './components/DependencyGraphControls';
 import { DependencyGraphErrorBoundary } from './components/DependencyGraphErrorBoundary';
 import { DependencyGraphHeader } from './components/DependencyGraphHeader';
 import { DependencyGraphPanel } from './components/DependencyGraphPanel';
 import { LAYOUT_CONSTANTS } from './dependency-graph-panel/constants';
+import React from 'react';
+import { css } from '@emotion/css';
 import { useDependencyGraphControls } from './hooks/useDependencyGraphControls';
+import { useStyles2 } from '@grafana/ui';
 
 /**
  * Main dependency graph page component

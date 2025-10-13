@@ -1,6 +1,5 @@
 import { AppPluginConfig } from '@grafana/data';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const pluginData = require('../../data.json');
 
 // Cache for expensive calculations
@@ -17,13 +16,15 @@ const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 export const getPluginData = (): Record<string, AppPluginConfig> => {
   // Try to get data from window.grafanaBootData.settings.apps first
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const grafanaBootData = (window as any).grafanaBootData;
     if (grafanaBootData?.settings?.apps) {
       if (ENABLE_DEBUG_LOGS) {
-        console.log('Using window.grafanaBootData.settings.apps', Object.keys(grafanaBootData.settings.apps).length, 'plugins');
+        console.log(
+          'Using window.grafanaBootData.settings.apps',
+          Object.keys(grafanaBootData.settings.apps).length,
+          'plugins'
+        );
       }
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return grafanaBootData.settings.apps as Record<string, AppPluginConfig>;
     }
   } catch (error) {
@@ -35,7 +36,6 @@ export const getPluginData = (): Record<string, AppPluginConfig> => {
     console.log('Using fallback data.json', Object.keys(pluginData).length, 'plugins');
   }
   // Type assertion to handle the data from data.json
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   return pluginData as Record<string, AppPluginConfig>;
 };
 
@@ -95,7 +95,6 @@ export const getCacheKey = (options: {
  */
 export const getCachedResult = <T>(key: string): T | undefined => {
   const result = cache.get(key);
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   return result as T | undefined;
 };
 

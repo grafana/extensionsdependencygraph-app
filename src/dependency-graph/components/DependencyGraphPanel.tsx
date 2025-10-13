@@ -1,14 +1,13 @@
-import React from 'react';
-import { css } from '@emotion/css';
-import AutoSizer from 'react-virtualized-auto-sizer';
-
+import { LAYOUT_CONSTANTS, getThemeColors } from '../dependency-graph-panel/constants';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 
+import AutoSizer from 'react-virtualized-auto-sizer';
 import { DependencyGraph } from '../dependency-graph-panel/components/DependencyGraph';
-import { LAYOUT_CONSTANTS, getThemeColors } from '../dependency-graph-panel/constants';
 import { DependencyGraphControls } from '../hooks/useDependencyGraphControls';
-import { useDependencyGraphData } from '../hooks/useDependencyGraphData';
+import React from 'react';
+import { css } from '@emotion/css';
 import { logAutoSizer } from '../utils/logger';
+import { useDependencyGraphData } from '../hooks/useDependencyGraphData';
 
 interface DependencyGraphPanelProps {
   controls: DependencyGraphControls;
