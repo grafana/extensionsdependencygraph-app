@@ -16,7 +16,7 @@ export function ContentProviderSelector({
   availableProviders,
   selectedProviderValues,
   onProviderChange,
-}: ContentProviderSelectorProps): JSX.Element {
+}: ContentProviderSelectorProps): React.JSX.Element {
   const handleProviderChange = useCallback(
     (selected: Array<{ value?: string }>) => {
       const selectedValues = selected.map((item) => item.value).filter((v): v is string => Boolean(v));
@@ -29,6 +29,7 @@ export function ContentProviderSelector({
   return (
     <InlineField label={t('extensions.content-provider.label', 'Content provider')}>
       <MultiCombobox
+        data-testid="content-provider-selector"
         options={selectedProviderValues}
         value={selectedProviderValues}
         onChange={handleProviderChange}

@@ -16,7 +16,7 @@ export function ContentConsumerSelector({
   activeConsumers,
   selectedConsumerValues,
   onConsumerChange,
-}: ContentConsumerSelectorProps): JSX.Element {
+}: ContentConsumerSelectorProps): React.JSX.Element {
   const handleConsumerChange = useCallback(
     (selected: Array<{ value?: string }>) => {
       const selectedValues = selected.map((item) => item.value).filter((v): v is string => Boolean(v));
@@ -32,6 +32,7 @@ export function ContentConsumerSelector({
   return (
     <InlineField label={t('extensions.content-consumer.label', 'Content consumer')}>
       <MultiCombobox
+        data-testid="content-consumer-selector"
         options={selectedConsumerValues}
         value={selectedConsumerValues}
         onChange={handleConsumerChange}

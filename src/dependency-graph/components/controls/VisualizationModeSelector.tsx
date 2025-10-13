@@ -12,7 +12,7 @@ interface VisualizationModeSelectorProps {
 /**
  * Component for selecting the visualization mode
  */
-export function VisualizationModeSelector({ controls }: VisualizationModeSelectorProps): JSX.Element {
+export function VisualizationModeSelector({ controls }: VisualizationModeSelectorProps): React.JSX.Element {
   const { visualizationMode, setVisualizationMode, modeOptions } = controls;
 
   const handleModeChange = useCallback(
@@ -34,6 +34,7 @@ export function VisualizationModeSelector({ controls }: VisualizationModeSelecto
   return (
     <InlineField>
       <Combobox<VisualizationMode>
+        data-testid="visualization-mode-selector"
         options={modeOptions}
         value={visualizationMode}
         onChange={handleModeChange}
