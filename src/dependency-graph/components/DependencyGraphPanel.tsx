@@ -10,14 +10,14 @@ import { DependencyGraphControls } from '../hooks/useDependencyGraphControls';
 import { useDependencyGraphData } from '../hooks/useDependencyGraphData';
 import { logAutoSizer } from '../utils/logger';
 
-interface DependencyGraphVisualizationProps {
+interface DependencyGraphPanelProps {
   controls: DependencyGraphControls;
 }
 
 /**
- * Reusable component for rendering the dependency graph visualization
+ * Reusable component for rendering the dependency graph panel
  */
-export function DependencyGraphVisualization({ controls }: DependencyGraphVisualizationProps): JSX.Element {
+export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): React.JSX.Element {
   const {
     visualizationMode,
     selectedContentProviders,
