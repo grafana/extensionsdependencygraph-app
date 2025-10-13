@@ -6,7 +6,7 @@ import { useStyles2 } from '@grafana/ui';
 import { DependencyGraphControlsComponent } from './components/DependencyGraphControls';
 import { DependencyGraphErrorBoundary } from './components/DependencyGraphErrorBoundary';
 import { DependencyGraphHeader } from './components/DependencyGraphHeader';
-import { DependencyGraphVisualization } from './components/DependencyGraphVisualization';
+import { DependencyGraphPanel } from './components/DependencyGraphPanel';
 import { LAYOUT_CONSTANTS } from './dependency-graph-panel/constants';
 import { useDependencyGraphControls } from './hooks/useDependencyGraphControls';
 
@@ -28,8 +28,8 @@ export function DependencyGraphPage(): React.JSX.Element {
           <DependencyGraphControlsComponent controls={controls} />
         </div>
 
-        {/* Visualization Section */}
-        <DependencyGraphVisualization controls={controls} />
+        {/* Panel Section */}
+        <DependencyGraphPanel controls={controls} />
       </div>
     </DependencyGraphErrorBoundary>
   );
