@@ -1,0 +1,62 @@
+{
+  "extensions": {
+    "content-consumer": {
+      "label": "Content consumer",
+      "placeholder": "Select content consumers to display (active consumers by default)"
+    },
+    "content-provider": {
+      "label": "Content provider",
+      "placeholder": "Select content providers to display"
+    },
+    "extension-point": {
+      "label": "Extension point",
+      "placeholder": "Select extension points to display"
+    },
+    "view": {
+      "addedlinks": "Added links",
+      "addedcomponents": "Added components",
+      "addedfunctions": "Added functions",
+      "exposedComponents": "Exposed components",
+      "extensionpoints": "Extension points"
+    },
+    "dependency-graph": {
+      "select-content-providers": "Select content providers to display",
+      "select-extension-points": "Select extension points to display",
+      "visualization-mode": "Visualization Mode",
+      "added-links-mode": "Added Links Mode",
+      "exposed-components-mode": "Exposed Components Mode",
+      "extensionpoint-mode": "Extension Point Mode",
+      "show-dependency-types": "Show Dependency Types",
+      "show-descriptions": "Show Descriptions",
+      "link-extension-color": "Link Extension Color",
+      "component-extension-color": "Component Extension Color",
+      "function-extension-color": "Function Extension Color",
+      "content-providers": "Content Providers",
+      "content-consumers": "Content Consumers",
+      "content-consumers-extension-point": "Content Consumers",
+      "extension-point": "Extension Point",
+      "highlight-connections": "Highlight connections",
+      "remove-filter": "Remove filter",
+      "filter-by": "Filter by {{appName}}",
+      "filter-by-extension-point": "Filter by extension point",
+      "switch-to-extension-points-view": "Switch to extension points view",
+      "no-data": "No plugin dependency data available",
+      "debug-info-title": "Debug Information",
+      "debug-info": "Width: {{width}}, Height: {{height}}, Data keys: {{keys}}",
+      "error-title": "Dependency Graph Error",
+      "error-details": "Error details",
+      "try-again": "Try again",
+      "show-extensions": "Show extensions using this point",
+      "grafana-core": "Grafana Core",
+      "grafana-core-application": "Grafana Core Application",
+      "provides-and-consumes": "Provides and consumes extension content",
+      "provides-content": "Provides content to extension points",
+      "defines-extension-points": "Defines extension points",
+      "exposed-component": "Exposed component",
+      "exposes-components": "Exposes components to other plugins",
+      "provided-by": "Provided by {{provider}}",
+      "filter-extension-point": "Filter on this extension point",
+      "see-extensions": "See extensions that use this extension point"
+    }
+  }
+}
