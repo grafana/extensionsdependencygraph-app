@@ -16,7 +16,7 @@ export function ExtensionPointSelector({
   extensionPointOptions,
   selectedExtensionPointValues,
   onExtensionPointChange,
-}: ExtensionPointSelectorProps): JSX.Element {
+}: ExtensionPointSelectorProps): React.JSX.Element {
   const handleExtensionPointChange = useCallback(
     (selected: Array<{ value?: string }>) => {
       const selectedValues = selected.map((item) => item.value).filter((v): v is string => Boolean(v));
@@ -29,6 +29,7 @@ export function ExtensionPointSelector({
   return (
     <InlineField label={t('extensions.extension-point.label', 'Extension point')}>
       <MultiCombobox
+        data-testid="extension-point-selector"
         options={extensionPointOptions}
         value={selectedExtensionPointValues}
         onChange={handleExtensionPointChange}
