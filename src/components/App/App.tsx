@@ -1,8 +1,8 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { AppRootProps } from '@grafana/data';
 import { ROUTES } from '../../constants';
+import React from 'react';
 
 const DependencyGraph = React.lazy(() => import('../../pages/DependencyGraph'));
 

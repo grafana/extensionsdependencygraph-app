@@ -11,10 +11,10 @@ import { LAYOUT_CONSTANTS } from './dependency-graph-panel/constants';
 import { useDependencyGraphControls } from './hooks/useDependencyGraphControls';
 
 /**
- * Main dependency graph tab component
+ * Main dependency graph page component
  * This component orchestrates all the dependency graph functionality
  */
-export function DependencyGraphTab(): JSX.Element {
+export function DependencyGraphPage(): JSX.Element {
   const controls = useDependencyGraphControls();
   const styles = useStyles2(getStyles);
 
@@ -25,7 +25,6 @@ export function DependencyGraphTab(): JSX.Element {
           <DependencyGraphHeader controls={controls} />
 
           {/* Controls Section */}
-
           <DependencyGraphControlsComponent controls={controls} />
         </div>
 
@@ -41,9 +40,12 @@ const getStyles = () => {
     container: css({
       display: 'flex',
       flexDirection: 'column',
+      height: '100%',
     }),
     headerSection: css({
       marginTop: LAYOUT_CONSTANTS.TAB_PADDING,
+      paddingLeft: LAYOUT_CONSTANTS.TAB_PADDING,
+      paddingRight: LAYOUT_CONSTANTS.TAB_PADDING,
     }),
   };
 };
