@@ -48,6 +48,13 @@
     },
     {
       "type": "page",
+      "name": "Dependency Graph",
+      "path": "/a/%PLUGIN_ID%/dependency-graph",
+      "addToNav": true,
+      "defaultNav": false
+    },
+    {
+      "type": "page",
       "icon": "cog",
       "name": "Configuration",
       "path": "/plugins/%PLUGIN_ID%",
