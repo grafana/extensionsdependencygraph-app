@@ -4,6 +4,7 @@ import { Combobox, InlineField } from '@grafana/ui';
 
 import { DependencyGraphControls } from '../../hooks/useDependencyGraphControls';
 import { VisualizationMode } from '../../hooks/useDependencyGraphData';
+import { dependencyGraphTestIds } from '../../testIds';
 
 interface VisualizationModeSelectorProps {
   controls: DependencyGraphControls;
@@ -34,7 +35,7 @@ export function VisualizationModeSelector({ controls }: VisualizationModeSelecto
   return (
     <InlineField>
       <Combobox<VisualizationMode>
-        data-testid="visualization-mode-selector"
+        data-testid={dependencyGraphTestIds.visualizationModeSelector}
         options={modeOptions}
         value={visualizationMode}
         onChange={handleModeChange}
