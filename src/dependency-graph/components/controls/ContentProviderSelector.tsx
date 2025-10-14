@@ -3,6 +3,8 @@ import React, { useCallback } from 'react';
 import { t } from '@grafana/i18n';
 import { InlineField, MultiCombobox } from '@grafana/ui';
 
+import { dependencyGraphTestIds } from '../../testIds';
+
 interface ContentProviderSelectorProps {
   availableProviders: string[];
   selectedProviderValues: Array<{ value: string; label: string }>;
@@ -29,7 +31,7 @@ export function ContentProviderSelector({
   return (
     <InlineField label={t('extensions.content-provider.label', 'Content provider')}>
       <MultiCombobox
-        data-testid="content-provider-selector"
+        data-testid={dependencyGraphTestIds.contentProviderSelector}
         options={selectedProviderValues}
         value={selectedProviderValues}
         onChange={handleProviderChange}

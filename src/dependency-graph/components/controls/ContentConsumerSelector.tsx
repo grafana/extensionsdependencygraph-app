@@ -3,6 +3,8 @@ import React, { useCallback } from 'react';
 import { t } from '@grafana/i18n';
 import { InlineField, MultiCombobox } from '@grafana/ui';
 
+import { dependencyGraphTestIds } from '../../testIds';
+
 interface ContentConsumerSelectorProps {
   activeConsumers: string[];
   selectedConsumerValues: Array<{ value: string; label: string }>;
@@ -32,7 +34,7 @@ export function ContentConsumerSelector({
   return (
     <InlineField label={t('extensions.content-consumer.label', 'Content consumer')}>
       <MultiCombobox
-        data-testid="content-consumer-selector"
+        data-testid={dependencyGraphTestIds.contentConsumerSelector}
         options={selectedConsumerValues}
         value={selectedConsumerValues}
         onChange={handleConsumerChange}

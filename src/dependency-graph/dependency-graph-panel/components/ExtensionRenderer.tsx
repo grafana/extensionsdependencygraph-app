@@ -12,6 +12,7 @@ import { Trans, t } from '@grafana/i18n';
 import { locationService } from '@grafana/runtime';
 import { ContextMenu, Menu } from '@grafana/ui';
 
+import { dependencyGraphTestIds } from '../../testIds';
 import {
   COLOR_DEFAULTS,
   DISPLAY_NAMES,
@@ -1410,6 +1411,7 @@ export function ExtensionRenderer({
             <g key={definingPlugin}>
               {/* Defining plugin group box */}
               <rect
+                data-testid={dependencyGraphTestIds.contentConsumerBox(definingPlugin)}
                 x={firstEpPos.x - 10}
                 y={firstEpPos.groupY}
                 width={extensionBoxWidth + 20}

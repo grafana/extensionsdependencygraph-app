@@ -12,6 +12,7 @@ import { t } from '@grafana/i18n';
 import { locationService } from '@grafana/runtime';
 import { ContextMenu, Menu } from '@grafana/ui';
 
+import { dependencyGraphTestIds } from '../../testIds';
 import {
   DISPLAY_NAMES,
   LAYOUT_CONSTANTS,
@@ -224,6 +225,7 @@ export function NodeRenderer({
               <g key={node.id}>
                 {/* Consumer-style box */}
                 <rect
+                  data-testid={dependencyGraphTestIds.contentProviderBox(node.id)}
                   x={boxX}
                   y={node.y - consumerBoxHeight / 2}
                   width={consumerBoxWidth}

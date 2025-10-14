@@ -86,6 +86,7 @@ export function NodeRenderingLogic({
             <g key={node.id}>
               {/* Consumer-style box */}
               <rect
+                data-testid={`content-provider-box-${node.id}`}
                 x={boxX}
                 y={node.y - consumerBoxHeight / 2}
                 width={consumerBoxWidth}
