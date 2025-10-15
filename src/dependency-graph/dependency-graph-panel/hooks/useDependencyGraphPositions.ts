@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-
+import { GraphData, PanelOptions } from '../types';
 import {
   calculateContentHeight,
   calculateLayout,
@@ -8,7 +7,8 @@ import {
   getExtensionPointPositions,
   getExtensionPositions,
 } from '../components/GraphLayout';
-import { GraphData, PanelOptions } from '../types';
+
+import { useMemo } from 'react';
 
 interface UseDependencyGraphPositionsProps {
   data: GraphData;
@@ -40,15 +40,6 @@ export function useDependencyGraphPositions({
     const calculatedHeight = calculateContentHeight(data, options, width, height, isExposeMode || isExtensionPointMode);
     // For full height behavior, use the calculated height if it's larger than the available height
     // This allows the content to expand beyond the viewport and make the page scrollable
-    console.log('Content height calculation:', {
-      calculatedHeight,
-      panelHeight: height,
-      dataNodes: data.nodes?.length,
-      dataExtensions: data.extensions?.length,
-      dataExtensionPoints: data.extensionPoints?.length,
-      isExposeMode,
-      isExtensionPointMode,
-    });
     return calculatedHeight;
   }, [data, options, width, height, isExposeMode, isExtensionPointMode]);
 

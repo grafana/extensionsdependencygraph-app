@@ -14,7 +14,6 @@ import { addMissingExtensionPoints, collectExplicitExtensionPoints } from './ext
 import { setupFilters } from './extensionPoint/filterSetup';
 import { createDependencies, createNodes } from './extensionPoint/nodeAndDependencyCreation';
 
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
  * Processes plugin data for "extensionpoint" mode visualization.
@@ -32,33 +31,8 @@ export const processPluginDataToExtensionPointGraph = (
   options: PanelOptions,
   pluginData: Record<string, AppPluginConfig>
 ): GraphData => {
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - processing extension point mode data');
-  }
-
   // Setup filters
   const filters = setupFilters(options);
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - selectedExtensionPoints:', filters.selectedExtensionPoints);
-    console.log('processPluginDataToExtensionPointGraph - selectedContentProviders:', filters.selectedContentProviders);
-    console.log(
-      'processPluginDataToExtensionPointGraph - selectedContentConsumersForExtensionPoint:',
-      filters.selectedContentConsumersForExtensionPoint
-    );
-    console.log(
-      'processPluginDataToExtensionPointGraph - shouldFilterExtensionPoints:',
-      filters.shouldFilterExtensionPoints
-    );
-    console.log(
-      'processPluginDataToExtensionPointGraph - shouldFilterContentProviders:',
-      filters.shouldFilterContentProviders
-    );
-    console.log(
-      'processPluginDataToExtensionPointGraph - shouldFilterContentConsumersForExtensionPoint:',
-      filters.shouldFilterContentConsumersForExtensionPoint
-    );
-  }
 
   // Collect extension points
   const extensionPoints = collectExplicitExtensionPoints(pluginData, filters);
@@ -70,15 +44,6 @@ export const processPluginDataToExtensionPointGraph = (
   // Create nodes and dependencies
   const nodes = createNodes(pluginData, extensions, extensionPoints, filters);
   const dependencies = createDependencies(extensions, extensionPoints);
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - final results:', {
-      nodesCount: nodes.size,
-      dependenciesCount: dependencies.length,
-      extensionPointsCount: extensionPoints.size,
-      extensionsCount: extensions.size,
-    });
-  }
 
   return {
     nodes: Array.from(nodes.values()),

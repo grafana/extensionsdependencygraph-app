@@ -7,8 +7,6 @@ import { processPluginDataToAddedLinksGraph } from './addedLinksProcessor';
 import { processPluginDataToExposeGraph } from './exposedComponentsProcessor';
 import { processPluginDataToExtensionPointGraph } from './extensionPointProcessor';
 
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
-
 /**
  * Processes plugin data from data.json into a graph format for visualization.
  *
@@ -32,62 +30,33 @@ const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
  * @public
  */
 export const processPluginDataToGraph = (options: PanelOptions): GraphData => {
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToGraph - called with options:', options);
-  }
-
   // Check cache first
   const cacheKey = getCacheKey(options);
   const cachedResult = getCachedResult<GraphData>(cacheKey);
   if (cachedResult) {
-    if (ENABLE_DEBUG_LOGS) {
-      console.log('processPluginDataToGraph - returning cached result for:', cacheKey);
-    }
     return cachedResult;
   }
 
   const pluginData = getPluginData();
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToGraph - processing plugin data:', Object.keys(pluginData).length, 'plugins');
-  }
-
   // Route to the appropriate processor based on visualization mode
   let result: GraphData;
   switch (options.visualizationMode) {
     case 'exposedComponents':
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to exposed components mode');
-      }
       result = processPluginDataToExposeGraph(options, pluginData);
       break;
     case 'extensionpoint':
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to extension point mode');
-      }
       result = processPluginDataToExtensionPointGraph(options, pluginData);
       break;
     case 'addedlinks':
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to added links mode');
-      }
       result = processPluginDataToAddedLinksGraph(options, pluginData);
       break;
     case 'addedcomponents':
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to added components mode');
-      }
       result = processPluginDataToAddedComponentsGraph(options, pluginData);
       break;
     case 'addedfunctions':
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to added functions mode');
-      }
       result = processPluginDataToAddedFunctionsGraph(options, pluginData);
       break;
     default:
-      if (ENABLE_DEBUG_LOGS) {
-        console.log('processPluginDataToGraph - routing to added links mode (default)');
-      }
       result = processPluginDataToAddedLinksGraph(options, pluginData);
       break;
   }
@@ -99,8 +68,5 @@ export const processPluginDataToGraph = (options: PanelOptions): GraphData => {
 
 // Keep the original function for backward compatibility, but it now just calls the new one
 export const processTableDataToGraph = (data: unknown, options: PanelOptions): GraphData => {
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processTableDataToGraph - redirecting to processPluginDataToGraph');
-  }
   return processPluginDataToGraph(options);
 };

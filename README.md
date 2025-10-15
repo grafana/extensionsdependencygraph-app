@@ -1,10 +1,28 @@
-# Grafana app plugin template
+# Extensions DevTools
 
-This template is a starting point for building an app plugin for Grafana.
+Developer tools for plugin authors working with Grafana's [plugin extensions system](https://grafana.com/developers/plugin-tools/ui-extensions). This app helps you visualize, explore, and debug extension relationships during plugin development.
 
-## What are Grafana app plugins?
+## Current Features
 
-App plugins can let you create a custom out-of-the-box monitoring experience by custom pages, nested data sources and panel plugins.
+### Dependency Graph Visualization
+
+Interactive graph showing relationships between plugins, extension points, and extensions with multiple visualization modes:
+
+- **Added Links Mode**: Visualize plugins adding link extensions to extension points
+- **Added Components Mode**: See plugins adding component extensions
+- **Added Functions Mode**: Track plugins adding function extensions
+- **Exposed Components Mode**: View plugins exposing components to other plugins
+- **Extension Point Mode**: Detailed view of extension points and their consumers
+
+**Features:**
+
+- Filter by content providers, content consumers, and extension points
+- Interactive exploration with click and context menu interactions
+- Real-time visualization of your plugin's extension relationships
+
+## Future Tools
+
+Additional developer tools for working with plugin extensions will be added in future releases.
 
 ## Get started
 

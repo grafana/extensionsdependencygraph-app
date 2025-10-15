@@ -4,8 +4,8 @@
   "name": "Extensions DevTools",
   "id": "grafana-extensionsdevtools-app",
   "info": {
-    "keywords": ["app"],
-    "description": "",
+    "keywords": ["app", "extensions", "devtools", "developer-tools", "plugin-development"],
+    "description": "Developer tools for plugin authors working with Grafana's plugin extensions system. Visualize and explore extension points, extensions, and plugin relationships in your development workflow.",
     "author": {
       "name": "Grafana"
     },

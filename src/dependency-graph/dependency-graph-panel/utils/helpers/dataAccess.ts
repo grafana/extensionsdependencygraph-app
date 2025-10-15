@@ -4,7 +4,6 @@ const pluginData = require('../../data.json');
 
 // Cache for expensive calculations
 const cache = new Map<string, unknown>();
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
  * Gets plugin data from data.json file.
@@ -14,10 +13,6 @@ const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
  * @public
  */
 export const getPluginData = (): Record<string, AppPluginConfig> => {
-  // Use data.json for dependency graph data
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('Using data.json', Object.keys(pluginData).length, 'plugins');
-  }
   return pluginData as Record<string, AppPluginConfig>;
 };
 

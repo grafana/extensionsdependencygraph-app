@@ -4,7 +4,6 @@ import { t } from '@grafana/i18n';
 import { ExposedComponent, GraphData, PanelOptions, PluginDependency, PluginNode } from '../../types';
 import { getDisplayName, getPluginType } from '../helpers/pluginHelpers';
 
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
  * Processes plugin data for "exposedComponents" mode visualization.
@@ -23,10 +22,6 @@ export const processPluginDataToExposeGraph = (
   options: PanelOptions,
   pluginData: Record<string, AppPluginConfig>
 ): GraphData => {
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExposeGraph - processing expose mode data');
-  }
-
   const nodes: Map<string, PluginNode> = new Map();
   const dependencies: PluginDependency[] = [];
   const exposedComponents: Map<string, ExposedComponent> = new Map();
@@ -92,10 +87,6 @@ export const processPluginDataToExposeGraph = (
             };
             dependencies.push(dependency);
 
-            if (ENABLE_DEBUG_LOGS) {
-              console.log('Created dependency:', dependency);
-            }
-
             // Add the consuming plugin as a node
             if (!nodes.has(pluginId)) {
               nodes.set(pluginId, {
@@ -146,17 +137,6 @@ export const processPluginDataToExposeGraph = (
   const activeProviders = new Set(filteredExposedComponents.map((comp) => comp.providingPlugin));
   const activeConsumers = new Set(filteredDependencies.map((dep) => dep.to));
 
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('[Expose Mode Debug]');
-    console.log('Filtered exposed components:', filteredExposedComponents);
-    console.log('Active providers:', activeProviders);
-    console.log('Active consumers:', activeConsumers);
-    console.log(
-      'All nodes before filtering:',
-      filteredNodes.map((n) => n.id)
-    );
-  }
-
   // ALWAYS include provider nodes if we have their exposed components
   // Show all relevant nodes: ALL selected providers + consumers that depend on them
   filteredNodes = filteredNodes.filter((node) => {
@@ -176,15 +156,6 @@ export const processPluginDataToExposeGraph = (
     return false;
   });
 
-  if (ENABLE_DEBUG_LOGS) {
-    console.log(
-      'Final filtered nodes:',
-      filteredNodes.map(
-        (n) => `${n.id} (${activeProviders.has(n.id) ? 'provider' : ''}${activeConsumers.has(n.id) ? 'consumer' : ''})`
-      )
-    );
-  }
-
   // Update consumers arrays in filtered exposed components to reflect actual filtered dependencies
   filteredExposedComponents = filteredExposedComponents.map((comp) => ({
     ...comp,
@@ -197,13 +168,6 @@ export const processPluginDataToExposeGraph = (
     extensionPoints: [], // Not used in expose mode
     exposedComponents: filteredExposedComponents,
   };
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExposeGraph - final result:', result);
-    console.log('processPluginDataToExposeGraph - dependencies:', result.dependencies);
-    console.log('processPluginDataToExposeGraph - exposedComponents:', result.exposedComponents);
-    console.log('processPluginDataToExposeGraph - nodes:', result.nodes);
-  }
 
   return result;
 };

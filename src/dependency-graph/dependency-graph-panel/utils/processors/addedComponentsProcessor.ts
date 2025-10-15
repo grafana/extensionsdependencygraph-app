@@ -9,7 +9,6 @@ import {
   getPluginType,
 } from '../helpers/pluginHelpers';
 
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
  * Processes plugin data for "addedcomponents" mode visualization.
@@ -64,13 +63,7 @@ export const processPluginDataToAddedComponentsGraph = (
 
     // Process extension points that this plugin defines
     if (isContentConsumer) {
-      if (ENABLE_DEBUG_LOGS) {
-        console.log(`Processing extension points for plugin ${pluginId}:`, extensions.extensionPoints);
-      }
       extensions.extensionPoints.forEach((extensionPoint, index) => {
-        if (ENABLE_DEBUG_LOGS) {
-          console.log(`Extension point ${index} raw data:`, extensionPoint);
-        }
         if (!extensionPoints.has(extensionPoint.id)) {
           const extensionType = determineExtensionPointType(extensionPoint.id, pluginData);
           const processedExtensionPoint = {
@@ -81,9 +74,6 @@ export const processPluginDataToAddedComponentsGraph = (
             title: extensionPoint.title,
             description: extensionPoint.description,
           };
-          if (ENABLE_DEBUG_LOGS) {
-            console.log(`Processed extension point:`, processedExtensionPoint);
-          }
           extensionPoints.set(extensionPoint.id, processedExtensionPoint);
         }
       });
@@ -216,19 +206,6 @@ export const processPluginDataToAddedComponentsGraph = (
     dependencies: filteredDependencies,
     extensionPoints: filteredExtensionPoints,
   };
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToAddedComponentsGraph - final result:', result);
-    console.log('Final extension points count:', result.extensionPoints.length);
-    result.extensionPoints.forEach((ep, index) => {
-      console.log(`Final extension point ${index}:`, {
-        id: ep.id,
-        definingPlugin: ep.definingPlugin,
-        providers: ep.providers,
-        extensionType: ep.extensionType,
-      });
-    });
-  }
 
   return result;
 };
