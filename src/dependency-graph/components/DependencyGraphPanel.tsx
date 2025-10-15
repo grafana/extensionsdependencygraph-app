@@ -47,14 +47,16 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
           logAutoSizer(effectiveWidth, effectiveHeight);
           return (
             <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
-              {visualizationMode === 'extensionpoint' && (
-                <ExtensionTypeLegend
-                  linkColor={themeColors.LINK_EXTENSION}
-                  componentColor={themeColors.COMPONENT_EXTENSION}
-                  functionColor={themeColors.FUNCTION_EXTENSION}
-                  extensions={graphData.extensions}
-                />
-              )}
+              <ExtensionTypeLegend
+                linkColor={themeColors.LINK_EXTENSION}
+                componentColor={themeColors.COMPONENT_EXTENSION}
+                functionColor={themeColors.FUNCTION_EXTENSION}
+                extensionPointColor={theme.colors.info.main}
+                exposedComponentColor="#9933ff"
+                extensions={graphData.extensions}
+                exposedComponents={graphData.exposedComponents}
+                visualizationMode={visualizationMode}
+              />
               <DependencyGraph
                 data={graphData}
                 options={{
