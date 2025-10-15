@@ -6,14 +6,38 @@ const pluginData = require('../../data.json');
 const cache = new Map<string, unknown>();
 
 /**
- * Gets plugin data from data.json file.
+ * Gets plugin data from either window.grafanaBootData.settings.apps (default) or data.json (when useFakeData=true).
+ *
+ * By default, this function reads plugin data from window.grafanaBootData.settings.apps which is injected
+ * by the Grafana runtime. For testing purposes, you can add ?useFakeData=true to the URL
+ * to use the static data from data.json instead.
  *
  * @returns Plugin data object containing all plugin configurations
  *
  * @public
  */
 export const getPluginData = (): Record<string, AppPluginConfig> => {
-  return pluginData as Record<string, AppPluginConfig>;
+  // Check if we should use fake data from data.json
+  const urlParams = new URLSearchParams(window.location.search);
+  const useFakeData = urlParams.get('useFakeData') === 'true';
+
+  if (useFakeData) {
+    console.log('Using fake data from data.json');
+    return pluginData as Record<string, AppPluginConfig>;
+  }
+
+  // Default: use real data from window.grafanaBootData.settings.apps
+  const grafanaBootData = (window as any).grafanaBootData;
+  const windowPlugins = grafanaBootData?.settings?.apps;
+
+  if (windowPlugins && typeof windowPlugins === 'object') {
+    console.log('Using real plugin data from window.grafanaBootData.settings.apps');
+    return windowPlugins as Record<string, AppPluginConfig>;
+  }
+
+  // No data available
+  console.warn('window.grafanaBootData.settings.apps not found. Add ?useFakeData=true to use test data.');
+  return {};
 };
 
 /**

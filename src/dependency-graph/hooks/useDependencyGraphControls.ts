@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-
-import { t } from '@grafana/i18n';
 
 import { VisualizationMode } from './useDependencyGraphData';
+import { t } from '@grafana/i18n';
+import { useSearchParams } from 'react-router-dom';
 
 /**
  * Type guard to check if a string is a valid VisualizationMode
@@ -102,6 +101,10 @@ export function useDependencyGraphControls(): DependencyGraphControls {
     (updates: Record<string, string | null>) => {
       setSearchParams((prev) => {
         const newParams = new URLSearchParams(prev);
+
+        // Preserve useFakeData parameter if it's set to true
+        const useFakeData = prev.get('useFakeData');
+
         Object.entries(updates).forEach(([key, value]) => {
           if (value === null || value === '') {
             newParams.delete(key);
@@ -109,6 +112,12 @@ export function useDependencyGraphControls(): DependencyGraphControls {
             newParams.set(key, value);
           }
         });
+
+        // Restore useFakeData if it was true
+        if (useFakeData === 'true') {
+          newParams.set('useFakeData', 'true');
+        }
+
         return newParams;
       });
     },
