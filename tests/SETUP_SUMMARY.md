@@ -147,7 +147,7 @@ test('my test', async ({ pageWithMockData, context }) => {
   const appPage = await context.newPage();
 
   // Navigate to dependency graph
-  await appPage.goto(`/a/grafana-extensionsinsights-app/${ROUTES.DependencyGraph}`);
+  await appPage.goto(`/a/grafana-extensionsdevtools-app/${ROUTES.DependencyGraph}`);
   await appPage.waitForLoadState('networkidle');
 
   // Access mock data

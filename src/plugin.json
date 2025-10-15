@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
-  "name": "Extensionsinsights",
-  "id": "grafana-extensionsinsights-app",
+  "name": "Extensions DevTools",
+  "id": "grafana-extensionsdevtools-app",
   "info": {
     "keywords": ["app"],
     "description": "",

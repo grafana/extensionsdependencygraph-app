@@ -33,7 +33,7 @@ import { test, expect } from './fixtures';
 test('should use mock data', async ({ pageWithMockData, context }) => {
   // Create a new page with mock data already injected
   const appPage = await context.newPage();
-  await appPage.goto('/a/grafana-extensionsinsights-app/dependency-graph');
+  await appPage.goto('/a/grafana-extensionsdevtools-app/dependency-graph');
 
   // The page will now have access to mock apps data
   const bootData = await appPage.evaluate(() => {
@@ -117,7 +117,7 @@ When writing new tests that need mock data:
 1. Import the fixtures: `import { test, expect } from './fixtures';`
 2. Use the `pageWithMockData` fixture in your test
 3. Create a new page from the context: `const appPage = await context.newPage();`
-4. Navigate to your route: `await appPage.goto('/a/grafana-extensionsinsights-app/...');`
+4. Navigate to your route: `await appPage.goto('/a/grafana-extensionsdevtools-app/...');`
 5. The mock data will automatically be available
 
 ## Updating Mock Data
