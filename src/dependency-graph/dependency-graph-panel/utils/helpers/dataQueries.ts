@@ -1,13 +1,13 @@
-import { ExposedComponent } from '../../types';
-
-// Note: We avoid importing from processors to prevent circular dependencies
-import { getPluginData } from './dataAccess';
 import {
   hasAddedComponentsProperty,
   hasAddedFunctionsProperty,
   hasAddedLinksProperty,
   isExtensionObject,
 } from './typeGuards';
+
+import { ExposedComponent } from '../../types';
+// Note: We avoid importing from processors to prevent circular dependencies
+import { getPluginData } from './dataAccess';
 
 // Memoization for expensive helper functions
 const availableProvidersCache = new Map<string, string[]>();

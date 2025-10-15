@@ -1,9 +1,8 @@
-import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
-
 import { ExposedComponent, GraphData, PanelOptions, PluginDependency, PluginNode } from '../../types';
 import { getDisplayName, getPluginType } from '../helpers/pluginHelpers';
 
+import { AppPluginConfig } from '@grafana/data';
+import { t } from '@grafana/i18n';
 
 /**
  * Processes plugin data for "exposedComponents" mode visualization.
