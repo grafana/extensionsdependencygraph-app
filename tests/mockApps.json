@@ -118,9 +118,9 @@
       }
     }
   },
-  "grafana-extensionsinsights-app": {
-    "id": "grafana-extensionsinsights-app",
-    "path": "public/plugins/grafana-extensionsinsights-app/module.js",
+  "grafana-extensionsdevtools-app": {
+    "id": "grafana-extensionsdevtools-app",
+    "path": "public/plugins/grafana-extensionsdevtools-app/module.js",
     "version": "1.0.0",
     "preload": false,
     "angular": { "detected": false },

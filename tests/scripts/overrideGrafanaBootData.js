@@ -16,7 +16,7 @@ export const overrideGrafanaBootData = ({ apps }) => {
   // Wait for Grafana boot data to be added to the window object
   waitForGrafanaBootData(() => {
     if (apps && Object.keys(apps).length > 0) {
-      console.log('@grafana/extensionsinsights-app: setting mock apps data with', Object.keys(apps).length, 'plugins');
+      console.log('@grafana/extensionsdevtools-app: setting mock apps data with', Object.keys(apps).length, 'plugins');
 
       // Override apps with the mock data provided by the test
       window.grafanaBootData.settings.apps = apps;
