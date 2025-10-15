@@ -9,6 +9,6 @@ interface DependencyGraphHeaderProps {
 /**
  * Reusable component for the dependency graph header with statistics
  */
-export function DependencyGraphHeader({ controls }: DependencyGraphHeaderProps): JSX.Element {
+export function DependencyGraphHeader({ controls }: DependencyGraphHeaderProps): React.JSX.Element {
   return <div></div>;
 }

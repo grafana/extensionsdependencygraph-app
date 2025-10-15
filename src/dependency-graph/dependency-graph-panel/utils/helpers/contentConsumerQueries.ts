@@ -42,7 +42,7 @@ export const getAvailableContentConsumers = (
             return false;
           }
           // Type assertion needed because AppPluginConfig.extensions.exposedComponents is not fully typed
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+           
           const exposedComp = comp as { consumers?: unknown[] };
           return Array.isArray(exposedComp.consumers) && exposedComp.consumers.length > 0;
         });

@@ -31,7 +31,7 @@ export function ContentProviderContextMenu({
   onFilter,
   onRemoveFilter,
   isFiltered,
-}: ContentProviderContextMenuProps): JSX.Element {
+}: ContentProviderContextMenuProps): React.JSX.Element {
   if (!isOpen || !selectedContentProviderId) {
     return <></>;
   }

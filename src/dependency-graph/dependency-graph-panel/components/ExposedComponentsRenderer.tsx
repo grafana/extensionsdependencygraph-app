@@ -39,7 +39,7 @@ export function ExposedComponentsRenderer({
   selectedExposedComponent,
   onExposedComponentClick,
   styles,
-}: ExposedComponentsRendererProps): JSX.Element {
+}: ExposedComponentsRendererProps): React.JSX.Element {
   return (
     <>
       {Array.from(exposedComponentPositions.entries()).map(([componentId, position]) => {

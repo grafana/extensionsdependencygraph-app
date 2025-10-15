@@ -42,7 +42,7 @@ export function ContentConsumersRenderer({
   onContentConsumerClick,
   onContentConsumerContextMenu,
   styles,
-}: ContentConsumersRendererProps): JSX.Element {
+}: ContentConsumersRendererProps): React.JSX.Element {
   const rightMargin = getRightMargin(width);
   const groupSpacing = getResponsiveGroupSpacing(height);
 

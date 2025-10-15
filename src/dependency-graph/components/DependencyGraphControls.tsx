@@ -17,7 +17,7 @@ interface DependencyGraphControlsProps {
 /**
  * Reusable component for dependency graph controls (View, Content Provider, Content Consumer)
  */
-export function DependencyGraphControlsComponent({ controls }: DependencyGraphControlsProps): JSX.Element {
+export function DependencyGraphControlsComponent({ controls }: DependencyGraphControlsProps): React.JSX.Element {
   const {
     visualizationMode,
     selectedContentProviders,
