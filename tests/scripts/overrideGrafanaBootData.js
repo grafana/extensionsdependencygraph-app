@@ -23,11 +23,3 @@ export const overrideGrafanaBootData = ({ apps }) => {
     }
   });
 };
-
-// Parse the mock data and execute the override
-try {
-  const parsedMockApps = JSON.parse(mockApps);
-  overrideGrafanaBootData(parsedMockApps);
-} catch (e) {
-  console.error('Failed to parse mock apps data:', e);
-}

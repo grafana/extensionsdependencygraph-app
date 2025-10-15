@@ -10,6 +10,7 @@ type AppTestFixture = {
   appConfigPage: AppConfigPage;
   depGraphPage: () => Promise<AppPage>;
   depGraphPageWithMockApps: AppPage;
+  exposedComponentsViewWithMockApps: AppPage;
 };
 
 export const test = base.extend<AppTestFixture>({
@@ -36,9 +37,19 @@ export const test = base.extend<AppTestFixture>({
     });
     await use(appPage);
   },
+  exposedComponentsViewWithMockApps: async ({ depGraphPageWithMockApps }, use) => {
+    await navigateToView(depGraphPageWithMockApps.ctx.page, 'exposedComponents');
+    await use(depGraphPageWithMockApps);
+  },
 });
 
 export { expect } from '@grafana/plugin-e2e';
+
+async function navigateToView(page: Page, path: string) {
+  const url = new URL(page.url());
+  url.searchParams.set('view', 'exposedComponents');
+  await page.goto(url.toString());
+}
 
 /**
  * Helper to reliably click SVG or other elements that may not expose `click()`

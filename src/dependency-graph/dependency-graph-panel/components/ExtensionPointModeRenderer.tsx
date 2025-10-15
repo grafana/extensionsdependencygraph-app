@@ -9,6 +9,7 @@ import {
   getResponsiveGroupSpacing,
   getRightMargin,
 } from '../constants';
+import { dependencyGraphTestIds } from '../../testIds';
 import { GraphData, PanelOptions } from '../types';
 import { getDisplayName } from '../utils/helpers/extensionUtils';
 
@@ -132,6 +133,55 @@ export function ExtensionPointModeRenderer({
         );
       })}
 
+      {/* Render Content Providers */}
+      {(() => {
+        // Get all unique providers from extension points
+        const allProvidersSet = new Set<string>();
+        data.extensionPoints?.forEach((ep) => {
+          ep.providers.forEach((providerId) => {
+            allProvidersSet.add(providerId);
+          });
+        });
+
+        return Array.from(allProvidersSet).map((providerId, index) => {
+          const x = 20; // Left margin
+          const y = LAYOUT_CONSTANTS.HEADER_Y_OFFSET + groupSpacing + index * (LAYOUT_CONSTANTS.MIN_NODE_HEIGHT + 10);
+
+          const strokeColor = theme.colors.border.medium;
+          const strokeWidth = VISUAL_CONSTANTS.DEFAULT_STROKE_WIDTH;
+
+          return (
+            <g key={providerId}>
+              {/* Content Provider Box */}
+              <rect
+                data-testid={dependencyGraphTestIds.contentProviderBox(providerId)}
+                x={x}
+                y={y}
+                width={LAYOUT_CONSTANTS.MIN_NODE_WIDTH}
+                height={LAYOUT_CONSTANTS.MIN_NODE_HEIGHT}
+                rx={VISUAL_CONSTANTS.NODE_BORDER_RADIUS}
+                fill={theme.colors.background.secondary}
+                stroke={strokeColor}
+                strokeWidth={strokeWidth}
+                className={styles.contentConsumerBox.toString()}
+                style={{ cursor: 'pointer' }}
+              />
+
+              {/* Content Provider Label */}
+              <text
+                x={x + 10}
+                y={y + 20}
+                fontSize={TYPOGRAPHY_CONSTANTS.PLUGIN_LABEL_SIZE}
+                fill={theme.colors.text.primary}
+                className={styles.contentConsumerLabel.toString()}
+              >
+                {getDisplayName(providerId)}
+              </text>
+            </g>
+          );
+        });
+      })()}
+
       {/* Render Content Consumers */}
       {(() => {
         // Get all unique consumers from exposed components
@@ -156,6 +206,7 @@ export function ExtensionPointModeRenderer({
             <g key={consumerId}>
               {/* Content Consumer Box */}
               <rect
+                data-testid={dependencyGraphTestIds.contentConsumerBox(consumerId)}
                 x={x}
                 y={y}
                 width={LAYOUT_CONSTANTS.MIN_NODE_WIDTH}
