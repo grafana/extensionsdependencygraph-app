@@ -12,6 +12,7 @@ import {
   VISUAL_CONSTANTS,
   getResponsiveGroupSpacing,
   getRightMargin,
+  getThemeColors,
 } from '../constants';
 import { ContextMenu, Menu } from '@grafana/ui';
 import { GraphData, PanelOptions } from '../types';
@@ -21,6 +22,7 @@ import { Trans, t } from '@grafana/i18n';
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
 import { dependencyGraphTestIds } from '../../testIds';
+import { getPluginData } from '../utils/helpers/dataAccess';
 import { locationService } from '@grafana/runtime';
 import semver from 'semver';
 
@@ -453,6 +455,56 @@ export function ExtensionRenderer({
     // Count dependencies that target this extension point
     return data.dependencies.filter((dep) => dep.to === extensionPointsId).length;
   };
+
+  // Function to count extensions by type for each extension point
+  const getExtensionCountsByTypeForExtensionPoint = (
+    extensionPointId: string
+  ): { link: number; component: number; function: number } => {
+    const counts = { link: 0, component: 0, function: 0 };
+
+    // Get the plugin data from data.json
+    const pluginData = getPluginData();
+
+    // Count by looking at the actual extension types in each plugin
+    Object.entries(pluginData).forEach(([pluginId, pluginInfo]) => {
+      const extensions = pluginInfo?.extensions;
+      if (!extensions) {
+        return;
+      }
+
+      // Check addedLinks
+      if (extensions.addedLinks && Array.isArray(extensions.addedLinks)) {
+        extensions.addedLinks.forEach((link) => {
+          const targets = Array.isArray(link.targets) ? link.targets : [link.targets];
+          if (targets.includes(extensionPointId)) {
+            counts.link++;
+          }
+        });
+      }
+
+      // Check addedComponents
+      if (extensions.addedComponents && Array.isArray(extensions.addedComponents)) {
+        extensions.addedComponents.forEach((component) => {
+          const targets = Array.isArray(component.targets) ? component.targets : [component.targets];
+          if (targets.includes(extensionPointId)) {
+            counts.component++;
+          }
+        });
+      }
+
+      // Check addedFunctions
+      if (extensions.addedFunctions && Array.isArray(extensions.addedFunctions)) {
+        extensions.addedFunctions.forEach((func) => {
+          const targets = Array.isArray(func.targets) ? func.targets : [func.targets];
+          if (targets.includes(extensionPointId)) {
+            counts.function++;
+          }
+        });
+      }
+    });
+
+    return counts;
+  };
   const renderContextMenu = () => {
     if (!contextMenuOpen) {
       return null;
@@ -828,13 +880,13 @@ export function ExtensionRenderer({
 
                 return (
                   <g key={compId}>
-                    {/* Individual exposed component box */}
+                    {/* Individual exposed component box - purple */}
                     <rect
                       x={compPos.x}
                       y={compPos.y - componentBoxHeight / 2}
                       width={componentBoxWidth}
                       height={componentBoxHeight}
-                      fill={theme.colors.warning.main}
+                      fill="#9933ff"
                       stroke={
                         selectedExposedComponent === exposedComponent.id
                           ? theme.colors.primary.border
@@ -855,12 +907,7 @@ export function ExtensionRenderer({
                     />
 
                     {/* Component title */}
-                    <text
-                      x={compPos.x + componentBoxWidth / 2}
-                      y={compPos.y - 5}
-                      textAnchor="middle"
-                      fill={theme.colors.getContrastText(theme.colors.warning.main)}
-                    >
+                    <text x={compPos.x + componentBoxWidth / 2} y={compPos.y - 5} textAnchor="middle" fill="#ffffff">
                       {exposedComponent.title || exposedComponent.id}
                     </text>
 
@@ -869,7 +916,7 @@ export function ExtensionRenderer({
                       x={compPos.x + componentBoxWidth / 2}
                       y={compPos.y + 15}
                       textAnchor="middle"
-                      fill={theme.colors.getContrastText(theme.colors.warning.main)}
+                      fill="#ffffff"
                       style={{ fontSize: `${TYPOGRAPHY_CONSTANTS.EXTENSION_LABEL_SIZE}px`, pointerEvents: 'none' }}
                     >
                       {exposedComponent.id}
@@ -1133,7 +1180,7 @@ export function ExtensionRenderer({
                       x={extPos.x + extensionBoxWidth / 2}
                       y={extPos.y - 5}
                       textAnchor="middle"
-                      fill={theme.colors.getContrastText(extensionColor)}
+                      fill="#ffffff"
                       style={{ pointerEvents: 'none' }}
                     >
                       {extension.title || extension.id}
@@ -1145,7 +1192,7 @@ export function ExtensionRenderer({
                         x={extPos.x + extensionBoxWidth / 2}
                         y={extPos.y + 15}
                         textAnchor="middle"
-                        fill={theme.colors.getContrastText(extensionColor)}
+                        fill="#ffffff"
                         style={{ fontSize: `${TYPOGRAPHY_CONSTANTS.DESCRIPTION_SIZE}px`, pointerEvents: 'none' }}
                       >
                         {extension.description}
@@ -1512,18 +1559,41 @@ export function ExtensionRenderer({
                       const extensionType = extensionPoints?.extensionType || 'link';
                       const extensionColor = getExtensionColor(extensionType);
 
-                      const extensionCount = getExtensionCountForExtensionPoint(epId);
+                      const extensionCountsByType = getExtensionCountsByTypeForExtensionPoint(epId);
+                      const themeColors = getThemeColors(theme);
+
+                      // Debug logging
+                      console.log(`Extension point ${epId} badge counts:`, extensionCountsByType);
+
+                      // Calculate badge positions - they should be displayed horizontally
+                      const badgeRadius = 8;
+                      const badgeSpacing = 20;
+                      const badges = [
+                        { type: 'link', count: extensionCountsByType.link, color: themeColors.LINK_EXTENSION },
+                        {
+                          type: 'component',
+                          count: extensionCountsByType.component,
+                          color: themeColors.COMPONENT_EXTENSION,
+                        },
+                        {
+                          type: 'function',
+                          count: extensionCountsByType.function,
+                          color: themeColors.FUNCTION_EXTENSION,
+                        },
+                      ].filter((badge) => badge.count > 0);
+
+                      console.log(`Extension point ${epId} badges to render:`, badges);
 
                       return (
                         <g key={epId}>
-                          {/* Extension point box with type-specific color */}
+                          {/* Extension point box - always blue */}
                           <rect
                             data-testid={dependencyGraphTestIds.extensionPointBox(epId)}
                             x={epPos.x}
                             y={epPos.y - extensionBoxHeight / 2}
                             width={extensionBoxWidth}
                             height={extensionBoxHeight}
-                            fill={extensionColor}
+                            fill={theme.colors.info.main}
                             stroke={theme.colors.border.strong}
                             strokeWidth={VISUAL_CONSTANTS.DEFAULT_STROKE_WIDTH}
                             rx={VISUAL_CONSTANTS.EXTENSION_BORDER_RADIUS}
@@ -1533,31 +1603,38 @@ export function ExtensionRenderer({
                             pointerEvents="all"
                           />
 
-                          {/* Extension count badge */}
-                          {extensionCount > 0 && (
-                            <g>
-                              {/* Badge background circle */}
-                              <circle
-                                cx={epPos.x + extensionBoxWidth - 12}
-                                cy={epPos.y - extensionBoxHeight / 2 + 12}
-                                r={8}
-                                fill="#ffd700"
-                              />
-                              {/* Badge text */}
-                              <text
-                                x={epPos.x + extensionBoxWidth - 12}
-                                y={epPos.y - extensionBoxHeight / 2 + 12}
-                                textAnchor="middle"
-                                dominantBaseline="middle"
-                                fill="#000000"
-                                fontSize="10"
-                                fontWeight="bold"
-                                style={{ pointerEvents: 'none' }}
-                              >
-                                {extensionCount}
-                              </text>
-                            </g>
-                          )}
+                          {/* Extension count badges by type */}
+                          {badges.map((badge, index) => {
+                            const badgeCx = epPos.x + extensionBoxWidth - 12 - index * badgeSpacing;
+                            const badgeCy = epPos.y - extensionBoxHeight / 2 + 12;
+
+                            return (
+                              <g key={badge.type}>
+                                {/* Badge background circle with white border */}
+                                <circle
+                                  cx={badgeCx}
+                                  cy={badgeCy}
+                                  r={badgeRadius}
+                                  fill={badge.color}
+                                  stroke="#ffffff"
+                                  strokeWidth="1"
+                                />
+                                {/* Badge text */}
+                                <text
+                                  x={badgeCx}
+                                  y={badgeCy}
+                                  textAnchor="middle"
+                                  dominantBaseline="middle"
+                                  fill="#ffffff"
+                                  fontSize="10"
+                                  fontWeight="bold"
+                                  style={{ pointerEvents: 'none' }}
+                                >
+                                  {badge.count}
+                                </text>
+                              </g>
+                            );
+                          })}
 
                           {/* Extension point ID - first line */}
                           {(() => {
@@ -1575,7 +1652,7 @@ export function ExtensionRenderer({
                                 y={epIdY}
                                 textAnchor="middle"
                                 dominantBaseline={hasDescription ? undefined : 'middle'}
-                                fill={theme.colors.getContrastText(extensionColor)}
+                                fill="#ffffff"
                                 style={{
                                   fontSize: `${TYPOGRAPHY_CONSTANTS.EXTENSION_LABEL_SIZE}px`,
                                   pointerEvents: 'none',
@@ -1592,7 +1669,7 @@ export function ExtensionRenderer({
                               x={epPos.x + extensionBoxWidth / 2}
                               y={options.showDependencyTypes ? epPos.y + 10 : epPos.y + 20}
                               textAnchor="middle"
-                              fill={theme.colors.getContrastText(extensionColor)}
+                              fill="#ffffff"
                               style={{ fontSize: `${TYPOGRAPHY_CONSTANTS.DESCRIPTION_SIZE}px`, pointerEvents: 'none' }}
                             >
                               {extensionPoints.description}

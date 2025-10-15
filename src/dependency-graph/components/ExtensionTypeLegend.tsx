@@ -1,6 +1,6 @@
+import { ExposedComponent, Extension } from '../dependency-graph-panel/types';
 import React, { useMemo } from 'react';
 
-import { Extension } from '../dependency-graph-panel/types';
 import { GrafanaTheme2 } from '@grafana/data';
 import { css } from '@emotion/css';
 import { useStyles2 } from '@grafana/ui';
@@ -9,49 +9,100 @@ interface ExtensionTypeLegendProps {
   linkColor: string;
   componentColor: string;
   functionColor: string;
+  extensionPointColor: string;
+  exposedComponentColor: string;
   extensions?: Extension[];
+  exposedComponents?: ExposedComponent[];
+  visualizationMode: 'exposedComponents' | 'extensionpoint' | 'addedlinks' | 'addedcomponents' | 'addedfunctions';
 }
 
 export function ExtensionTypeLegend({
   linkColor,
   componentColor,
   functionColor,
+  extensionPointColor,
+  exposedComponentColor,
   extensions = [],
+  exposedComponents = [],
+  visualizationMode,
 }: ExtensionTypeLegendProps): React.JSX.Element {
   const styles = useStyles2(getStyles);
 
-  // Determine which extension types are present in the data
-  const presentTypes = useMemo(() => {
-    const types = new Set<'link' | 'component' | 'function'>();
-    extensions.forEach((ext) => {
-      types.add(ext.type);
-    });
-    return types;
-  }, [extensions]);
+  // Determine which extension types are present based on visualization mode
+  const showItems = useMemo(() => {
+    const items = {
+      link: false,
+      component: false,
+      function: false,
+      extensionPoint: false,
+      exposedComponent: false,
+    };
 
-  // Don't render if no extensions present
-  if (presentTypes.size === 0) {
+    switch (visualizationMode) {
+      case 'addedlinks':
+      case 'addedcomponents':
+      case 'addedfunctions':
+        // In added* views, only show extension point (not individual extension types)
+        items.extensionPoint = true;
+        break;
+      case 'extensionpoint':
+        // Check which extension types are actually present in the data
+        extensions.forEach((ext) => {
+          if (ext.type === 'link') items.link = true;
+          if (ext.type === 'component') items.component = true;
+          if (ext.type === 'function') items.function = true;
+        });
+        items.extensionPoint = true;
+        break;
+      case 'exposedComponents':
+        items.exposedComponent = exposedComponents.length > 0;
+        break;
+    }
+
+    return items;
+  }, [visualizationMode, extensions, exposedComponents]);
+
+  // Don't render if nothing to show
+  if (
+    !showItems.link &&
+    !showItems.component &&
+    !showItems.function &&
+    !showItems.extensionPoint &&
+    !showItems.exposedComponent
+  ) {
     return <></>;
   }
 
   return (
     <div className={styles.container}>
-      {presentTypes.has('link') && (
+      {showItems.link && (
         <div className={styles.legendItem}>
           <div className={styles.colorBox} style={{ backgroundColor: linkColor }} />
           <span className={styles.label}>Link extension</span>
         </div>
       )}
-      {presentTypes.has('component') && (
+      {showItems.component && (
         <div className={styles.legendItem}>
           <div className={styles.colorBox} style={{ backgroundColor: componentColor }} />
           <span className={styles.label}>Component extension</span>
         </div>
       )}
-      {presentTypes.has('function') && (
+      {showItems.function && (
         <div className={styles.legendItem}>
           <div className={styles.colorBox} style={{ backgroundColor: functionColor }} />
           <span className={styles.label}>Function extension</span>
+        </div>
+      )}
+      {showItems.extensionPoint && (
+        <div className={styles.legendItem}>
+          <div className={styles.colorBox} style={{ backgroundColor: extensionPointColor }} />
+          <span className={styles.label}>Extension point</span>
+        </div>
+      )}
+      {showItems.exposedComponent && (
+        <div className={styles.legendItem}>
+          <div className={styles.colorBox} style={{ backgroundColor: exposedComponentColor }} />
+          <span className={styles.label}>Exposed component</span>
         </div>
       )}
     </div>
