@@ -54,7 +54,7 @@ export function ExtensionPointModeRenderer({
   onHighlightedExtensionPointChange,
   onContextMenu,
   styles,
-}: ExtensionPointModeRendererProps): JSX.Element {
+}: ExtensionPointModeRendererProps): React.JSX.Element {
   const rightMargin = getRightMargin(width);
   const groupSpacing = getResponsiveGroupSpacing(height);
 

@@ -11,7 +11,7 @@ export function hasExtensionPointsProperty(obj: unknown): obj is { extensionPoin
     obj !== null &&
     typeof obj === 'object' &&
     'extensionPoints' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     Array.isArray((obj as unknown as Record<string, unknown>).extensionPoints)
   );
 }
@@ -21,7 +21,7 @@ export function hasAddedLinksProperty(obj: unknown): obj is { addedLinks: unknow
     obj !== null &&
     typeof obj === 'object' &&
     'addedLinks' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     Array.isArray((obj as unknown as Record<string, unknown>).addedLinks)
   );
 }
@@ -31,7 +31,7 @@ export function hasAddedComponentsProperty(obj: unknown): obj is { addedComponen
     obj !== null &&
     typeof obj === 'object' &&
     'addedComponents' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     Array.isArray((obj as unknown as Record<string, unknown>).addedComponents)
   );
 }
@@ -41,7 +41,7 @@ export function hasAddedFunctionsProperty(obj: unknown): obj is { addedFunctions
     obj !== null &&
     typeof obj === 'object' &&
     'addedFunctions' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     Array.isArray((obj as unknown as Record<string, unknown>).addedFunctions)
   );
 }
@@ -51,7 +51,7 @@ export function hasDescriptionProperty(obj: unknown): obj is { description: stri
     obj !== null &&
     typeof obj === 'object' &&
     'description' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     typeof (obj as unknown as Record<string, unknown>).description === 'string'
   );
 }
@@ -63,7 +63,7 @@ export function isExtensionPointObject(
     obj !== null &&
     typeof obj === 'object' &&
     'id' in obj &&
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+     
     typeof (obj as unknown as Record<string, unknown>).id === 'string'
   );
 }

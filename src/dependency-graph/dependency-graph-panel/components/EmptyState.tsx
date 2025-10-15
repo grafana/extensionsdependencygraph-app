@@ -16,7 +16,7 @@ interface EmptyStateProps {
 /**
  * Empty state component for when no dependency graph data is available
  */
-export function EmptyState({ data, width, height, styles }: EmptyStateProps): JSX.Element {
+export function EmptyState({ data, width, height, styles }: EmptyStateProps): React.JSX.Element {
   return (
     <div className={styles.emptyState.toString()}>
       <GrafanaEmptyState

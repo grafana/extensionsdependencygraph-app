@@ -29,7 +29,7 @@ export function ExtensionContextMenu({
   onNavigateToExtensionPoint,
   onFilterExtensionPoint,
   onUnfilterExtensionPoint,
-}: ExtensionContextMenuProps): JSX.Element | null {
+}: ExtensionContextMenuProps): React.JSX.Element | null {
   if (!isOpen || !selectedExtensionPointId) {
     return null;
   }

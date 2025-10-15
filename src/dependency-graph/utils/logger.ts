@@ -67,7 +67,7 @@ export const logger = new Logger(process.env.NODE_ENV === 'development' ? LogLev
 
 // Convenience functions for common logging scenarios
 export const logGraphData = (data: unknown) => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+   
   const graphData = data as { nodes?: unknown[]; dependencies?: unknown[]; extensionPoints?: unknown[] };
   logger.debug('Graph data processed', {
     component: 'DependencyGraph',
