@@ -40,45 +40,87 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
 
   return (
     <div className={styles.container}>
-      <AutoSizer>
-        {({ width, height }: { width: number; height: number }) => {
-          const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
-          const effectiveHeight = height || LAYOUT_CONSTANTS.VISUALIZATION_MIN_HEIGHT;
-          logAutoSizer(effectiveWidth, effectiveHeight);
-          return (
-            <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
-              <ExtensionTypeLegend
-                linkColor={themeColors.LINK_EXTENSION}
-                componentColor={themeColors.COMPONENT_EXTENSION}
-                functionColor={themeColors.FUNCTION_EXTENSION}
-                extensionPointColor={theme.colors.info.main}
-                exposedComponentColor="#9933ff"
-                extensions={graphData.extensions}
-                exposedComponents={graphData.exposedComponents}
-                visualizationMode={visualizationMode}
-              />
-              <DependencyGraph
-                data={graphData}
-                options={{
-                  visualizationMode,
-                  showDependencyTypes: true,
-                  showDescriptions: false,
-                  selectedContentProviders,
-                  selectedContentConsumers,
-                  selectedContentConsumersForExtensionPoint,
-                  selectedExtensionPoints,
-                  linkExtensionColor: themeColors.LINK_EXTENSION,
-                  componentExtensionColor: themeColors.COMPONENT_EXTENSION,
-                  functionExtensionColor: themeColors.FUNCTION_EXTENSION,
-                  layoutType: 'hierarchical',
-                }}
-                width={effectiveWidth}
-                height={effectiveHeight}
-              />
-            </div>
-          );
-        }}
-      </AutoSizer>
+      {visualizationMode === 'extensionpoint' || visualizationMode === 'exposedComponents' ? (
+        <AutoSizer>
+          {({ width, height }: { width: number; height: number }) => {
+            const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
+            const effectiveHeight = height || LAYOUT_CONSTANTS.VISUALIZATION_MIN_HEIGHT;
+            logAutoSizer(effectiveWidth, effectiveHeight);
+            return (
+              <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
+                <ExtensionTypeLegend
+                  linkColor={themeColors.LINK_EXTENSION}
+                  componentColor={themeColors.COMPONENT_EXTENSION}
+                  functionColor={themeColors.FUNCTION_EXTENSION}
+                  extensionPointColor={theme.colors.info.main}
+                  exposedComponentColor="#9933ff"
+                  extensions={graphData.extensions}
+                  exposedComponents={graphData.exposedComponents}
+                  visualizationMode={visualizationMode}
+                />
+                <DependencyGraph
+                  data={graphData}
+                  options={{
+                    visualizationMode,
+                    showDependencyTypes: true,
+                    showDescriptions: false,
+                    selectedContentProviders,
+                    selectedContentConsumers,
+                    selectedContentConsumersForExtensionPoint,
+                    selectedExtensionPoints,
+                    linkExtensionColor: themeColors.LINK_EXTENSION,
+                    componentExtensionColor: themeColors.COMPONENT_EXTENSION,
+                    functionExtensionColor: themeColors.FUNCTION_EXTENSION,
+                    layoutType: 'hierarchical',
+                  }}
+                  width={effectiveWidth}
+                  height={effectiveHeight}
+                />
+              </div>
+            );
+          }}
+        </AutoSizer>
+      ) : (
+        <AutoSizer disableHeight>
+          {({ width }: { width: number }) => {
+            const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
+            const effectiveHeight = LAYOUT_CONSTANTS.VISUALIZATION_LARGE_HEIGHT;
+            logAutoSizer(effectiveWidth, effectiveHeight);
+            return (
+              <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
+                <ExtensionTypeLegend
+                  linkColor={themeColors.LINK_EXTENSION}
+                  componentColor={themeColors.COMPONENT_EXTENSION}
+                  functionColor={themeColors.FUNCTION_EXTENSION}
+                  extensionPointColor={theme.colors.info.main}
+                  exposedComponentColor="#9933ff"
+                  extensions={graphData.extensions}
+                  exposedComponents={graphData.exposedComponents}
+                  visualizationMode={visualizationMode}
+                />
+                <DependencyGraph
+                  data={graphData}
+                  options={{
+                    visualizationMode,
+                    showDependencyTypes: true,
+                    showDescriptions: false,
+                    selectedContentProviders,
+                    selectedContentConsumers,
+                    selectedContentConsumersForExtensionPoint,
+                    selectedExtensionPoints,
+                    linkExtensionColor: themeColors.LINK_EXTENSION,
+                    componentExtensionColor: themeColors.COMPONENT_EXTENSION,
+                    functionExtensionColor: themeColors.FUNCTION_EXTENSION,
+                    layoutType: 'hierarchical',
+                  }}
+                  width={effectiveWidth}
+                  height={effectiveHeight}
+                />
+              </div>
+            );
+          }}
+        </AutoSizer>
+      )}
     </div>
   );
 }
