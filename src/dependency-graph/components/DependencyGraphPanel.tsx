@@ -4,6 +4,7 @@ import { useStyles2, useTheme2 } from '@grafana/ui';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { DependencyGraph } from '../dependency-graph-panel/components/DependencyGraph';
 import { DependencyGraphControls } from '../hooks/useDependencyGraphControls';
+import { ExtensionTypeLegend } from './ExtensionTypeLegend';
 import React from 'react';
 import { css } from '@emotion/css';
 import { logAutoSizer } from '../utils/logger';
@@ -46,6 +47,14 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
           logAutoSizer(effectiveWidth, effectiveHeight);
           return (
             <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
+              {visualizationMode === 'extensionpoint' && (
+                <ExtensionTypeLegend
+                  linkColor={themeColors.LINK_EXTENSION}
+                  componentColor={themeColors.COMPONENT_EXTENSION}
+                  functionColor={themeColors.FUNCTION_EXTENSION}
+                  extensions={graphData.extensions}
+                />
+              )}
               <DependencyGraph
                 data={graphData}
                 options={{
@@ -81,7 +90,7 @@ const getStyles = () => {
       width: '100%',
     }),
     graphContainer: css({
-      // Additional styles can be added here if needed
+      position: 'relative',
     }),
   };
 };
