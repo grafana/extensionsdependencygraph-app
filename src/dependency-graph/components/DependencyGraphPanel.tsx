@@ -39,67 +39,35 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
 
   return (
     <div className={styles.container}>
-      {visualizationMode === 'extensionpoint' ? (
-        <AutoSizer>
-          {({ width, height }: { width: number; height: number }) => {
-            const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
-            const effectiveHeight = height || LAYOUT_CONSTANTS.VISUALIZATION_MIN_HEIGHT;
-            logAutoSizer(effectiveWidth, effectiveHeight);
-            return (
-              <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
-                <DependencyGraph
-                  data={graphData}
-                  options={{
-                    visualizationMode,
-                    showDependencyTypes: true,
-                    showDescriptions: false,
-                    selectedContentProviders,
-                    selectedContentConsumers,
-                    selectedContentConsumersForExtensionPoint,
-                    selectedExtensionPoints,
-                    linkExtensionColor: themeColors.LINK_EXTENSION,
-                    componentExtensionColor: themeColors.COMPONENT_EXTENSION,
-                    functionExtensionColor: themeColors.FUNCTION_EXTENSION,
-                    layoutType: 'hierarchical',
-                  }}
-                  width={effectiveWidth}
-                  height={effectiveHeight}
-                />
-              </div>
-            );
-          }}
-        </AutoSizer>
-      ) : (
-        <AutoSizer disableHeight>
-          {({ width }: { width: number }) => {
-            const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
-            const effectiveHeight = LAYOUT_CONSTANTS.VISUALIZATION_LARGE_HEIGHT;
-            logAutoSizer(effectiveWidth, effectiveHeight);
-            return (
-              <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
-                <DependencyGraph
-                  data={graphData}
-                  options={{
-                    visualizationMode,
-                    showDependencyTypes: true,
-                    showDescriptions: false,
-                    selectedContentProviders,
-                    selectedContentConsumers,
-                    selectedContentConsumersForExtensionPoint,
-                    selectedExtensionPoints,
-                    linkExtensionColor: themeColors.LINK_EXTENSION,
-                    componentExtensionColor: themeColors.COMPONENT_EXTENSION,
-                    functionExtensionColor: themeColors.FUNCTION_EXTENSION,
-                    layoutType: 'hierarchical',
-                  }}
-                  width={effectiveWidth}
-                  height={effectiveHeight}
-                />
-              </div>
-            );
-          }}
-        </AutoSizer>
-      )}
+      <AutoSizer>
+        {({ width, height }: { width: number; height: number }) => {
+          const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
+          const effectiveHeight = height || LAYOUT_CONSTANTS.VISUALIZATION_MIN_HEIGHT;
+          logAutoSizer(effectiveWidth, effectiveHeight);
+          return (
+            <div className={styles.graphContainer} style={{ width: effectiveWidth, height: effectiveHeight }}>
+              <DependencyGraph
+                data={graphData}
+                options={{
+                  visualizationMode,
+                  showDependencyTypes: true,
+                  showDescriptions: false,
+                  selectedContentProviders,
+                  selectedContentConsumers,
+                  selectedContentConsumersForExtensionPoint,
+                  selectedExtensionPoints,
+                  linkExtensionColor: themeColors.LINK_EXTENSION,
+                  componentExtensionColor: themeColors.COMPONENT_EXTENSION,
+                  functionExtensionColor: themeColors.FUNCTION_EXTENSION,
+                  layoutType: 'hierarchical',
+                }}
+                width={effectiveWidth}
+                height={effectiveHeight}
+              />
+            </div>
+          );
+        }}
+      </AutoSizer>
     </div>
   );
 }
