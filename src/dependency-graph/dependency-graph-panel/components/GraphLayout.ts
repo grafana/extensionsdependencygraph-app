@@ -321,12 +321,14 @@ const calculateAddLayout = (
   const providerNodes = data.nodes.filter((node) => contentProviders.has(node.id));
 
   // Place content provider apps on the left
+  // Use fixed spacing to match extension box height + gap, instead of responsive spacing
+  const fixedNodeSpacing = GROUPED_BOX_SPACING.BOX_HEIGHT_TWO_LINES + GROUPED_BOX_SPACING.INNER_BOX_GAP;
   const providerStartY = margin + 120; // Increased from 100 to 120 for more distance from dotted line
   providerNodes.forEach((node, index) => {
     result.push({
       ...node,
       x: margin + LAYOUT_CONSTANTS.EXTENSION_BOX_WIDTH / 2, // Position for full-width consumer-style boxes
-      y: providerStartY + index * nodeSpacing,
+      y: providerStartY + index * fixedNodeSpacing,
     });
   });
 
