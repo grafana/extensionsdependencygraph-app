@@ -4,15 +4,6 @@
  * Renders extension points and exposed components in the dependency graph.
  */
 
-import React, { useState } from 'react';
-import semver from 'semver';
-
-import { GrafanaTheme2 } from '@grafana/data';
-import { Trans, t } from '@grafana/i18n';
-import { locationService } from '@grafana/runtime';
-import { ContextMenu, Menu } from '@grafana/ui';
-
-import { dependencyGraphTestIds } from '../../testIds';
 import {
   COLOR_DEFAULTS,
   DISPLAY_NAMES,
@@ -22,9 +13,16 @@ import {
   getResponsiveGroupSpacing,
   getRightMargin,
 } from '../constants';
+import { ContextMenu, Menu } from '@grafana/ui';
 import { GraphData, PanelOptions } from '../types';
+import React, { useState } from 'react';
+import { Trans, t } from '@grafana/i18n';
 
+import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
+import { dependencyGraphTestIds } from '../../testIds';
+import { locationService } from '@grafana/runtime';
+import semver from 'semver';
 
 /**
  * Polishes version strings by removing build metadata and pre-release identifiers
@@ -813,6 +811,7 @@ export function ExtensionRenderer({
                 onContextMenu={(event) => handleContentProviderContextMenu(event, providingPlugin)}
                 style={{ cursor: 'pointer' }}
                 pointerEvents="all"
+                data-testid={dependencyGraphTestIds.contentProviderBox(providingPlugin)}
               />
 
               {/* Exposed components inside provider box */}
@@ -1001,6 +1000,7 @@ export function ExtensionRenderer({
                       onContextMenu={(event) => handleContentConsumerContextMenu(event, consumerId)}
                       style={{ cursor: 'pointer' }}
                       pointerEvents="all"
+                      data-testid={dependencyGraphTestIds.contentConsumerBox(consumerId)}
                     />
 
                     {/* Consumer app name as header */}
@@ -1084,6 +1084,7 @@ export function ExtensionRenderer({
             <g key={providingPlugin}>
               {/* App section box */}
               <rect
+                data-testid={dependencyGraphTestIds.contentProviderBox(providingPlugin)}
                 x={firstExtPos.x - 20}
                 y={firstExtPos.groupY}
                 width={extensionBoxWidth + 40}
@@ -1231,6 +1232,7 @@ export function ExtensionRenderer({
             <g key={definingPlugin}>
               {/* Defining plugin group box */}
               <rect
+                data-testid={dependencyGraphTestIds.contentConsumerBox(definingPlugin)}
                 x={firstEpPos.x - 20}
                 y={firstEpPos.groupY}
                 width={extensionBoxWidth + 40}
@@ -1284,6 +1286,7 @@ export function ExtensionRenderer({
                             onContextMenu={(event) => handleExtensionPointContextMenu(event, epId)}
                             style={{ cursor: 'pointer' }}
                             pointerEvents="all"
+                            data-testid={dependencyGraphTestIds.extensionPointBox(epId)}
                           />
 
                           {/* Extension count badge */}
@@ -1515,6 +1518,7 @@ export function ExtensionRenderer({
                         <g key={epId}>
                           {/* Extension point box with type-specific color */}
                           <rect
+                            data-testid={dependencyGraphTestIds.extensionPointBox(epId)}
                             x={epPos.x}
                             y={epPos.y - extensionBoxHeight / 2}
                             width={extensionBoxWidth}

@@ -12,6 +12,7 @@ export const dependencyGraphTestIds = {
   // Graph elements - these are functions that return the test ID with dynamic values
   contentProviderBox: (pluginId: string) => `content-provider-box-${pluginId}`,
   contentConsumerBox: (pluginId: string) => `content-consumer-box-${pluginId}`,
+  extensionPointBox: (extensionPointId: string) => `extension-point-box-${extensionPointId}`,
 } as const;
 
 /**
@@ -20,5 +21,5 @@ export const dependencyGraphTestIds = {
 export const dependencyGraphTestIdPrefixes = {
   contentProviderBox: 'content-provider-box-',
   contentConsumerBox: 'content-consumer-box-',
+  extensionPointBox: 'extension-point-box-',
 } as const;
-

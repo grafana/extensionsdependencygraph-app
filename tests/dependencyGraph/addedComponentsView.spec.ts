@@ -5,32 +5,26 @@ import { ROUTES } from '../../src/constants';
 
 test.describe('Added Components View', () => {
   test('shows only view, content provider and content consumer selectors', async ({ depGraphPageWithMockApps }) => {
-    const page = depGraphPageWithMockApps.ctx.page;
-    const url = new URL(page.url());
-    url.searchParams.set('view', 'addedcomponents');
-    await page.goto(url.toString());
+  await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedcomponents' });
+  const page = depGraphPageWithMockApps.ctx.page;
+  const vizSelector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
+  const providerSelector = page.getByTestId(dependencyGraphTestIds.contentProviderSelector);
+  const consumerSelector = page.getByTestId(dependencyGraphTestIds.contentConsumerSelector);
+  const extensionPointSelector = page.getByTestId(dependencyGraphTestIds.extensionPointSelector);
 
-    const vizSelector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
-    const providerSelector = page.getByTestId(dependencyGraphTestIds.contentProviderSelector);
-    const consumerSelector = page.getByTestId(dependencyGraphTestIds.contentConsumerSelector);
-    const extensionPointSelector = page.getByTestId(dependencyGraphTestIds.extensionPointSelector);
-
-    await expect(vizSelector).toBeVisible();
-    await expect(providerSelector).toBeVisible();
-    await expect(consumerSelector).toBeVisible();
-    await expect(extensionPointSelector).toHaveCount(0);
+  await expect(vizSelector).toBeVisible();
+  await expect(providerSelector).toBeVisible();
+  await expect(consumerSelector).toBeVisible();
+  await expect(extensionPointSelector).toHaveCount(0);
   });
 
   test('displays 3 content provider boxes and 1 content consumer box', async ({ depGraphPageWithMockApps }) => {
-    const page = depGraphPageWithMockApps.ctx.page;
-    const url = new URL(page.url());
-    url.searchParams.set('view', 'addedcomponents');
-    await page.goto(url.toString());
-
-    const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
-    const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
-    await expect(providerBoxes).toHaveCount(3);
-    await expect(consumerBoxes).toHaveCount(1);
+  await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedcomponents' });
+  const page = depGraphPageWithMockApps.ctx.page;
+  const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
+  const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
+  await expect(providerBoxes).toHaveCount(3);
+  await expect(consumerBoxes).toHaveCount(1);
   });
 
   test.describe('filtering', () => {
@@ -102,10 +96,9 @@ test.describe('Added Components View', () => {
         await filterMenuItem.click();
 
         clickedConsumerId = clickedConsumerTestId!.replace(dependencyGraphTestIdPrefixes.contentConsumerBox, '');
-        // Start the test on a pre-filtered view for the only consumer
-        const url2 = new URL(page.url());
-        url2.searchParams.set('contentConsumers', clickedConsumerId);
-        await page.goto(url2.toString());
+        await depGraphPageWithMockApps.goto({
+          path: `dependency-graph?view=addedcomponents&contentConsumers=${clickedConsumerId}`,
+        });
 
         await page.waitForFunction(
           (id) => new URL(window.location.href).searchParams.get('contentConsumers') === id,

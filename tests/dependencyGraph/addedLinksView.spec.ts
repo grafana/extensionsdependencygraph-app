@@ -1,10 +1,11 @@
+import { clickSvg, expect, test } from '../fixtures';
 import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
-import { expect, test, clickSvg } from '../fixtures';
 
 import { ROUTES } from '../../src/constants';
 
 test.describe('Added Links View', () => {
   test('shows only view, content provider and content consumer selectors', async ({ depGraphPageWithMockApps }) => {
+    await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedlinks' });
     const page = depGraphPageWithMockApps.ctx.page;
     const vizSelector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
     const providerSelector = page.getByTestId(dependencyGraphTestIds.contentProviderSelector);
@@ -18,11 +19,12 @@ test.describe('Added Links View', () => {
   });
 
   test('displays 5 content provider boxes and 3 content consumer boxes', async ({ depGraphPageWithMockApps }) => {
-    const page = depGraphPageWithMockApps.ctx.page;
-    const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
-    const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
-    await expect(providerBoxes).toHaveCount(5);
-    await expect(consumerBoxes).toHaveCount(3);
+  await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedlinks' });
+  const page = depGraphPageWithMockApps.ctx.page;
+  const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
+  const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
+  await expect(providerBoxes).toHaveCount(5);
+  await expect(consumerBoxes).toHaveCount(3);
   });
 
   test.describe('filtering', () => {
@@ -88,10 +90,9 @@ test.describe('Added Links View', () => {
         await filterMenuItem.click();
 
         clickedConsumerId = clickedConsumerTestId!.replace(dependencyGraphTestIdPrefixes.contentConsumerBox, '');
-        // Start the test on a pre-filtered view for grafana-metricsdrilldown-app
-        const url = new URL(page.url());
-        url.searchParams.set('contentConsumers', 'grafana-metricsdrilldown-app');
-        await page.goto(url.toString());
+        await depGraphPageWithMockApps.goto({
+          path: 'dependency-graph?view=addedlinks&contentConsumers=grafana-metricsdrilldown-app',
+        });
 
         await page.waitForFunction(
           () => new URL(window.location.href).searchParams.get('contentConsumers') === 'grafana-metricsdrilldown-app'
@@ -188,7 +189,9 @@ test.describe('Added Links View', () => {
         await exposedOption.click();
 
         // Wait for the view param to change, then assert filter params are gone
-        await page.waitForFunction(() => new URL(window.location.href).searchParams.get('view') === 'exposedComponents');
+        await page.waitForFunction(
+          () => new URL(window.location.href).searchParams.get('view') === 'exposedComponents'
+        );
         const urlObj = new URL(page.url());
         expect(urlObj.searchParams.get('contentConsumers')).toBeNull();
         expect(urlObj.searchParams.get('contentProviders')).toBeNull();
