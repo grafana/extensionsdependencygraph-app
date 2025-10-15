@@ -13,7 +13,28 @@
       "small": "img/logo.svg",
       "large": "img/logo.svg"
     },
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Added Links Mode",
+        "path": "img/added-links.jpg"
+      },
+      {
+        "name": "Added Components Mode",
+        "path": "img/added-components.jpg"
+      },
+      {
+        "name": "Added Functions Mode",
+        "path": "img/added-functions.jpg"
+      },
+      {
+        "name": "Exposed Components Mode",
+        "path": "img/exposed-components.jpg"
+      },
+      {
+        "name": "Extension Points Mode",
+        "path": "img/extension-points.jpg"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },
