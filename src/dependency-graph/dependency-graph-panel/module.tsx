@@ -299,7 +299,7 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
 });
 
 // Register as a runtime panel plugin for use within the Extensions DevTools app
-sceneUtils.registerRuntimePanelPlugin({ pluginId: PLUGIN_ID, plugin });
+sceneUtils.registerRuntimePanelPlugin({ pluginId: PLUGIN_ID, plugin: plugin as any });
 
 // Export the plugin for compatibility
 export { plugin };
