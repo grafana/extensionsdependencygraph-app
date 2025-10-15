@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-
-import { Spinner, useTheme2 } from '@grafana/ui';
-
-import { useDependencyGraphEventHandlers } from '../hooks/useDependencyGraphEventHandlers';
-import { useDependencyGraphPositions } from '../hooks/useDependencyGraphPositions';
-import { useDependencyGraphState } from '../hooks/useDependencyGraphState';
 import { GraphData, PanelOptions } from '../types';
+import React, { useEffect, useState } from 'react';
+import { Spinner, useTheme2 } from '@grafana/ui';
 
 import { ArrowMarkers } from './ArrowMarkers';
 import { EmptyState } from './EmptyState';
 import { ExtensionRenderer } from './ExtensionRenderer';
-import { getGraphStyles } from './GraphStyles';
 import { HeaderRenderer } from './HeaderRenderer';
 import { LinkRenderer } from './LinkRenderer';
 import { NodeRenderer } from './NodeRenderer';
+import { getGraphStyles } from './GraphStyles';
+import { useDependencyGraphEventHandlers } from '../hooks/useDependencyGraphEventHandlers';
+import { useDependencyGraphPositions } from '../hooks/useDependencyGraphPositions';
+import { useDependencyGraphState } from '../hooks/useDependencyGraphState';
 
 interface DependencyGraphProps {
   data: GraphData;
@@ -29,9 +27,6 @@ export function DependencyGraph({ data, options, width, height }: DependencyGrap
 
   const isExposeMode = options.visualizationMode === 'exposedComponents';
   const isExtensionPointMode = options.visualizationMode === 'extensionpoint';
-
-  // Debug logging
-  console.log('DependencyGraph props:', { width, height, nodesCount: data.nodes.length });
 
   // Use custom hooks for state management, event handlers, and position calculations
   const {

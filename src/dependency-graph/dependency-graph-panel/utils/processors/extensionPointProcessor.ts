@@ -13,7 +13,6 @@ import {
   isExtensionPointObject,
 } from '../helpers/typeGuards';
 
-const ENABLE_DEBUG_LOGS = true; // Set to true for debugging
 
 /**
  * Processes plugin data for "extensionpoint" mode visualization.
@@ -31,10 +30,6 @@ export const processPluginDataToExtensionPointGraph = (
   options: PanelOptions,
   pluginData: Record<string, AppPluginConfig>
 ): GraphData => {
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - processing extension point mode data');
-  }
-
   const nodes: Map<string, PluginNode> = new Map();
   const dependencies: PluginDependency[] = [];
   const extensionPoints: Map<string, ExtensionPoint> = new Map();
@@ -47,21 +42,6 @@ export const processPluginDataToExtensionPointGraph = (
   const shouldFilterExtensionPoints = selectedExtensionPoints.length > 0;
   const shouldFilterContentProviders = selectedContentProviders.length > 0;
   const shouldFilterContentConsumersForExtensionPoint = selectedContentConsumersForExtensionPoint.length > 0;
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - selectedExtensionPoints:', selectedExtensionPoints);
-    console.log('processPluginDataToExtensionPointGraph - selectedContentProviders:', selectedContentProviders);
-    console.log(
-      'processPluginDataToExtensionPointGraph - selectedContentConsumersForExtensionPoint:',
-      selectedContentConsumersForExtensionPoint
-    );
-    console.log('processPluginDataToExtensionPointGraph - shouldFilterExtensionPoints:', shouldFilterExtensionPoints);
-    console.log('processPluginDataToExtensionPointGraph - shouldFilterContentProviders:', shouldFilterContentProviders);
-    console.log(
-      'processPluginDataToExtensionPointGraph - shouldFilterContentConsumersForExtensionPoint:',
-      shouldFilterContentConsumersForExtensionPoint
-    );
-  }
 
   // Collect explicitly defined extension points
   Object.entries(pluginData).forEach(([pluginId, pluginInfo]) => {
@@ -140,15 +120,6 @@ export const processPluginDataToExtensionPointGraph = (
                 /[^a-zA-Z0-9-]/g,
                 '-'
               );
-
-              if (ENABLE_DEBUG_LOGS && target === 'grafana-slo-app/service-actions/v1') {
-                console.log('Adding extension:', {
-                  pluginId,
-                  target,
-                  title: link.title,
-                  extensionId,
-                });
-              }
 
               extensions.set(extensionId, {
                 id: extensionId,
@@ -390,37 +361,6 @@ export const processPluginDataToExtensionPointGraph = (
     extensionPoints: Array.from(extensionPoints.values()),
     extensions: Array.from(extensions.values()),
   };
-
-  if (ENABLE_DEBUG_LOGS) {
-    console.log('processPluginDataToExtensionPointGraph - final result:', result);
-    console.log('processPluginDataToExtensionPointGraph - extensions count:', extensions.size);
-    console.log('processPluginDataToExtensionPointGraph - extension points count:', extensionPoints.size);
-    console.log('processPluginDataToExtensionPointGraph - filtering applied:', {
-      shouldFilterExtensionPoints,
-      shouldFilterContentProviders,
-      shouldFilterContentConsumersForExtensionPoint,
-      selectedExtensionPoints,
-      selectedContentProviders,
-      selectedContentConsumersForExtensionPoint,
-    });
-    console.log(
-      'processPluginDataToExtensionPointGraph - extensions:',
-      Array.from(extensions.values()).map((e) => ({
-        id: e.id,
-        title: e.title,
-        plugin: e.providingPlugin,
-        target: e.targetExtensionPoint,
-      }))
-    );
-    console.log(
-      'processPluginDataToExtensionPointGraph - extension points:',
-      Array.from(extensionPoints.values()).map((ep) => ({
-        id: ep.id,
-        title: ep.title,
-        definingPlugin: ep.definingPlugin,
-      }))
-    );
-  }
 
   return result;
 };

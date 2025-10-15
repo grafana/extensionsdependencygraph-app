@@ -25,19 +25,19 @@
  * @public
  */
 
-import React from 'react';
 import { PanelPlugin, StandardEditorProps } from '@grafana/data';
-import { t } from '@grafana/i18n';
-import { MultiCombobox } from '@grafana/ui';
-
-import { PluginDependencyGraphPanel } from './components/PluginDependencyGraphPanel';
-import { PanelOptions } from './types';
 import {
   getActiveContentConsumers,
   getAvailableContentConsumers,
   getAvailableContentProviders,
   getAvailableExtensionPoints,
 } from './utils/helpers/dataQueries';
+
+import { MultiCombobox } from '@grafana/ui';
+import { PanelOptions } from './types';
+import { PluginDependencyGraphPanel } from './components/PluginDependencyGraphPanel';
+import React from 'react';
+import { t } from '@grafana/i18n';
 
 // Custom multiselect editor for content providers
 function ContentProviderMultiSelect({ value, onChange, context }: StandardEditorProps<string[]>) {
@@ -108,15 +108,7 @@ function ContentConsumerMultiSelect({ value, onChange, context }: StandardEditor
 
 // Custom multiselect editor for content consumers in extension point mode
 function ContentConsumerForExtensionPointMultiSelect({ value, onChange, context }: StandardEditorProps<string[]>) {
-  console.log('ContentConsumerForExtensionPointMultiSelect component called');
   const availableContentConsumers = getAvailableContentConsumers('extensionpoint');
-
-  // Debug logging
-  console.log('ContentConsumerForExtensionPointMultiSelect rendered', {
-    availableContentConsumers,
-    value,
-    context: context?.options?.visualizationMode,
-  });
 
   const options = availableContentConsumers.map((consumer) => ({
     label: consumer === 'grafana-core' ? 'Grafana Core' : consumer,
@@ -174,7 +166,6 @@ function ExtensionPointMultiSelect({ value, onChange, context }: StandardEditorP
 }
 
 export const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPanelOptions((builder) => {
-  console.log('Panel options builder called');
   return (
     builder
       .addSelect({
@@ -285,15 +276,7 @@ export const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).
         ),
         editor: ContentConsumerForExtensionPointMultiSelect,
         category: ['Filtering'],
-        showIf: (currentConfig: PanelOptions) => {
-          const shouldShow = currentConfig.visualizationMode === 'extensionpoint';
-          console.log('ContentConsumerForExtensionPointMultiSelect showIf check', {
-            visualizationMode: currentConfig.visualizationMode,
-            shouldShow,
-            currentConfig: currentConfig,
-          });
-          return shouldShow;
-        },
+        showIf: (currentConfig: PanelOptions) => currentConfig.visualizationMode === 'extensionpoint',
         defaultValue: [], // Default to empty array (show all)
       })
       .addCustomEditor({

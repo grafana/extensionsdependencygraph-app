@@ -4,6 +4,7 @@
  * Handles layout calculations for both add and expose modes of the dependency graph.
  */
 
+import { GraphData, PanelOptions, PluginNode } from '../types';
 import {
   LAYOUT_CONSTANTS,
   getResponsiveGroupSpacing,
@@ -12,7 +13,6 @@ import {
   getResponsiveNodeWidth,
   getRightMargin,
 } from '../constants';
-import { GraphData, PanelOptions, PluginNode } from '../types';
 
 export interface NodeWithPosition extends PluginNode {
   x: number;
@@ -863,14 +863,5 @@ export const calculateContentHeight = (
 
   // Add extra bottom padding to ensure content is fully visible
   const finalHeight = Math.max(totalHeight + 100, height); // Use at least the panel height + 100px padding
-  console.log('calculateContentHeight result:', {
-    totalHeight,
-    panelHeight: height,
-    finalHeight,
-    isExtensionPointMode,
-    isExposeMode,
-    extensionsCount: data.extensions?.length,
-    extensionPointsCount: data.extensionPoints?.length,
-  });
   return finalHeight;
 };
