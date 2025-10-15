@@ -1,10 +1,11 @@
-import { expect, test } from '../fixtures';
-import { dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
 import { EXPECTED_COUNTS, waitForUrlParam } from './helpers';
+import { expect, test } from '../fixtures';
+
+import { dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
 
 /**
  * Tests for dropdown selector interactions
- * 
+ *
  * Note: These tests focus on verifying the selectors are present and functional.
  * The Grafana MultiCombobox component has complex behavior that makes some
  * interactions difficult to test reliably in E2E tests.
@@ -56,12 +57,10 @@ test.describe('Dropdown Selector Interactions', () => {
         const { page } = depGraphPageWithMockApps.ctx;
 
         // Verify URL parameter contains both providers
-        await page.waitForFunction(
-          () => {
-            const params = new URL(window.location.href).searchParams.get('contentProviders');
-            return params?.includes('grafana-lokiexplore-app') && params?.includes('grafana-assistant-app');
-          }
-        );
+        await page.waitForFunction(() => {
+          const params = new URL(window.location.href).searchParams.get('contentProviders');
+          return params?.includes('grafana-lokiexplore-app') && params?.includes('grafana-assistant-app');
+        });
 
         // Verify both boxes are shown
         const providerBoxes = page.getByTestId(/^content-provider-box-/);
@@ -219,7 +218,10 @@ test.describe('Dropdown Selector Interactions', () => {
       const selector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
 
       await selector.click();
-      await page.getByRole('option').filter({ hasText: /exposed components/i }).click();
+      await page
+        .getByRole('option')
+        .filter({ hasText: /exposed components/i })
+        .click();
 
       // Verify URL changed
       await expect(page).toHaveURL(/view=exposedComponents/);
@@ -235,7 +237,10 @@ test.describe('Dropdown Selector Interactions', () => {
 
       const selector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
       await selector.click();
-      await page.getByRole('option').filter({ hasText: /added links/i }).click();
+      await page
+        .getByRole('option')
+        .filter({ hasText: /added links/i })
+        .click();
 
       // URL should not change significantly (might have minor params)
       await expect(page).toHaveURL(/view=addedlinks/);
