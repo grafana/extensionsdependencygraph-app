@@ -1,13 +1,14 @@
 import { LAYOUT_CONSTANTS, getThemeColors } from '../dependency-graph-panel/constants';
+import React, { useMemo } from 'react';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { DependencyGraph } from '../dependency-graph-panel/components/DependencyGraph';
 import { DependencyGraphControls } from '../hooks/useDependencyGraphControls';
 import { ExtensionTypeLegend } from './ExtensionTypeLegend';
-import React from 'react';
 import { calculateContentHeight } from '../dependency-graph-panel/components/GraphLayout';
 import { css } from '@emotion/css';
+import { getPluginData } from '../dependency-graph-panel/utils/helpers/dataAccess';
 import { logAutoSizer } from '../utils/logger';
 import { useDependencyGraphData } from '../hooks/useDependencyGraphData';
 
@@ -38,6 +39,63 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
   const styles = useStyles2(getStyles);
   const theme = useTheme2();
   const themeColors = getThemeColors(theme);
+
+  // Calculate which badge types are present in added* views
+  const badgeTypesPresent = useMemo(() => {
+    const isAddedView =
+      visualizationMode === 'addedlinks' ||
+      visualizationMode === 'addedcomponents' ||
+      visualizationMode === 'addedfunctions';
+
+    if (!isAddedView || !graphData.extensionPoints) {
+      return { link: false, component: false, function: false };
+    }
+
+    const types = { link: false, component: false, function: false };
+    const pluginData = getPluginData();
+
+    // Check each extension point to see what badge types it has
+    graphData.extensionPoints.forEach((extensionPoint) => {
+      Object.entries(pluginData).forEach(([pluginId, pluginInfo]: [string, any]) => {
+        const extensions = pluginInfo?.extensions;
+        if (!extensions) {
+          return;
+        }
+
+        // Check addedLinks
+        if (extensions.addedLinks && Array.isArray(extensions.addedLinks)) {
+          extensions.addedLinks.forEach((link: any) => {
+            const targets = Array.isArray(link.targets) ? link.targets : [link.targets];
+            if (targets.includes(extensionPoint.id)) {
+              types.link = true;
+            }
+          });
+        }
+
+        // Check addedComponents
+        if (extensions.addedComponents && Array.isArray(extensions.addedComponents)) {
+          extensions.addedComponents.forEach((component: any) => {
+            const targets = Array.isArray(component.targets) ? component.targets : [component.targets];
+            if (targets.includes(extensionPoint.id)) {
+              types.component = true;
+            }
+          });
+        }
+
+        // Check addedFunctions
+        if (extensions.addedFunctions && Array.isArray(extensions.addedFunctions)) {
+          extensions.addedFunctions.forEach((func: any) => {
+            const targets = Array.isArray(func.targets) ? func.targets : [func.targets];
+            if (targets.includes(extensionPoint.id)) {
+              types.function = true;
+            }
+          });
+        }
+      });
+    });
+
+    return types;
+  }, [visualizationMode, graphData.extensionPoints]);
 
   return (
     <div className={styles.container}>
@@ -77,6 +135,7 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
                 extensions={graphData.extensions}
                 exposedComponents={graphData.exposedComponents}
                 visualizationMode={visualizationMode}
+                badgeTypesPresent={badgeTypesPresent}
               />
               <DependencyGraph
                 data={graphData}
