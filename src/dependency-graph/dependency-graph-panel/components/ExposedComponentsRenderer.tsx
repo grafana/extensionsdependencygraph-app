@@ -1,12 +1,11 @@
-import React from 'react';
-import { GrafanaTheme2 } from '@grafana/data';
-import { Trans } from '@grafana/i18n';
-
-import { LAYOUT_CONSTANTS, TYPOGRAPHY_CONSTANTS, VISUAL_CONSTANTS } from '../constants';
 import { GraphData, PanelOptions } from '../types';
-import { getDisplayName } from '../utils/helpers/extensionUtils';
+import { LAYOUT_CONSTANTS, TYPOGRAPHY_CONSTANTS, VISUAL_CONSTANTS } from '../constants';
 
+import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
+import React from 'react';
+import { Trans } from '@grafana/i18n';
+import { getDisplayName } from '../utils/helpers/extensionUtils';
 
 interface ExposedComponentsRendererProps {
   theme: GrafanaTheme2;
@@ -54,14 +53,14 @@ export function ExposedComponentsRenderer({
 
         return (
           <g key={componentId}>
-            {/* Exposed Component Box */}
+            {/* Exposed Component Box - purple/violet color */}
             <rect
               x={position.x}
               y={position.y}
               width={LAYOUT_CONSTANTS.EXTENSION_BOX_WIDTH}
               height={LAYOUT_CONSTANTS.EXTENSION_BOX_HEIGHT}
               rx={VISUAL_CONSTANTS.EXTENSION_BORDER_RADIUS}
-              fill={theme.colors.background.secondary}
+              fill="#9933ff"
               stroke={strokeColor}
               strokeWidth={strokeWidth}
               className={styles.exposedComponentBox.toString()}
@@ -74,7 +73,7 @@ export function ExposedComponentsRenderer({
               x={position.x + 10}
               y={position.y + 20}
               fontSize={TYPOGRAPHY_CONSTANTS.EXTENSION_LABEL_SIZE}
-              fill={theme.colors.text.primary}
+              fill="#ffffff"
               className={styles.exposedComponentLabel.toString()}
             >
               {exposedComponent.title || exposedComponent.id}
@@ -86,7 +85,7 @@ export function ExposedComponentsRenderer({
                 x={position.x + 10}
                 y={position.y + 35}
                 fontSize={TYPOGRAPHY_CONSTANTS.DESCRIPTION_SIZE}
-                fill={theme.colors.text.secondary}
+                fill="#ffffff"
                 className={styles.exposedComponentDescription.toString()}
               >
                 {exposedComponent.description}
@@ -98,7 +97,7 @@ export function ExposedComponentsRenderer({
               x={position.x + 10}
               y={position.y + LAYOUT_CONSTANTS.EXTENSION_BOX_HEIGHT - 5}
               fontSize={TYPOGRAPHY_CONSTANTS.TYPE_BADGE_SIZE}
-              fill={theme.colors.text.secondary}
+              fill="#ffffff"
               className={styles.exposedComponentProvider.toString()}
             >
               <Trans

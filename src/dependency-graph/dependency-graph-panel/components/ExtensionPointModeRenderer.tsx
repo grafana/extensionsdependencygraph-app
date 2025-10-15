@@ -1,7 +1,4 @@
-import React from 'react';
-import { GrafanaTheme2 } from '@grafana/data';
-import { Trans } from '@grafana/i18n';
-
+import { GraphData, PanelOptions } from '../types';
 import {
   LAYOUT_CONSTANTS,
   TYPOGRAPHY_CONSTANTS,
@@ -9,11 +6,13 @@ import {
   getResponsiveGroupSpacing,
   getRightMargin,
 } from '../constants';
-import { dependencyGraphTestIds } from '../../testIds';
-import { GraphData, PanelOptions } from '../types';
-import { getDisplayName } from '../utils/helpers/extensionUtils';
 
+import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
+import React from 'react';
+import { Trans } from '@grafana/i18n';
+import { dependencyGraphTestIds } from '../../testIds';
+import { getDisplayName } from '../utils/helpers/extensionUtils';
 
 interface ExtensionPointModeRendererProps {
   theme: GrafanaTheme2;
@@ -75,14 +74,14 @@ export function ExtensionPointModeRenderer({
 
         return (
           <g key={extensionPointId}>
-            {/* Extension Point Box */}
+            {/* Extension Point Box - always blue */}
             <rect
               x={position.x}
               y={position.y}
               width={LAYOUT_CONSTANTS.EXTENSION_BOX_WIDTH}
               height={LAYOUT_CONSTANTS.EXTENSION_BOX_HEIGHT}
               rx={VISUAL_CONSTANTS.EXTENSION_BORDER_RADIUS}
-              fill={theme.colors.background.secondary}
+              fill={theme.colors.info.main}
               stroke={strokeColor}
               strokeWidth={strokeWidth}
               className={styles.extensionPointBox.toString()}
@@ -96,7 +95,7 @@ export function ExtensionPointModeRenderer({
               x={position.x + 10}
               y={position.y + 20}
               fontSize={TYPOGRAPHY_CONSTANTS.EXTENSION_LABEL_SIZE}
-              fill={theme.colors.text.primary}
+              fill="#ffffff"
               className={styles.extensionPointLabel.toString()}
             >
               {extensionPoint.title || extensionPoint.id}
@@ -108,7 +107,7 @@ export function ExtensionPointModeRenderer({
                 x={position.x + 10}
                 y={position.y + 35}
                 fontSize={TYPOGRAPHY_CONSTANTS.DESCRIPTION_SIZE}
-                fill={theme.colors.text.secondary}
+                fill="#ffffff"
                 className={styles.extensionPointDescription.toString()}
               >
                 {extensionPoint.description}
@@ -120,7 +119,7 @@ export function ExtensionPointModeRenderer({
               x={position.x + 10}
               y={position.y + LAYOUT_CONSTANTS.EXTENSION_BOX_HEIGHT - 5}
               fontSize={TYPOGRAPHY_CONSTANTS.TYPE_BADGE_SIZE}
-              fill={theme.colors.text.secondary}
+              fill="#ffffff"
               className={styles.extensionPointProvider.toString()}
             >
               <Trans
