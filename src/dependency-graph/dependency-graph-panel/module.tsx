@@ -3,8 +3,8 @@
  *
  * # Plugin Dependency Graph Panel
  *
- * A Grafana panel plugin that visualizes dependencies between Grafana plugins,
- * specifically focusing on extension relationships where one plugin extends another.
+ * A runtime panel plugin for the Extensions DevTools app that visualizes dependencies
+ * between Grafana plugins, specifically focusing on extension relationships.
  *
  * ## Features
  *
@@ -26,6 +26,7 @@
  */
 
 import { PanelPlugin, StandardEditorProps } from '@grafana/data';
+import { sceneUtils } from '@grafana/scenes';
 import {
   getActiveContentConsumers,
   getAvailableContentConsumers,
@@ -165,7 +166,10 @@ function ExtensionPointMultiSelect({ value, onChange, context }: StandardEditorP
   );
 }
 
-export const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPanelOptions((builder) => {
+// Runtime plugin ID - must be unique and app-specific
+export const PLUGIN_ID = 'grafana-extensionsdevtools-app-dependency-graph';
+
+const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPanelOptions((builder) => {
   return (
     builder
       .addSelect({
@@ -293,3 +297,9 @@ export const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).
       })
   );
 });
+
+// Register as a runtime panel plugin for use within the Extensions DevTools app
+sceneUtils.registerRuntimePanelPlugin({ pluginId: PLUGIN_ID, plugin });
+
+// Export the plugin for compatibility
+export { plugin };
