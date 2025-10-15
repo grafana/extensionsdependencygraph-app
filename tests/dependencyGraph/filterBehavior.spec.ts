@@ -1,5 +1,5 @@
-import { expect, test } from '../fixtures';
 import { EXPECTED_COUNTS, assertUrlParam, waitForUrlParamRemoved } from './helpers';
+import { expect, test } from '../fixtures';
 
 /**
  * Cross-cutting filter behavior tests
@@ -16,8 +16,8 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // Verify both filters are active
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Verify filtered results
       const providerBoxes = page.getByTestId(/^content-provider-box-/);
@@ -40,8 +40,8 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // Verify both filters are in URL
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'extensionPoints', extensionPointId);
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'extensionPoints', extensionPointId);
 
       // Verify graph renders without errors
       await page.waitForTimeout(500);
@@ -150,8 +150,8 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // Verify filters are active
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Switch to exposed components view
       await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=exposedComponents' });
@@ -175,8 +175,8 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // Verify filters are active
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Switch to extension point view
       await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=extensionpoint' });
@@ -197,7 +197,7 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
 
       // Switch to added components view
       await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedcomponents' });
@@ -219,15 +219,15 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // Verify initial state
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Reload the page
       await page.reload();
 
       // Filters should persist
-      await assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
-      await assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
+      assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
+      assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Filtered boxes should still be visible
       await page.getByTestId('content-provider-box-grafana-lokiexplore-app').waitFor();
@@ -254,7 +254,7 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // URL parameter should be preserved
-      await assertUrlParam(page, 'contentProviders', 'nonexistent-plugin');
+      assertUrlParam(page, 'contentProviders', 'nonexistent-plugin');
 
       // No provider boxes should be visible (or the graph should show empty state)
       const providerBoxes = page.getByTestId(/^content-provider-box-/);
@@ -271,13 +271,10 @@ test.describe('Filter Behavior', () => {
       const { page } = depGraphPageWithMockApps.ctx;
 
       // URL should preserve the extension point ID with slashes
-      await page.waitForFunction(
-        (epId) => {
-          const params = new URL(window.location.href).searchParams.get('extensionPoints');
-          return params === epId;
-        },
-        extensionPointId
-      );
+      await page.waitForFunction((epId) => {
+        const params = new URL(window.location.href).searchParams.get('extensionPoints');
+        return params === epId;
+      }, extensionPointId);
 
       // Verify the parameter is correct
       const url = new URL(page.url());
@@ -285,4 +282,3 @@ test.describe('Filter Behavior', () => {
     });
   });
 });
-
