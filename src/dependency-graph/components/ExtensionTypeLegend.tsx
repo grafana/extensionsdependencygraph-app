@@ -14,6 +14,7 @@ interface ExtensionTypeLegendProps {
   extensions?: Extension[];
   exposedComponents?: ExposedComponent[];
   visualizationMode: 'exposedComponents' | 'extensionpoint' | 'addedlinks' | 'addedcomponents' | 'addedfunctions';
+  badgeTypesPresent?: { link: boolean; component: boolean; function: boolean };
 }
 
 export function ExtensionTypeLegend({
@@ -25,6 +26,7 @@ export function ExtensionTypeLegend({
   extensions = [],
   exposedComponents = [],
   visualizationMode,
+  badgeTypesPresent = { link: false, component: false, function: false },
 }: ExtensionTypeLegendProps): React.JSX.Element {
   const styles = useStyles2(getStyles);
 
@@ -42,7 +44,10 @@ export function ExtensionTypeLegend({
       case 'addedlinks':
       case 'addedcomponents':
       case 'addedfunctions':
-        // In added* views, only show extension point (not individual extension types)
+        // In added* views, show badge types that are actually present in the view
+        items.link = badgeTypesPresent.link;
+        items.component = badgeTypesPresent.component;
+        items.function = badgeTypesPresent.function;
         items.extensionPoint = true;
         break;
       case 'extensionpoint':
@@ -60,7 +65,7 @@ export function ExtensionTypeLegend({
     }
 
     return items;
-  }, [visualizationMode, extensions, exposedComponents]);
+  }, [visualizationMode, extensions, exposedComponents, badgeTypesPresent]);
 
   // Don't render if nothing to show
   if (
