@@ -1,50 +1,103 @@
-<!-- This README file is going to be the one displayed on the Grafana.com website for your plugin. Uncomment and replace the content here before publishing.
+# Extensions DevTools
 
-Remove any remaining comments before publishing as these may be displayed on Grafana.com -->
+Developer tools for plugin authors working with Grafana's [plugin extensions system](https://grafana.com/developers/plugin-tools/ui-extensions). This app helps you visualize, explore, and debug extension relationships during plugin development.
 
-# extensionsdevtools
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?logo=grafana&query=$.version&url=https://grafana.com/api/plugins/grafana-extensionsdevtools-app&label=Marketplace&prefix=v&color=F47A20)
 
-<!-- To help maximize the impact of your README and improve usability for users, we propose the following loose structure:
+## Overview
 
-**BEFORE YOU BEGIN**
-- Ensure all links are absolute URLs so that they will work when the README is displayed within Grafana and Grafana.com
-- Be inspired ✨
-  - [grafana-polystat-panel](https://github.com/grafana/grafana-polystat-panel)
-  - [volkovlabs-variable-panel](https://github.com/volkovlabs/volkovlabs-variable-panel)
+Extensions DevTools provides interactive visualization and debugging capabilities for Grafana's plugin extensions system. If you're building plugins that use extension points or provide extensions to other plugins, this tool helps you understand and debug those relationships in real-time.
 
-**ADD SOME BADGES**
+## Key Features
 
-Badges convey useful information at a glance for users whether in the Catalog or viewing the source code. You can use the generator on [Shields.io](https://shields.io/badges/dynamic-json-badge) together with the Grafana.com API
-to create dynamic badges that update automatically when you publish a new version to the marketplace.
+### Dependency Graph Visualization
 
-- For the URL parameter use `https://grafana.com/api/plugins/your-plugin-id`.
-- Example queries:
-  - Downloads: `$.downloads`
-  - Catalog Version: `$.version`
-  - Grafana Dependency: `$.grafanaDependency`
-  - Signature Type: `$.versionSignatureType`
-- Optionally, for the logo parameter use `grafana`.
+The Dependency Graph provides an interactive visualization of your plugin ecosystem, showing how plugins connect through the extensions system. Choose from multiple visualization modes to explore different aspects of your plugin architecture:
 
-Full example: ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?logo=grafana&query=$.version&url=https://grafana.com/api/plugins/grafana-polystat-panel&label=Marketplace&prefix=v&color=F47A20)
+#### Added Links Mode
 
-Consider other [badges](https://shields.io/badges) as you feel appropriate for your project.
+Visualize plugins adding link extensions to extension points.
 
-## Overview / Introduction
-Provide one or more paragraphs as an introduction to your plugin to help users understand why they should use it.
+![Added Links Mode](img/added-links.jpg)
 
-Consider including screenshots:
-- in [plugin.json](https://grafana.com/developers/plugin-tools/reference/plugin-json#info) include them as relative links.
-- in the README ensure they are absolute URLs.
+#### Added Components Mode
+
+See plugins adding component extensions to extension points.
+
+![Added Components Mode](img/added-components.jpg)
+
+#### Added Functions Mode
+
+Track plugins adding function extensions to extension points.
+
+![Added Functions Mode](img/added-functions.jpg)
+
+#### Exposed Components Mode
+
+View plugins exposing components to other plugins.
+
+![Exposed Components Mode](img/exposed-components.jpg)
+
+#### Extension Points Mode
+
+Detailed view of extension points and their consumers.
+
+![Extension Points Mode](img/extension-points.jpg)
+
+### Interactive Features
+
+- **Filtering**: Filter by content providers, content consumers, and extension points
+- **Click Interactions**: Click on nodes to explore relationships
+- **Context Menus**: Right-click for additional actions and information
+- **Real-time Updates**: Automatically reflects changes in your development environment
 
 ## Requirements
-List any requirements or dependencies they may need to run the plugin.
+
+- Grafana 10.4.0 or later
+- A Grafana instance with plugins that use the extensions system
 
 ## Getting Started
-Provide a quick start on how to configure and use the plugin.
+
+1. **Install the plugin** in your Grafana instance
+2. **Navigate to the Extensions DevTools app** from the Grafana main menu
+3. **Open the Dependency Graph** to start visualizing your plugin extensions
+4. **Use the filters and visualization modes** to explore different aspects of your plugin ecosystem
+
+## Use Cases
+
+### Plugin Development
+
+- Verify that your plugin correctly registers extension points
+- Confirm that extensions are being added to the right extension points
+- Debug extension relationships during development
+
+### Architecture Review
+
+- Understand the overall structure of your plugin ecosystem
+- Identify dependencies between plugins
+- Document extension point usage
+
+### Troubleshooting
+
+- Debug missing or misconfigured extensions
+- Identify unexpected plugin relationships
+- Validate extension configurations
+
+## Future Tools
+
+Additional developer tools for working with plugin extensions will be added in future releases. Stay tuned for updates!
 
 ## Documentation
-If your project has dedicated documentation available for users, provide links here. For help in following Grafana's style recommendations for technical documentation, refer to our [Writer's Toolkit](https://grafana.com/docs/writers-toolkit/).
+
+For more information about Grafana's plugin extensions system, refer to:
+
+- [UI Extensions Documentation](https://grafana.com/developers/plugin-tools/ui-extensions)
+- [Plugin Development Guide](https://grafana.com/developers/plugin-tools/)
 
 ## Contributing
-Do you want folks to contribute to the plugin or provide feedback through specific means? If so, tell them how!
--->
+
+This plugin is developed and maintained by Grafana Labs. If you encounter issues or have feature requests, please use the GitHub repository's issue tracker.
+
+## License
+
+Apache License 2.0
