@@ -8,6 +8,9 @@ import type { AppConfigProps } from './components/AppConfig/AppConfig';
 import { loadResources } from './loadResources';
 import pluginJson from './plugin.json';
 
+// Import runtime panel plugin to register it
+import './dependency-graph/dependency-graph-panel/module';
+
 // Before Grafana version 12.1.0 the plugin is responsible for loading translation resources
 // In Grafana version 12.1.0 and later Grafana is responsible for loading translation resources
 const loaders = semver.lt(config?.buildInfo?.version || '0.0.0', '12.1.0') ? [loadResources] : [];
