@@ -1,98 +1,80 @@
+import { EXPECTED_COUNTS, assertUrlParam, waitForUrlParam, waitForUrlParamRemoved } from './helpers';
 import { clickSvg, expect, test } from '../fixtures';
 import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
-
-// Extension Point View E2E tests
 
 test.describe('Extension Point View', () => {
   test.beforeEach(async ({ depGraphPageWithMockApps }) => {
     await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=extensionpoint' });
   });
 
-  test('shows view, content provider, content consumer, and extension point selectors', async ({
-    depGraphPageWithMockApps,
-  }) => {
-    const page = depGraphPageWithMockApps.ctx.page;
-    const vizSelector = page.getByTestId(dependencyGraphTestIds.visualizationModeSelector);
-    const providerSelector = page.getByTestId(dependencyGraphTestIds.contentProviderSelector);
-    const consumerSelector = page.getByTestId(dependencyGraphTestIds.contentConsumerSelector);
-    const extensionPointSelector = page.getByTestId(dependencyGraphTestIds.extensionPointSelector);
+  test('shows all required selectors', async ({ depGraphPageWithMockApps }) => {
+    const { page } = depGraphPageWithMockApps.ctx;
 
-    await expect(vizSelector).toBeVisible();
-    await expect(providerSelector).toHaveAttribute('data-testid', dependencyGraphTestIds.contentProviderSelector);
-    await expect(consumerSelector).toHaveAttribute('data-testid', dependencyGraphTestIds.contentConsumerSelector);
-    await expect(extensionPointSelector).toHaveAttribute('data-testid', dependencyGraphTestIds.extensionPointSelector);
-    await expect(extensionPointSelector).toBeVisible();
+    await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
+    await expect(page.getByTestId(dependencyGraphTestIds.contentProviderSelector)).toBeVisible();
+    await expect(page.getByTestId(dependencyGraphTestIds.contentConsumerSelector)).toBeVisible();
+    await expect(page.getByTestId(dependencyGraphTestIds.extensionPointSelector)).toBeVisible();
   });
 
-  test('displays 5 content provider boxes and 5 content consumer boxes', async ({ depGraphPageWithMockApps }) => {
-    const page = depGraphPageWithMockApps.ctx.page;
+  test('displays expected number of provider and consumer boxes', async ({ depGraphPageWithMockApps }) => {
+    const { page } = depGraphPageWithMockApps.ctx;
     const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
     const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
-    await expect(providerBoxes).toHaveCount(5);
-    await expect(consumerBoxes).toHaveCount(5);
+
+    await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.extensionPoint.providers);
+    await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.extensionPoint.consumers);
   });
 
   test.describe('filtering', () => {
-    test('filters content providers by id', async ({ depGraphPageWithMockApps }) => {
+    test('filters content providers via URL parameter', async ({ depGraphPageWithMockApps }) => {
+      const providerId = 'grafana-lokiexplore-app';
       await depGraphPageWithMockApps.goto({
-        path: 'dependency-graph?view=extensionpoint&contentProviders=grafana-lokiexplore-app',
+        path: `dependency-graph?view=extensionpoint&contentProviders=${providerId}`,
       });
-      const page = depGraphPageWithMockApps.ctx.page;
-      const providerBoxesAfterFilter = page.getByTestId(
-        new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`)
-      );
-      await expect(providerBoxesAfterFilter).toHaveCount(1);
-      await expect(providerBoxesAfterFilter.first()).toHaveAttribute(
-        'data-testid',
-        dependencyGraphTestIds.contentProviderBox('grafana-lokiexplore-app')
-      );
+      const { page } = depGraphPageWithMockApps.ctx;
+
+      const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
+      await expect(providerBoxes).toHaveCount(1);
+      await expect(providerBoxes).toHaveAttribute('data-testid', dependencyGraphTestIds.contentProviderBox(providerId));
     });
 
     test('filters extension points using context menu', async ({ depGraphPageWithMockApps }) => {
-      const page = depGraphPageWithMockApps.ctx.page;
-
-      // Wait for extension point boxes to be rendered
+      const { page } = depGraphPageWithMockApps.ctx;
       const extensionPointId = 'grafana-metricsdrilldown-app/open-in-logs-drilldown/v1';
+
+      // Wait for the specific extension point to be visible
       const specificExtensionPoint = page.getByTestId(dependencyGraphTestIds.extensionPointBox(extensionPointId));
       await expect(specificExtensionPoint).toBeVisible();
 
+      // Open context menu and apply filter
       await clickSvg(specificExtensionPoint);
-
-      // Click "Filter by this extension point" option in the context menu
       await page.getByRole('menuitem').getByText('Filter by this extension point').click();
 
-      // Wait for URL to be updated with the extensionPoints filter
-      await page.waitForFunction(
-        (epId) => new URL(window.location.href).searchParams.get('extensionPoints') === epId,
-        extensionPointId
-      );
-
-      // Verify that only the filtered extension point is visible
-      const filteredExtensionPointBoxes = page.getByTestId(
-        new RegExp(`^${dependencyGraphTestIdPrefixes.extensionPointBox}`)
-      );
-      await expect(filteredExtensionPointBoxes).toHaveCount(1);
-      await expect(filteredExtensionPointBoxes.first()).toHaveAttribute(
+      // Verify URL is updated and only filtered extension point is visible
+      await waitForUrlParam(page, 'extensionPoints', extensionPointId);
+      const filteredBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.extensionPointBox}`));
+      await expect(filteredBoxes).toHaveCount(1);
+      await expect(filteredBoxes).toHaveAttribute(
         'data-testid',
         dependencyGraphTestIds.extensionPointBox(extensionPointId)
       );
     });
 
-    test('can remove extension point filter and restore extension points', async ({ depGraphPageWithMockApps }) => {
+    test('removes extension point filter via context menu', async ({ depGraphPageWithMockApps }) => {
+      const extensionPointId = 'grafana-exploremetrics-app/investigation/v1';
       await depGraphPageWithMockApps.goto({
-        path: 'dependency-graph?view=extensionpoint&extensionPoints=grafana-exploremetrics-app/investigation/v1',
+        path: `dependency-graph?view=extensionpoint&extensionPoints=${extensionPointId}`,
       });
-      const page = depGraphPageWithMockApps.ctx.page;
-      await clickSvg(
-        page.getByTestId(dependencyGraphTestIds.extensionPointBox('grafana-exploremetrics-app/investigation/v1'))
-      );
+      const { page } = depGraphPageWithMockApps.ctx;
+
+      // Remove filter via context menu
+      await clickSvg(page.getByTestId(dependencyGraphTestIds.extensionPointBox(extensionPointId)));
       await page.getByRole('menuitem').getByText('Remove filter').click();
 
-      // Wait for the URL param to be removed
-      await page.waitForFunction(() => !new URL(window.location.href).searchParams.get('extensionPoints'));
-
-      const extensionPointBoxesAfterRemove = page.getByTestId(new RegExp('^extension-point-box-'));
-      await expect(extensionPointBoxesAfterRemove).toHaveCount(26);
+      // Verify URL parameter is removed and all extension points are restored
+      await waitForUrlParamRemoved(page, 'extensionPoints');
+      const extensionPointBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.extensionPointBox}`));
+      await expect(extensionPointBoxes).toHaveCount(EXPECTED_COUNTS.extensionPoint.extensionPoints);
     });
   });
 });
