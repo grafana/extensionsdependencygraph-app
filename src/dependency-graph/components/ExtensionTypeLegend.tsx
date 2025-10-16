@@ -53,9 +53,15 @@ export function ExtensionTypeLegend({
       case 'extensionpoint':
         // Check which extension types are actually present in the data
         extensions.forEach((ext) => {
-          if (ext.type === 'link') items.link = true;
-          if (ext.type === 'component') items.component = true;
-          if (ext.type === 'function') items.function = true;
+          if (ext.type === 'link') {
+            items.link = true;
+          }
+          if (ext.type === 'component') {
+            items.component = true;
+          }
+          if (ext.type === 'function') {
+            items.function = true;
+          }
         });
         items.extensionPoint = true;
         break;
