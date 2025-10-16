@@ -21,73 +21,6 @@
     },
     "moduleHash": "sha256-jGzLprYIegM3/QQkMt1WRoN2Jk+t139VTJBazbb6KJ0="
   },
-  "grafana-test1-app": {
-    "id": "grafana-test1-app",
-    "path": "https://plugins-cdn.grafana-ops.net/alexanderzobnin-zabbix-app/6.0.2/public/plugins/alexanderzobnin-zabbix-app/module.js",
-    "version": "6.0.2",
-    "preload": false,
-    "angular": { "detected": false },
-    "loadingStrategy": "script",
-    "extensions": {
-      "addedLinks": [
-        {
-          "title": "Test Link 1",
-          "description": "This is test link 1",
-          "targets": ["grafana-test2-app/test-extension-point/v1"]
-        }
-      ],
-      "addedComponents": [],
-      "exposedComponents": [],
-      "extensionPoints": [],
-      "addedFunctions": [
-        {
-          "title": "Test Function 1",
-          "description": "This is test function 1",
-          "targets": ["grafana-test2-app/test-extension-point/v1"]
-        },
-        {
-          "title": "Test Function 2",
-          "description": "This is test function 2",
-          "targets": ["grafana-test2-app/test-extension-point/v1"]
-        }
-      ]
-    },
-    "dependencies": {
-      "grafanaDependency": ">=11.6.0",
-      "grafanaVersion": "*",
-      "plugins": [],
-      "extensions": { "exposedComponents": [] }
-    },
-    "moduleHash": "sha256-jGzLprYIegM3/QQkMt1WRoN2Jk+t139VTJBazbb6KJ0="
-  },
-  "grafana-test2-app": {
-    "id": "grafana-test2-app",
-    "path": "https://plugins-cdn.grafana-ops.net/alexanderzobnin-zabbix-app/6.0.2/public/plugins/alexanderzobnin-zabbix-app/module.js",
-    "version": "6.0.2",
-    "preload": false,
-    "angular": { "detected": false },
-    "loadingStrategy": "script",
-    "extensions": {
-      "addedLinks": [],
-      "addedComponents": [],
-      "exposedComponents": [],
-      "extensionPoints": [
-        {
-          "id": "grafana-test2-app/test-extension-point/v1",
-          "title": "Test Extension Point",
-          "description": "This is a test extension point"
-        }
-      ],
-      "addedFunctions": []
-    },
-    "dependencies": {
-      "grafanaDependency": ">=11.6.0",
-      "grafanaVersion": "*",
-      "plugins": [],
-      "extensions": { "exposedComponents": [] }
-    },
-    "moduleHash": "sha256-jGzLprYIegM3/QQkMt1WRoN2Jk+t139VTJBazbb6KJ0="
-  },
   "clexporter-app": {
     "id": "clexporter-app",
     "path": "https://plugins-cdn.grafana-ops.net/clexporter-app/1.2.1/public/plugins/clexporter-app/module.js",
@@ -1929,5 +1862,72 @@
       "extensions": { "exposedComponents": [] }
     },
     "moduleHash": "sha256-1sRw01VnHPe/GXSvhEwEV7MimSlkR01CSBxXTw1JhL8="
+  },
+  "grafana-test1-app": {
+    "id": "grafana-test1-app",
+    "path": "https://plugins-cdn.grafana-ops.net/alexanderzobnin-zabbix-app/6.0.2/public/plugins/alexanderzobnin-zabbix-app/module.js",
+    "version": "6.0.2",
+    "preload": false,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [
+        {
+          "title": "Test Link 1",
+          "description": "This is test link 1",
+          "targets": ["grafana-test2-app/test-extension-point/v1"]
+        }
+      ],
+      "addedComponents": [],
+      "exposedComponents": [],
+      "extensionPoints": [],
+      "addedFunctions": [
+        {
+          "title": "Test Function 1",
+          "description": "This is test function 1",
+          "targets": ["grafana-test2-app/test-extension-point/v1"]
+        },
+        {
+          "title": "Test Function 2",
+          "description": "This is test function 2",
+          "targets": ["grafana-test2-app/test-extension-point/v1"]
+        }
+      ]
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.6.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": [] }
+    },
+    "moduleHash": "sha256-jGzLprYIegM3/QQkMt1WRoN2Jk+t139VTJBazbb6KJ0="
+  },
+  "grafana-test2-app": {
+    "id": "grafana-test2-app",
+    "path": "https://plugins-cdn.grafana-ops.net/alexanderzobnin-zabbix-app/6.0.2/public/plugins/alexanderzobnin-zabbix-app/module.js",
+    "version": "6.0.2",
+    "preload": false,
+    "angular": { "detected": false },
+    "loadingStrategy": "script",
+    "extensions": {
+      "addedLinks": [],
+      "addedComponents": [],
+      "exposedComponents": [],
+      "extensionPoints": [
+        {
+          "id": "grafana-test2-app/test-extension-point/v1",
+          "title": "Test Extension Point",
+          "description": "This is a test extension point"
+        }
+      ],
+      "addedFunctions": []
+    },
+    "dependencies": {
+      "grafanaDependency": ">=11.6.0",
+      "grafanaVersion": "*",
+      "plugins": [],
+      "extensions": { "exposedComponents": [] }
+    },
+    "moduleHash": "sha256-jGzLprYIegM3/QQkMt1WRoN2Jk+t139VTJBazbb6KJ0="
   }
 }
