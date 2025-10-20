@@ -55,6 +55,22 @@
       "addToNav": true
     }
   ],
+  "extensions": {
+    "addedComponents": [
+      {
+        "targets": ["grafana/extension-sidebar/v0-alpha"],
+        "description": "Opens Plugin Extensions DevTools",
+        "title": "Opens Plugin Extensions DevTools"
+      }
+    ],
+    "addedLinks": [
+      {
+        "targets": ["grafana/extension-sidebar/v0-alpha"],
+        "description": "Opens Plugin Extensions DevTools",
+        "title": "Opens Plugin Extensions DevTools"
+      }
+    ]
+  },
   "dependencies": {
     "grafanaDependency": ">=10.4.0",
     "plugins": []

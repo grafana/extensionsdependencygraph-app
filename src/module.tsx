@@ -10,6 +10,7 @@ import pluginJson from './plugin.json';
 
 // Import runtime panel plugin to register it
 import './dependency-graph/dependency-graph-panel/module';
+import { DependencyGraphPage } from 'dependency-graph/DependencyGraphPage';
 
 // Before Grafana version 12.1.0 the plugin is responsible for loading translation resources
 // In Grafana version 12.1.0 and later Grafana is responsible for loading translation resources
@@ -31,9 +32,34 @@ const AppConfig = (props: AppConfigProps) => (
   </Suspense>
 );
 
-export const plugin = new AppPlugin<{}>().setRootPage(App).addConfigPage({
-  title: 'Configuration',
-  icon: 'cog',
-  body: AppConfig,
-  id: 'configuration',
-});
+export const plugin = new AppPlugin<{}>()
+  .setRootPage(App)
+  .addConfigPage({
+    title: 'Configuration',
+    icon: 'cog',
+    body: AppConfig,
+    id: 'configuration',
+  })
+  .addLink({
+    targets: 'grafana/extension-sidebar/v0-alpha',
+    title: 'Opens Plugin Extensions DevTools',
+    description: 'Opens Plugin Extensions DevTools',
+    configure: () => {
+      return {
+        description: 'Opens Plugin Extensions DevTools',
+        title: 'Opens Plugin Extensions DevTools',
+      };
+    },
+    onClick: () => {
+      // do nothing
+      void 0;
+    },
+  })
+  .addComponent({
+    targets: 'grafana/extension-sidebar/v0-alpha',
+    title: 'Opens Plugin Extensions DevTools',
+    description: 'Opens Plugin Extensions DevTools',
+    component: () => {
+      return <DependencyGraphPage />;
+    },
+  });
