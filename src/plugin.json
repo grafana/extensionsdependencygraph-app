@@ -60,14 +60,14 @@
       {
         "targets": ["grafana/extension-sidebar/v0-alpha"],
         "description": "Opens Plugin Extensions DevTools",
-        "title": "Opens Plugin Extensions DevTools"
+        "title": "Plugin Extensions DevTools"
       }
     ],
     "addedLinks": [
       {
         "targets": ["grafana/extension-sidebar/v0-alpha"],
         "description": "Opens Plugin Extensions DevTools",
-        "title": "Opens Plugin Extensions DevTools"
+        "title": "Plugin Extensions DevTools"
       }
     ]
   },
