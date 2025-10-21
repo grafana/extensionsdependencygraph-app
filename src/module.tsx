@@ -42,12 +42,12 @@ export const plugin = new AppPlugin<{}>()
   })
   .addLink({
     targets: 'grafana/extension-sidebar/v0-alpha',
-    title: 'Opens Plugin Extensions DevTools',
+    title: 'Plugin Extensions DevTools',
     description: 'Opens Plugin Extensions DevTools',
     configure: () => {
       return {
         description: 'Opens Plugin Extensions DevTools',
-        title: 'Opens Plugin Extensions DevTools',
+        title: 'Plugin Extensions DevTools',
       };
     },
     onClick: () => {
@@ -57,7 +57,7 @@ export const plugin = new AppPlugin<{}>()
   })
   .addComponent({
     targets: 'grafana/extension-sidebar/v0-alpha',
-    title: 'Opens Plugin Extensions DevTools',
+    title: 'Plugin Extensions DevTools',
     description: 'Opens Plugin Extensions DevTools',
     component: () => {
       return <DependencyGraphPage />;
