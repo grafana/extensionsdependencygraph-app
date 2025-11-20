@@ -118,9 +118,9 @@
       }
     }
   },
-  "grafana-extensionsdevtools-app": {
-    "id": "grafana-extensionsdevtools-app",
-    "path": "public/plugins/grafana-extensionsdevtools-app/module.js",
+  "grafana-extensionsdependencygraph-app": {
+    "id": "grafana-extensionsdependencygraph-app",
+    "path": "public/plugins/grafana-extensionsdependencygraph-app/module.js",
     "version": "1.0.0",
     "preload": false,
     "angular": { "detected": false },

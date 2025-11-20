@@ -2,7 +2,7 @@
 
 Developer tools for plugin authors working with Grafana's [plugin extensions system](https://grafana.com/developers/plugin-tools/ui-extensions). This app helps you visualize, explore, and debug extension relationships during plugin development.
 
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?logo=grafana&query=$.version&url=https://grafana.com/api/plugins/grafana-extensionsdevtools-app&label=Marketplace&prefix=v&color=F47A20)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?logo=grafana&query=$.version&url=https://grafana.com/api/plugins/grafana-extensionsdependencygraph-app&label=Marketplace&prefix=v&color=F47A20)
 
 ## Overview
 

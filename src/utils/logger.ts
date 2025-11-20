@@ -29,7 +29,7 @@ class Logger {
 
   private formatMessage(level: string, message: string, context?: LogContext): string {
     const timestamp = new Date().toISOString();
-    const pluginContext = { plugin: 'grafana-extensionsdevtools-app', ...context };
+    const pluginContext = { plugin: 'grafana-extensionsdependencygraph-app', ...context };
     const contextStr = ` [${JSON.stringify(pluginContext)}]`;
     return `[${timestamp}] [${level}] ${message}${contextStr}`;
   }
