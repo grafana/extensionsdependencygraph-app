@@ -5,8 +5,8 @@ import {
   waitForUrlParam,
   waitForUrlParamRemoved,
 } from './helpers';
-import { clickSvg, expect, test } from '../fixtures';
-import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
+import { clickSvg, expect, test } from './fixtures';
+import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../src/components/testIds';
 
 test.describe('Exposed Components View', () => {
   test.beforeEach(async ({ depGraphPageWithMockApps }) => {

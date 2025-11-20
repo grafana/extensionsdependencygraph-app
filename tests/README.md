@@ -1,42 +1,73 @@
-# E2E Tests for Extensions Insights App
+# E2E Tests for Extensions DevTools App
 
 ## Overview
 
-This directory contains end-to-end tests for the Extensions Insights App, with a focus on testing the dependency graph functionality using mocked data.
+This directory contains end-to-end tests for the Extensions DevTools App, with a focus on testing the dependency graph functionality using mocked data and Playwright.
+
+## Test Files
+
+### Dependency Graph Tests
+
+- **extensionPointView.spec.ts** - Tests for Extension Point visualization mode
+- **exposedComponents.spec.ts** - Tests for Exposed Components visualization mode
+- **addedLinksView.spec.ts** - Tests for Added Links visualization mode
+- **addedComponentsView.spec.ts** - Tests for Added Components visualization mode
+- **addedFunctionsView.spec.ts** - Tests for Added Functions visualization mode
+- **dropdownSelectors.spec.ts** - Tests for dropdown selector functionality
+- **filterBehavior.spec.ts** - Tests for filtering behavior across views
+
+### Test Infrastructure
+
+- **fixtures.ts** - Extended Playwright fixtures including the `depGraphPageWithMockApps` fixture
+- **helpers.ts** - Shared helper functions and constants
+- **mockApps.json** - Mock data containing 6 carefully selected Grafana app plugins
+- **scripts/overrideGrafanaBootData.js** - Script that overrides Grafana boot data with mock apps
 
 ## Test Structure
 
-### Files
+Each test file follows a consistent structure:
 
-- **fixtures.ts** - Extended Playwright fixtures including the `pageWithMockData` fixture
-- **mockApps.json** - Mock data containing 6 carefully selected Grafana app plugins that cover all extension types (addedLinks, addedComponents, exposedComponents, extensionPoints, addedFunctions, and dependencies)
-- **scripts/overrideGrafanaBootData.js** - Script that waits for Grafana boot data and overrides `window.grafanaBootData.settings.apps` with mock data
-- **dependencyGraph.spec.ts** - Tests for dependency graph data validation
-- **dependencyGraphUI.spec.ts** - Tests for dependency graph UI interactions
+```typescript
+test.describe('View Name', () => {
+  test.beforeEach(async ({ depGraphPageWithMockApps }) => {
+    // Navigate to the specific view
+    await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=...' });
+  });
+
+  test('shows correct selectors', () => {
+    // Verify the correct UI controls are visible
+  });
+
+  test('displays expected number of provider and consumer boxes', () => {
+    // Verify the correct data is displayed
+  });
+
+  test.describe('filtering', () => {
+    // Tests for filtering functionality
+  });
+});
+```
 
 ## Using Mock Data in Tests
 
-### The `pageWithMockData` Fixture
+### The `depGraphPageWithMockApps` Fixture
 
-The `pageWithMockData` fixture automatically injects mock data into the page before it loads. This is done by:
+The `depGraphPageWithMockApps` fixture automatically injects mock data into the page before it loads. This is done by:
 
 1. Reading the mock data from `mockApps.json`
-2. Reading the override script from `scripts/overrideGrafanaBootData.js`
-3. Injecting the mock data into the script
-4. Adding the script as an init script to the page (runs before any page scripts)
+2. Adding an init script that overrides `window.grafanaBootData.settings.apps` with mock data
+3. Navigating to the dependency graph page with the mock data already available
 
 ### Example Usage
 
 ```typescript
 import { test, expect } from './fixtures';
 
-test('should use mock data', async ({ pageWithMockData, context }) => {
-  // Create a new page with mock data already injected
-  const appPage = await context.newPage();
-  await appPage.goto('/a/grafana-extensionsdevtools-app/dependency-graph');
+test('should use mock data', async ({ depGraphPageWithMockApps }) => {
+  await depGraphPageWithMockApps.goto({ path: 'dependency-graph' });
 
   // The page will now have access to mock apps data
-  const bootData = await appPage.evaluate(() => {
+  const bootData = await depGraphPageWithMockApps.ctx.page.evaluate(() => {
     return (window as any).grafanaBootData?.settings?.apps;
   });
 
@@ -58,9 +89,9 @@ The `mockApps.json` file contains 6 carefully selected plugins that cover all ex
 5. **cloud-home-app** - extensionPoints, depends on collector
 6. **grafana-k8s-app** - exposedComponents, depended on by collector
 
-**Data Structure:**
+**Data Coverage:**
 
-- Plugin ID, version, and path
+- Plugin metadata (ID, version, path)
 - Angular detection status
 - Loading strategy (script/fetch)
 - Extensions:
@@ -73,6 +104,27 @@ The `mockApps.json` file contains 6 carefully selected plugins that cover all ex
   - Grafana version requirements
   - Plugin dependencies
   - Required exposed components from other plugins
+
+## Helper Functions
+
+### Navigation and Waiting
+
+- `waitForUrlParam(page, paramName, expectedValue)` - Wait for a URL parameter to be set
+- `waitForUrlParamRemoved(page, paramName)` - Wait for a URL parameter to be removed
+
+### Assertions
+
+- `assertUrlParam(page, paramName, expectedValue)` - Assert URL parameter value
+- `assertUrlParamAbsent(page, paramName)` - Assert URL parameter is not present
+
+### Utilities
+
+- `extractPluginIdFromTestId(testId, prefix)` - Extract plugin ID from test ID
+- `clickSvg(locator)` - Helper to reliably click SVG elements
+
+### Constants
+
+- `EXPECTED_COUNTS` - Expected box counts for each visualization mode based on mock data
 
 ## How the Override Works
 
@@ -91,34 +143,28 @@ This approach ensures:
 - Follows Grafana's official e2e testing patterns
 - The mock data is available before any React components use it
 
-## Running the Tests
-
-```bash
-# Run all tests
-npm run test:e2e
-
-# Run only dependency graph tests
-npx playwright test dependencyGraph
-
-# Run only UI tests
-npx playwright test dependencyGraphUI
-
-# Run in headed mode (see the browser)
-npx playwright test --headed
-
-# Run in debug mode
-npx playwright test --debug
-```
-
 ## Writing New Tests
 
 When writing new tests that need mock data:
 
 1. Import the fixtures: `import { test, expect } from './fixtures';`
-2. Use the `pageWithMockData` fixture in your test
-3. Create a new page from the context: `const appPage = await context.newPage();`
-4. Navigate to your route: `await appPage.goto('/a/grafana-extensionsdevtools-app/...');`
-5. The mock data will automatically be available
+2. Use the `depGraphPageWithMockApps` fixture in your test
+3. Navigate using `await depGraphPageWithMockApps.goto({ path: '...' });`
+4. The mock data will automatically be available
+
+Example:
+
+```typescript
+import { test, expect } from './fixtures';
+import { dependencyGraphTestIds } from '../src/components/testIds';
+
+test('my new test', async ({ depGraphPageWithMockApps }) => {
+  await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedlinks' });
+  const { page } = depGraphPageWithMockApps.ctx;
+
+  await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
+});
+```
 
 ## Updating Mock Data
 
@@ -127,12 +173,5 @@ To update the mock data:
 1. Open `mockApps.json`
 2. Add, remove, or modify plugin entries
 3. Ensure the structure matches the expected format
-4. Run tests to verify the changes work
-
-## Notes
-
-- The mock data includes 6 carefully selected plugins that cover all extension types
-- All extension relationship patterns are represented (dependencies, exposed components, etc.)
-- The override script uses the same polling pattern as `@grafana/plugin-e2e`
-- The script is injected as an init script and runs before Grafana's React app mounts
-- Tests should not be committed to the repository
+4. Update `EXPECTED_COUNTS` in `helpers.ts` if counts change
+5. Run tests to verify the changes work

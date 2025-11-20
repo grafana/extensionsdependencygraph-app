@@ -1,7 +1,7 @@
 import { EXPECTED_COUNTS, waitForUrlParam } from './helpers';
-import { expect, test } from '../fixtures';
+import { expect, test } from './fixtures';
 
-import { dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
+import { dependencyGraphTestIds } from '../src/components/testIds';
 
 /**
  * Tests for dropdown selector interactions

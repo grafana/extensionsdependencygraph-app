@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { expect } from '../fixtures';
+import { expect } from './fixtures';
 
 /**
  * Helper functions for dependency graph E2E tests
