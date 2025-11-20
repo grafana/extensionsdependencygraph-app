@@ -11,7 +11,7 @@ import { GrafanaTheme2 } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
 import { ContextMenu, Menu } from '@grafana/ui';
 
-import { dependencyGraphTestIds } from '../../testIds';
+import { dependencyGraphTestIds } from '../../components/testIds';
 import {
   DISPLAY_NAMES,
   LAYOUT_CONSTANTS,

@@ -1,4 +1,4 @@
-import { DependencyGraphPage } from '../dependency-graph/DependencyGraphPage';
+import { DependencyGraphPage } from './DependencyGraphPage';
 import { PluginPage } from '@grafana/runtime';
 import React from 'react';
 

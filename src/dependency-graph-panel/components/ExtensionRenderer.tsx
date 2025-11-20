@@ -20,7 +20,7 @@ import React, { useState } from 'react';
 
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
-import { dependencyGraphTestIds } from '../../testIds';
+import { dependencyGraphTestIds } from '../../components/testIds';
 import { getPluginData } from '../utils/helpers/dataAccess';
 import { locationService } from '@grafana/runtime';
 import semver from 'semver';

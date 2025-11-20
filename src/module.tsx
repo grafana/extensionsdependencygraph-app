@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { AppPlugin, type AppRootProps } from '@grafana/data';
 import { LoadingPlaceholder } from '@grafana/ui';
 
-import { DependencyGraphPage } from 'dependency-graph/DependencyGraphPage';
+import { DependencyGraphPage } from './pages/DependencyGraphPage';
 
 const LazyApp = lazy(() => import('./components/App'));
 

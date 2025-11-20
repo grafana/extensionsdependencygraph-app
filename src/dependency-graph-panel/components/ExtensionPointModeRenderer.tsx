@@ -10,7 +10,7 @@ import {
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
 import React from 'react';
-import { dependencyGraphTestIds } from '../../testIds';
+import { dependencyGraphTestIds } from '../../components/testIds';
 import { getDisplayName } from '../utils/helpers/extensionUtils';
 
 interface ExtensionPointModeRendererProps {
