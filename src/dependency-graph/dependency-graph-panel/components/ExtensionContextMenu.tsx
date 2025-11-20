@@ -1,5 +1,4 @@
 import React from 'react';
-import { t } from '@grafana/i18n';
 import { ContextMenu, Menu } from '@grafana/ui';
 
 import { GraphData } from '../types';
@@ -51,28 +50,12 @@ export function ExtensionContextMenu({
       onClose={onClose}
       renderMenuItems={() => (
         <>
-          <Menu.Item
-            label={t('extensions.dependency-graph.highlight-connections', 'Highlight connections')}
-            icon="arrow-up"
-            onClick={onHighlightArrows}
-          />
-          <Menu.Item
-            label={t('extensions.dependency-graph.switch-to-extension-points-view', 'Switch to extension points view')}
-            icon="arrow-right"
-            onClick={onNavigateToExtensionPoint}
-          />
+          <Menu.Item label="Highlight connections" icon="arrow-up" onClick={onHighlightArrows} />
+          <Menu.Item label="Switch to extension points view" icon="arrow-right" onClick={onNavigateToExtensionPoint} />
           {isFiltered ? (
-            <Menu.Item
-              label={t('extensions.dependency-graph.remove-filter', 'Remove filter')}
-              icon="filter"
-              onClick={onUnfilterExtensionPoint}
-            />
+            <Menu.Item label="Remove filter" icon="filter" onClick={onUnfilterExtensionPoint} />
           ) : (
-            <Menu.Item
-              label={t('extensions.dependency-graph.filter-by-extension-point', 'Filter by extension point')}
-              icon="filter"
-              onClick={onFilterExtensionPoint}
-            />
+            <Menu.Item label="Filter by extension point" icon="filter" onClick={onFilterExtensionPoint} />
           )}
         </>
       )}

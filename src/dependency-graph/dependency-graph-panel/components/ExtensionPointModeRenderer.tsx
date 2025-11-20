@@ -10,7 +10,6 @@ import {
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
 import React from 'react';
-import { Trans } from '@grafana/i18n';
 import { dependencyGraphTestIds } from '../../testIds';
 import { getDisplayName } from '../utils/helpers/extensionUtils';
 
@@ -122,11 +121,7 @@ export function ExtensionPointModeRenderer({
               fill="#ffffff"
               className={styles.extensionPointProvider.toString()}
             >
-              <Trans
-                i18nKey="extensions.dependency-graph.provided-by"
-                defaults="Provided by {{provider}}"
-                values={{ provider: getDisplayName(extensionPoint.definingPlugin) }}
-              />
+              {`Provided by ${getDisplayName(extensionPoint.definingPlugin)}`}
             </text>
           </g>
         );

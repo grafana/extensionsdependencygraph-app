@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { VisualizationMode } from './useDependencyGraphData';
-import { t } from '@grafana/i18n';
 import { useSearchParams } from 'react-router-dom';
 
 /**
@@ -226,11 +225,11 @@ export function useDependencyGraphControls(): DependencyGraphControls {
   }, [searchParams]);
 
   const modeOptions = [
-    { label: t('extensions.view.addedlinks', 'Added links'), value: 'addedlinks' as const },
-    { label: t('extensions.view.addedcomponents', 'Added components'), value: 'addedcomponents' as const },
-    { label: t('extensions.view.addedfunctions', 'Added functions'), value: 'addedfunctions' as const },
-    { label: t('extensions.view.exposedComponents', 'Exposed components'), value: 'exposedComponents' as const },
-    { label: t('extensions.view.extensionpoints', 'Extension points'), value: 'extensionpoint' as const },
+    { label: 'Added links', value: 'addedlinks' as const },
+    { label: 'Added components', value: 'addedcomponents' as const },
+    { label: 'Added functions', value: 'addedfunctions' as const },
+    { label: 'Exposed components', value: 'exposedComponents' as const },
+    { label: 'Extension points', value: 'extensionpoint' as const },
   ];
 
   return {

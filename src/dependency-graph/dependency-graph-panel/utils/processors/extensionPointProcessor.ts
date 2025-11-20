@@ -1,5 +1,4 @@
 import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
 
 import { Extension, ExtensionPoint, GraphData, PanelOptions, PluginDependency, PluginNode } from '../../types';
 import { determineExtensionPointType } from '../helpers/pluginHelpers';
@@ -81,11 +80,7 @@ export const processPluginDataToExtensionPointGraph = (
           providers: [], // Will be populated later
           extensionType: 'link', // Default assumption
           title: targetId.replace('grafana/', '').replace(/\//g, ' '),
-          description: t(
-            'extensions.dependency-graph.grafana-core-extension-point',
-            'Grafana core extension point: {{epId}}',
-            { epId: targetId }
-          ),
+          description: `Grafana core extension point: ${targetId}`,
         });
       }
     });
@@ -246,11 +241,7 @@ export const processPluginDataToExtensionPointGraph = (
           providers: [], // Will be populated later
           extensionType: determineExtensionPointType(epId, pluginData),
           title: epId.replace('grafana/', '').replace(/\//g, ' '),
-          description: t(
-            'extensions.dependency-graph.grafana-core-extension-point',
-            'Grafana core extension point: {{epId}}',
-            { epId }
-          ),
+          description: `Grafana core extension point: ${epId}`,
         });
       }
     }
@@ -339,7 +330,7 @@ export const processPluginDataToExtensionPointGraph = (
         name: pluginId,
         type: 'app',
         version: 'core',
-        description: t('extensions.dependency-graph.grafana-core-application', 'Grafana Core Application'),
+        description: 'Grafana Core Application',
       });
     } else {
       const pluginInfo = pluginData[pluginId];

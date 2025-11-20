@@ -5,7 +5,6 @@
  */
 
 import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
 
 import { ExtensionPoint } from '../../../types';
 import { determineExtensionPointType } from '../../helpers/pluginHelpers';
@@ -68,11 +67,7 @@ export function addMissingExtensionPoints(extensionPoints: Map<string, Extension
         providers: [], // Will be populated later
         extensionType: 'link', // Default assumption
         title: targetId.replace('grafana/', '').replace(/\//g, ' '),
-        description: t(
-          'extensions.dependency-graph.grafana-core-extension-point',
-          'Grafana core extension point: {{epId}}',
-          { epId: targetId }
-        ),
+        description: `Grafana core extension point: ${targetId}`,
       });
     }
   });

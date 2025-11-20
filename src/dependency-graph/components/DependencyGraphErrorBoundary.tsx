@@ -1,6 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-import { t } from '@grafana/i18n';
 import { Alert, Button, CollapsableSection } from '@grafana/ui';
 
 interface Props {
@@ -59,19 +58,11 @@ export class DependencyGraphErrorBoundary extends Component<Props, State> {
 
       return (
         <div style={{ padding: '20px' }}>
-          <Alert title={t('extensions.dependency-graph.error-title', 'Dependency Graph Error')} severity="error">
+          <Alert title="Dependency Graph Error" severity="error">
             <div>
-              <p>
-                {t(
-                  'extensions.dependency-graph.error-message',
-                  'An error occurred while rendering the dependency graph.'
-                )}
-              </p>
+              <p>An error occurred while rendering the dependency graph.</p>
               {this.state.error && (
-                <CollapsableSection
-                  label={t('extensions.dependency-graph.error-details', 'Error details')}
-                  isOpen={false}
-                >
+                <CollapsableSection label="Error details" isOpen={false}>
                   <pre style={{ fontSize: '12px', marginTop: '5px', whiteSpace: 'pre-wrap' }}>
                     {this.state.error.toString()}
                     {this.state.errorInfo && this.state.errorInfo.componentStack}
@@ -79,7 +70,7 @@ export class DependencyGraphErrorBoundary extends Component<Props, State> {
                 </CollapsableSection>
               )}
               <Button onClick={this.handleRetry} style={{ marginTop: '10px' }} variant="primary">
-                {t('extensions.dependency-graph.try-again', 'Try again')}
+                Try again
               </Button>
             </div>
           </Alert>
