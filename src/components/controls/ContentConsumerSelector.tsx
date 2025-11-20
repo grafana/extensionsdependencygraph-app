@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 
 import { InlineField, MultiCombobox } from '@grafana/ui';
+import { reportInteraction } from '@grafana/runtime';
 
 import { dependencyGraphTestIds } from '../testIds';
+import { PLUGIN_ID } from '../../constants';
 
 interface ContentConsumerSelectorProps {
   activeConsumers: string[];
@@ -25,6 +27,14 @@ export function ContentConsumerSelector({
         selectedValues.length === activeConsumers.length &&
         activeConsumers.every((consumer) => selectedValues.includes(consumer));
       const newValue = isDefaultSelection ? [] : selectedValues;
+
+      reportInteraction('extensions_dependencygraph_filter_usage', {
+        pluginId: PLUGIN_ID,
+        filterType: 'content_consumer',
+        selectedCount: newValue.length,
+        selectedConsumers: newValue,
+      });
+
       onConsumerChange(newValue.map((value) => ({ value })));
     },
     [activeConsumers, onConsumerChange]

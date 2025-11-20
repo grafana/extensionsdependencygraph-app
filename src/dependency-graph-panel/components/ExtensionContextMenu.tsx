@@ -1,7 +1,9 @@
 import React from 'react';
 import { ContextMenu, Menu } from '@grafana/ui';
+import { reportInteraction } from '@grafana/runtime';
 
 import { GraphData } from '../types';
+import { PLUGIN_ID } from '../../constants';
 
 interface ExtensionContextMenuProps {
   isOpen: boolean;
@@ -50,12 +52,60 @@ export function ExtensionContextMenu({
       onClose={onClose}
       renderMenuItems={() => (
         <>
-          <Menu.Item label="Highlight connections" icon="arrow-up" onClick={onHighlightArrows} />
-          <Menu.Item label="Switch to extension points view" icon="arrow-right" onClick={onNavigateToExtensionPoint} />
+          <Menu.Item
+            label="Highlight connections"
+            icon="arrow-up"
+            onClick={() => {
+              reportInteraction('extensions_dependencygraph_context_menu_click', {
+                pluginId: PLUGIN_ID,
+                menuType: 'extension_point',
+                action: 'highlight_connections',
+                extensionPointId: selectedExtensionPointId,
+              });
+              onHighlightArrows();
+            }}
+          />
+          <Menu.Item
+            label="Switch to extension points view"
+            icon="arrow-right"
+            onClick={() => {
+              reportInteraction('extensions_dependencygraph_context_menu_click', {
+                pluginId: PLUGIN_ID,
+                menuType: 'extension_point',
+                action: 'switch_to_extension_points_view',
+                extensionPointId: selectedExtensionPointId,
+              });
+              onNavigateToExtensionPoint();
+            }}
+          />
           {isFiltered ? (
-            <Menu.Item label="Remove filter" icon="filter" onClick={onUnfilterExtensionPoint} />
+            <Menu.Item
+              label="Remove filter"
+              icon="filter"
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'extension_point',
+                  action: 'remove_filter',
+                  extensionPointId: selectedExtensionPointId,
+                });
+                onUnfilterExtensionPoint();
+              }}
+            />
           ) : (
-            <Menu.Item label="Filter by extension point" icon="filter" onClick={onFilterExtensionPoint} />
+            <Menu.Item
+              label="Filter by extension point"
+              icon="filter"
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'extension_point',
+                  action: 'filter_by_extension_point',
+                  extensionPointId: selectedExtensionPointId,
+                });
+                onFilterExtensionPoint();
+              }}
+            />
           )}
         </>
       )}
