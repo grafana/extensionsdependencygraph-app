@@ -1,5 +1,5 @@
 import { EXPECTED_COUNTS, assertUrlParam, waitForUrlParamRemoved } from './helpers';
-import { expect, test } from '../fixtures';
+import { expect, test } from './fixtures';
 
 /**
  * Cross-cutting filter behavior tests

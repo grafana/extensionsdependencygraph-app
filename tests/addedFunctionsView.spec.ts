@@ -6,12 +6,12 @@ import {
   waitForUrlParam,
   waitForUrlParamRemoved,
 } from './helpers';
-import { clickSvg, expect, test } from '../fixtures';
-import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../../src/dependency-graph/testIds';
+import { clickSvg, expect, test } from './fixtures';
+import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../src/components/testIds';
 
-test.describe('Added Links View', () => {
+test.describe('Added Functions View', () => {
   test.beforeEach(async ({ depGraphPageWithMockApps }) => {
-    await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedlinks' });
+    await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedfunctions' });
   });
 
   test('shows correct selectors', async ({ depGraphPageWithMockApps }) => {
@@ -28,8 +28,8 @@ test.describe('Added Links View', () => {
     const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
     const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
 
-    await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.providers);
-    await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.consumers);
+    await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.providers);
+    await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.consumers);
   });
 
   test.describe('filtering', () => {
@@ -37,7 +37,7 @@ test.describe('Added Links View', () => {
       test('filters provider via context menu', async ({ depGraphPageWithMockApps }) => {
         const { page } = depGraphPageWithMockApps.ctx;
         const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
-        await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.providers);
+        await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.providers);
 
         // Click first provider and apply filter
         const firstProvider = providerBoxes.first();
@@ -58,18 +58,25 @@ test.describe('Added Links View', () => {
       });
 
       test('removes provider filter via context menu', async ({ depGraphPageWithMockApps }) => {
-        const providerId = 'grafana-exploretraces-app';
-        await depGraphPageWithMockApps.goto({
-          path: `dependency-graph?view=addedlinks&contentProviders=${providerId}`,
-        });
         const { page } = depGraphPageWithMockApps.ctx;
+        const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
+        const firstProviderTestId = (await providerBoxes.first().getAttribute('data-testid'))!;
+        const providerId = extractPluginIdFromTestId(
+          firstProviderTestId,
+          dependencyGraphTestIdPrefixes.contentProviderBox
+        );
 
+        // Navigate to filtered view
+        await depGraphPageWithMockApps.goto({
+          path: `dependency-graph?view=addedfunctions&contentProviders=${providerId}`,
+        });
+
+        // Remove filter
         await page.getByTestId(dependencyGraphTestIds.contentProviderBox(providerId)).click();
         await page.getByRole('menuitem').getByText('Remove filter').click();
 
         await waitForUrlParamRemoved(page, 'contentProviders');
-        const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
-        await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.providers);
+        await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.providers);
       });
     });
 
@@ -77,14 +84,14 @@ test.describe('Added Links View', () => {
       test('filters consumer via context menu', async ({ depGraphPageWithMockApps }) => {
         const { page } = depGraphPageWithMockApps.ctx;
         const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
-        await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.consumers);
+        await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.consumers);
 
-        // Click second consumer (first might have special behavior) and apply filter
-        const targetConsumer = consumerBoxes.nth(1);
-        const testId = (await targetConsumer.getAttribute('data-testid'))!;
+        // Click first consumer and apply filter
+        const firstConsumer = consumerBoxes.first();
+        const testId = (await firstConsumer.getAttribute('data-testid'))!;
         const consumerId = extractPluginIdFromTestId(testId, dependencyGraphTestIdPrefixes.contentConsumerBox);
 
-        await clickSvg(targetConsumer);
+        await clickSvg(firstConsumer);
         await page
           .getByRole('menuitem')
           .getByText(/Filter by/i)
@@ -92,7 +99,7 @@ test.describe('Added Links View', () => {
 
         // Navigate to the filtered view
         await depGraphPageWithMockApps.goto({
-          path: `dependency-graph?view=addedlinks&contentConsumers=${consumerId}`,
+          path: `dependency-graph?view=addedfunctions&contentConsumers=${consumerId}`,
         });
         await waitForUrlParam(page, 'contentConsumers', consumerId);
 
@@ -105,22 +112,23 @@ test.describe('Added Links View', () => {
       test('removes consumer filter via context menu', async ({ depGraphPageWithMockApps }) => {
         const { page } = depGraphPageWithMockApps.ctx;
         const consumerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentConsumerBox}`));
-        await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.consumers);
-
-        const targetConsumer = consumerBoxes.nth(1);
-        const testId = (await targetConsumer.getAttribute('data-testid'))!;
-        const consumerId = extractPluginIdFromTestId(testId, dependencyGraphTestIdPrefixes.contentConsumerBox);
+        const firstConsumerTestId = (await consumerBoxes.first().getAttribute('data-testid'))!;
+        const consumerId = extractPluginIdFromTestId(
+          firstConsumerTestId,
+          dependencyGraphTestIdPrefixes.contentConsumerBox
+        );
 
         // Navigate to filtered view
-        await page.goto(`${page.url()}&contentConsumers=${consumerId}`);
-        await waitForUrlParam(page, 'contentConsumers', consumerId);
+        await depGraphPageWithMockApps.goto({
+          path: `dependency-graph?view=addedfunctions&contentConsumers=${consumerId}`,
+        });
 
         // Remove filter
         await clickSvg(page.getByTestId(dependencyGraphTestIds.contentConsumerBox(consumerId)));
         await page.getByRole('menuitem').getByText('Remove filter').click();
 
         await waitForUrlParamRemoved(page, 'contentConsumers');
-        await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedLinks.consumers);
+        await expect(consumerBoxes).toHaveCount(EXPECTED_COUNTS.addedFunctions.consumers);
       });
     });
 
