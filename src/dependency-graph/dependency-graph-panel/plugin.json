@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "Dependency Graph",
+  "id": "grafana-dependencygraph-panel",
+  "info": {
+    "keywords": ["dependency", "graph", "extensions", "plugins", "visualization"],
+    "description": "Visualizes dependencies between Grafana plugins, specifically focusing on extension relationships. Shows extension points, exposed components, and various types of plugin extensions.",
+    "author": {
+      "name": "Grafana"
+    },
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "hideFromList": false,
+  "skipDataQuery": true,
+  "state": "alpha"
+}

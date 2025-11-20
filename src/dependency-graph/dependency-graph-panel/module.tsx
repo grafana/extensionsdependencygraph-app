@@ -26,7 +26,6 @@
  */
 
 import { PanelPlugin, StandardEditorProps } from '@grafana/data';
-import { sceneUtils } from '@grafana/scenes';
 import {
   getActiveContentConsumers,
   getAvailableContentConsumers,
@@ -159,10 +158,7 @@ function ExtensionPointMultiSelect({ value, onChange, context }: StandardEditorP
   );
 }
 
-// Runtime plugin ID - must be unique and app-specific
-export const PLUGIN_ID = 'grafana-extensionsdevtools-app-dependency-graph';
-
-const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPanelOptions((builder) => {
+export const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPanelOptions((builder) => {
   return (
     builder
       .addSelect({
@@ -264,9 +260,3 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
       })
   );
 });
-
-// Register as a runtime panel plugin for use within the Extensions DevTools app
-sceneUtils.registerRuntimePanelPlugin({ pluginId: PLUGIN_ID, plugin: plugin as any });
-
-// Export the plugin for compatibility
-export { plugin };
