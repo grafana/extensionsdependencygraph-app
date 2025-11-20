@@ -29,8 +29,9 @@ class Logger {
 
   private formatMessage(level: string, message: string, context?: LogContext): string {
     const timestamp = new Date().toISOString();
-    const contextStr = context ? ` [${JSON.stringify(context)}]` : '';
-    return `[${timestamp}] [${level}] DependencyGraph: ${message}${contextStr}`;
+    const pluginContext = { plugin: 'grafana-extensionsdevtools-app', ...context };
+    const contextStr = ` [${JSON.stringify(pluginContext)}]`;
+    return `[${timestamp}] [${level}] ${message}${contextStr}`;
   }
 
   debug(message: string, context?: LogContext): void {
