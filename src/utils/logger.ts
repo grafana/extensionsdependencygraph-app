@@ -63,11 +63,10 @@ class Logger {
 }
 
 // Create a singleton logger instance
-export const logger = new Logger(process.env.NODE_ENV === 'development' ? LogLevel.DEBUG : LogLevel.INFO);
+export const logger = new Logger(process.env.NODE_ENV === 'development' ? LogLevel.DEBUG : LogLevel.ERROR);
 
 // Convenience functions for common logging scenarios
 export const logGraphData = (data: unknown) => {
-   
   const graphData = data as { nodes?: unknown[]; dependencies?: unknown[]; extensionPoints?: unknown[] };
   logger.debug('Graph data processed', {
     component: 'DependencyGraph',
