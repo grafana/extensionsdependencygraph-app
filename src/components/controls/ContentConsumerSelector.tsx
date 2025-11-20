@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { InlineField, MultiCombobox } from '@grafana/ui';
 
-import { dependencyGraphTestIds } from '../../testIds';
+import { dependencyGraphTestIds } from '../testIds';
 
 interface ContentConsumerSelectorProps {
   activeConsumers: string[];

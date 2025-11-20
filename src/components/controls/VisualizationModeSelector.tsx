@@ -4,7 +4,7 @@ import { Combobox, InlineField } from '@grafana/ui';
 
 import { DependencyGraphControls } from '../../hooks/useDependencyGraphControls';
 import { VisualizationMode } from '../../hooks/useDependencyGraphData';
-import { dependencyGraphTestIds } from '../../testIds';
+import { dependencyGraphTestIds } from '../testIds';
 
 interface VisualizationModeSelectorProps {
   controls: DependencyGraphControls;
