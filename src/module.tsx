@@ -2,8 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import { AppPlugin, type AppRootProps } from '@grafana/data';
 import { LoadingPlaceholder } from '@grafana/ui';
 
-// Import runtime panel plugin to register it
-import './dependency-graph/dependency-graph-panel/module';
 import { DependencyGraphPage } from 'dependency-graph/DependencyGraphPage';
 
 const LazyApp = lazy(() => import('./components/App'));

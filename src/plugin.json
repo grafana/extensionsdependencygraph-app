@@ -45,6 +45,11 @@
       "path": "/a/%PLUGIN_ID%/dependency-graph",
       "addToNav": true,
       "defaultNav": true
+    },
+    {
+      "type": "panel",
+      "name": "Dependency Graph Panel",
+      "path": "dependency-graph/dependency-graph-panel"
     }
   ],
   "extensions": {
