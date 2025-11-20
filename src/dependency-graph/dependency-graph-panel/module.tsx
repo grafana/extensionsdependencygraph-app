@@ -38,7 +38,6 @@ import { MultiCombobox } from '@grafana/ui';
 import { PanelOptions } from './types';
 import { PluginDependencyGraphPanel } from './components/PluginDependencyGraphPanel';
 import React from 'react';
-import { t } from '@grafana/i18n';
 
 // Custom multiselect editor for content providers
 function ContentProviderMultiSelect({ value, onChange, context }: StandardEditorProps<string[]>) {
@@ -65,7 +64,7 @@ function ContentProviderMultiSelect({ value, onChange, context }: StandardEditor
         const newValue = selectedValues.length === availableProviders.length ? [] : selectedValues;
         onChange(newValue);
       }}
-      placeholder={t('extensions.dependency-graph.select-content-providers', 'Select content providers to display')}
+      placeholder="Select content providers to display"
     />
   );
 }
@@ -99,10 +98,7 @@ function ContentConsumerMultiSelect({ value, onChange, context }: StandardEditor
         const newValue = isDefaultSelection ? [] : selectedValues;
         onChange(newValue);
       }}
-      placeholder={t(
-        'extensions.dependency-graph.select-content-consumers',
-        'Select content consumers to display (active consumers by default)'
-      )}
+      placeholder="Select content consumers to display (active consumers by default)"
     />
   );
 }
@@ -130,10 +126,7 @@ function ContentConsumerForExtensionPointMultiSelect({ value, onChange, context 
         const newValue = selectedValues.length === availableContentConsumers.length ? [] : selectedValues;
         onChange(newValue);
       }}
-      placeholder={t(
-        'extensions.dependency-graph.select-content-consumers-extension-point',
-        'Select content consumers to display'
-      )}
+      placeholder="Select content consumers to display"
     />
   );
 }
@@ -161,7 +154,7 @@ function ExtensionPointMultiSelect({ value, onChange, context }: StandardEditorP
         const newValue = selectedValues.length === availableExtensionPoints.length ? [] : selectedValues;
         onChange(newValue);
       }}
-      placeholder={t('extensions.dependency-graph.select-extension-points', 'Select extension points to display')}
+      placeholder="Select extension points to display"
     />
   );
 }
@@ -174,21 +167,19 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
     builder
       .addSelect({
         path: 'visualizationMode',
-        name: t('extensions.dependency-graph.visualization-mode', 'Visualization Mode'),
-        description: t(
-          'extensions.dependency-graph.visualization-mode-description',
-          'Choose between Add mode (plugins adding to extension points), Expose mode (plugins exposing components), or Extension Point mode (extensions and extension points)'
-        ),
+        name: 'Visualization Mode',
+        description:
+          'Choose between Add mode (plugins adding to extension points), Expose mode (plugins exposing components), or Extension Point mode (extensions and extension points)',
         defaultValue: 'addedlinks',
         settings: {
           options: [
-            { label: t('extensions.dependency-graph.added-links-mode', 'Added Links Mode'), value: 'addedlinks' },
+            { label: 'Added Links Mode', value: 'addedlinks' },
             {
-              label: t('extensions.dependency-graph.exposed-components-mode', 'Exposed Components Mode'),
+              label: 'Exposed Components Mode',
               value: 'exposedComponents',
             },
             {
-              label: t('extensions.dependency-graph.extensionpoint-mode', 'Extension Point Mode'),
+              label: 'Extension Point Mode',
               value: 'extensionpoint',
             },
           ],
@@ -197,51 +188,36 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
 
       .addBooleanSwitch({
         path: 'showDependencyTypes',
-        name: t('extensions.dependency-graph.show-dependency-types', 'Show Dependency Types'),
-        description: t(
-          'extensions.dependency-graph.show-dependency-types-description',
-          'Display the type of dependency on links'
-        ),
+        name: 'Show Dependency Types',
+        description: 'Display the type of dependency on links',
         defaultValue: true,
       })
       .addBooleanSwitch({
         path: 'showDescriptions',
-        name: t('extensions.dependency-graph.show-descriptions', 'Show Descriptions'),
-        description: t(
-          'extensions.dependency-graph.show-descriptions-description',
-          'Display descriptions underneath extension points and exposed components'
-        ),
+        name: 'Show Descriptions',
+        description: 'Display descriptions underneath extension points and exposed components',
         defaultValue: false,
       })
 
       // Color options
       .addColorPicker({
         path: 'linkExtensionColor',
-        name: t('extensions.dependency-graph.link-extension-color', 'Link Extension Color'),
-        description: t(
-          'extensions.dependency-graph.link-extension-color-description',
-          'Color for link extension points'
-        ),
+        name: 'Link Extension Color',
+        description: 'Color for link extension points',
         defaultValue: '#37872d',
         category: ['Color Options'],
       })
       .addColorPicker({
         path: 'componentExtensionColor',
-        name: t('extensions.dependency-graph.component-extension-color', 'Component Extension Color'),
-        description: t(
-          'extensions.dependency-graph.component-extension-color-description',
-          'Color for component extension points'
-        ),
+        name: 'Component Extension Color',
+        description: 'Color for component extension points',
         defaultValue: '#ff9900',
         category: ['Color Options'],
       })
       .addColorPicker({
         path: 'functionExtensionColor',
-        name: t('extensions.dependency-graph.function-extension-color', 'Function Extension Color'),
-        description: t(
-          'extensions.dependency-graph.function-extension-color-description',
-          'Color for function extension points (addedFunctions)'
-        ),
+        name: 'Function Extension Color',
+        description: 'Color for function extension points (addedFunctions)',
         defaultValue: '#e02f44',
         category: ['Color Options'],
       })
@@ -250,22 +226,18 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
       .addCustomEditor({
         id: 'contentProviderFilter',
         path: 'selectedContentProviders',
-        name: t('extensions.dependency-graph.content-providers', 'Content Providers'),
-        description: t(
-          'extensions.dependency-graph.content-providers-description',
-          'Add Mode: plugins that add to extension points | Expose Mode: plugins that expose components (left side)'
-        ),
+        name: 'Content Providers',
+        description:
+          'Add Mode: plugins that add to extension points | Expose Mode: plugins that expose components (left side)',
         editor: ContentProviderMultiSelect,
         category: ['Filtering'],
       })
       .addCustomEditor({
         id: 'contentConsumerFilter',
         path: 'selectedContentConsumers',
-        name: t('extensions.dependency-graph.content-consumers', 'Content Consumers'),
-        description: t(
-          'extensions.dependency-graph.content-consumers-description',
-          'Add Mode: plugins that define extension points | Expose Mode: plugins that consume exposed components (right side)'
-        ),
+        name: 'Content Consumers',
+        description:
+          'Add Mode: plugins that define extension points | Expose Mode: plugins that consume exposed components (right side)',
         editor: ContentConsumerMultiSelect,
         category: ['Filtering'],
         showIf: (currentConfig: PanelOptions) => currentConfig.visualizationMode !== 'extensionpoint',
@@ -273,11 +245,9 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
       .addCustomEditor({
         id: 'contentConsumerForExtensionPointFilter',
         path: 'selectedContentConsumersForExtensionPoint',
-        name: t('extensions.dependency-graph.content-consumers-extension-point', 'Content Consumers'),
-        description: t(
-          'extensions.dependency-graph.content-consumers-extension-point-description',
-          'Extension Point Mode: select which content consumers (apps with extension points) to display (right side)'
-        ),
+        name: 'Content Consumers',
+        description:
+          'Extension Point Mode: select which content consumers (apps with extension points) to display (right side)',
         editor: ContentConsumerForExtensionPointMultiSelect,
         category: ['Filtering'],
         showIf: (currentConfig: PanelOptions) => currentConfig.visualizationMode === 'extensionpoint',
@@ -286,11 +256,8 @@ const plugin = new PanelPlugin<PanelOptions>(PluginDependencyGraphPanel).setPane
       .addCustomEditor({
         id: 'extensionPointFilter',
         path: 'selectedExtensionPoints',
-        name: t('extensions.dependency-graph.extension-point', 'Extension Point'),
-        description: t(
-          'extensions.dependency-graph.extension-points-description',
-          'Extension Point Mode: select which extension points to display (right side)'
-        ),
+        name: 'Extension Point',
+        description: 'Extension Point Mode: select which extension points to display (right side)',
         editor: ExtensionPointMultiSelect,
         category: ['Filtering'],
         showIf: (currentConfig: PanelOptions) => currentConfig.visualizationMode === 'extensionpoint',

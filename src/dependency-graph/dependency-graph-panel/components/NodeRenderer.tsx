@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import semver from 'semver';
 
 import { GrafanaTheme2 } from '@grafana/data';
-import { t } from '@grafana/i18n';
 import { locationService } from '@grafana/runtime';
 import { ContextMenu, Menu } from '@grafana/ui';
 
@@ -152,13 +151,7 @@ export function NodeRenderer({
         renderMenuItems={() => (
           <>
             <Menu.Item
-              label={t(
-                'extensions.dependency-graph.highlight-plugin-connections',
-                'Highlight {{appName}} connections',
-                {
-                  appName,
-                }
-              )}
+              label={`Highlight ${appName} connections`}
               onClick={handleHighlightArrowsToContentProvider}
               icon="arrow-right"
             />
@@ -166,17 +159,13 @@ export function NodeRenderer({
               <>
                 {isContentProviderFiltered(selectedContentProviderId) ? (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                      appName,
-                    })}
+                    label="Remove filter"
                     onClick={handleRemoveContentProviderFilter}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.filter-by', 'Filter by {{appName}}', {
-                      appName,
-                    })}
+                    label={`Filter by ${appName}`}
                     onClick={handleFilterOnContentProvider}
                     icon="filter"
                   />

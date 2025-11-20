@@ -1,5 +1,4 @@
 import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
 
 import { PluginNode } from '../../types';
 
@@ -17,7 +16,7 @@ export const getDisplayName = (pluginId: string): string => {
 
   let displayName: string;
   if (pluginId === 'grafana-core') {
-    displayName = t('extensions.dependency-graph.grafana-core', 'Grafana Core');
+    displayName = 'Grafana Core';
   } else {
     displayName = pluginId
       .replace(/^grafana-/, '')

@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import { t } from '@grafana/i18n';
 import { ContextMenu, Menu } from '@grafana/ui';
 
 interface ContentProviderContextMenuProps {
@@ -45,16 +44,9 @@ export function ContentProviderContextMenu({
       onClose={onClose}
       renderMenuItems={() => (
         <>
+          <Menu.Item label="Highlight connections" onClick={onHighlightArrows} />
           <Menu.Item
-            label={t('extensions.dependency-graph.highlight-connections', 'Highlight connections')}
-            onClick={onHighlightArrows}
-          />
-          <Menu.Item
-            label={
-              isFiltered(selectedContentProviderId)
-                ? t('extensions.dependency-graph.remove-filter', 'Remove filter')
-                : t('extensions.dependency-graph.filter-by', 'Filter by {{appName}}', { appName })
-            }
+            label={isFiltered(selectedContentProviderId) ? 'Remove filter' : `Filter by ${appName}`}
             onClick={isFiltered(selectedContentProviderId) ? onRemoveFilter : onFilter}
             icon="filter"
           />

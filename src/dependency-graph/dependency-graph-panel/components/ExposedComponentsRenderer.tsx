@@ -4,7 +4,6 @@ import { LAYOUT_CONSTANTS, TYPOGRAPHY_CONSTANTS, VISUAL_CONSTANTS } from '../con
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
 import React from 'react';
-import { Trans } from '@grafana/i18n';
 import { getDisplayName } from '../utils/helpers/extensionUtils';
 
 interface ExposedComponentsRendererProps {
@@ -100,11 +99,7 @@ export function ExposedComponentsRenderer({
               fill="#ffffff"
               className={styles.exposedComponentProvider.toString()}
             >
-              <Trans
-                i18nKey="extensions.dependency-graph.provided-by"
-                defaults="Provided by {{provider}}"
-                values={{ provider: getDisplayName(exposedComponent.providingPlugin) }}
-              />
+              {`Provided by ${getDisplayName(exposedComponent.providingPlugin)}`}
             </text>
           </g>
         );

@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 
-import { t } from '@grafana/i18n';
 import { InlineField, MultiCombobox } from '@grafana/ui';
 
 import { dependencyGraphTestIds } from '../../testIds';
@@ -29,13 +28,13 @@ export function ContentProviderSelector({
   );
 
   return (
-    <InlineField label={t('extensions.content-provider.label', 'Content provider')}>
+    <InlineField label="Content provider">
       <MultiCombobox
         data-testid={dependencyGraphTestIds.contentProviderSelector}
         options={selectedProviderValues}
         value={selectedProviderValues}
         onChange={handleProviderChange}
-        placeholder={t('extensions.content-provider.placeholder', 'Select content providers to display')}
+        placeholder="Select content providers to display"
         width="auto"
         enableAllOption
         minWidth={20}

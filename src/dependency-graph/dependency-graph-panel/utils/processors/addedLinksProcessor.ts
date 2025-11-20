@@ -1,5 +1,4 @@
 import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
 
 import { ExtensionPoint, GraphData, PanelOptions, PluginDependency, PluginNode } from '../../types';
 import {
@@ -53,10 +52,10 @@ export const processPluginDataToAddedLinksGraph = (
           version: pluginInfo.version,
           description:
             isContentProvider && isContentConsumer
-              ? t('extensions.dependency-graph.provides-and-consumes', 'Provides and consumes extension content')
+              ? 'Provides and consumes extension content'
               : isContentProvider
-                ? t('extensions.dependency-graph.provides-content', 'Provides content to extension points')
-                : t('extensions.dependency-graph.defines-extension-points', 'Defines extension points'),
+                ? 'Provides content to extension points'
+                : 'Defines extension points',
         });
       }
     }

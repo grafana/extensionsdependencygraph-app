@@ -2,7 +2,6 @@ import { ExposedComponent, GraphData, PanelOptions, PluginDependency, PluginNode
 import { getDisplayName, getPluginType } from '../helpers/pluginHelpers';
 
 import { AppPluginConfig } from '@grafana/data';
-import { t } from '@grafana/i18n';
 
 /**
  * Processes plugin data for "exposedComponents" mode visualization.
@@ -36,8 +35,7 @@ export const processPluginDataToExposeGraph = (
           exposedComponents.set(exposedComponent.id, {
             id: exposedComponent.id,
             title: exposedComponent.title || exposedComponent.id,
-            description:
-              exposedComponent.description || t('extensions.dependency-graph.exposed-component', 'Exposed component'),
+            description: exposedComponent.description || 'Exposed component',
             providingPlugin: pluginId,
             consumers: [],
           });
@@ -49,7 +47,7 @@ export const processPluginDataToExposeGraph = (
               name: getDisplayName(pluginId),
               type: getPluginType(pluginId),
               version: pluginInfo.version,
-              description: t('extensions.dependency-graph.exposes-components', 'Exposes components to other plugins'),
+              description: 'Exposes components to other plugins',
             });
           }
         }
@@ -93,10 +91,7 @@ export const processPluginDataToExposeGraph = (
                 name: getDisplayName(pluginId),
                 type: getPluginType(pluginId),
                 version: pluginInfo.version,
-                description: t(
-                  'extensions.dependency-graph.consumes-components',
-                  'Consumes exposed components from other plugins'
-                ),
+                description: 'Consumes exposed components from other plugins',
               });
             }
           }

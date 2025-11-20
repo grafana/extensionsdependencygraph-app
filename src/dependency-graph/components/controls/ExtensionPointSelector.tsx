@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 
-import { t } from '@grafana/i18n';
 import { InlineField, MultiCombobox } from '@grafana/ui';
 
 import { dependencyGraphTestIds } from '../../testIds';
@@ -29,13 +28,13 @@ export function ExtensionPointSelector({
   );
 
   return (
-    <InlineField label={t('extensions.extension-point.label', 'Extension point')}>
+    <InlineField label="Extension point">
       <MultiCombobox
         data-testid={dependencyGraphTestIds.extensionPointSelector}
         options={extensionPointOptions}
         value={selectedExtensionPointValues}
         onChange={handleExtensionPointChange}
-        placeholder={t('extensions.extension-point.placeholder', 'Select extension points to display')}
+        placeholder="Select extension points to display"
         width="auto"
         enableAllOption
         minWidth={20}

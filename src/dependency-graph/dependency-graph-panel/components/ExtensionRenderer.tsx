@@ -17,7 +17,6 @@ import {
 import { ContextMenu, Menu } from '@grafana/ui';
 import { GraphData, PanelOptions } from '../types';
 import React, { useState } from 'react';
-import { Trans, t } from '@grafana/i18n';
 
 import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
@@ -518,15 +517,12 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             <Menu.Item
-              label={t('extensions.dependency-graph.show-extensions', 'Show extensions using this point')}
+              label="Show extensions using this point"
               onClick={handleNavigateToExtensionPoint}
               icon="external-link-alt"
             />
             <Menu.Item
-              label={t(
-                'extensions.dependency-graph.highlight-extension-point-connections',
-                'Highlight extension point connections'
-              )}
+              label="Highlight extension point connections"
               onClick={handleHighlightArrows}
               icon="arrow-right"
             />
@@ -551,13 +547,7 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             <Menu.Item
-              label={t(
-                'extensions.dependency-graph.highlight-plugin-connections',
-                'Highlight {{appName}} connections',
-                {
-                  appName,
-                }
-              )}
+              label={`Highlight ${appName} connections`}
               onClick={handleHighlightArrowsToContentConsumer}
               icon="arrow-right"
             />
@@ -565,17 +555,13 @@ export function ExtensionRenderer({
               <>
                 {isContentConsumerFiltered(selectedContentConsumerId) ? (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                      appName,
-                    })}
+                    label="Remove filter"
                     onClick={handleRemoveContentConsumerFilter}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.filter-by', 'Filter by {{appName}}', {
-                      appName,
-                    })}
+                    label={`Filter by ${appName}`}
                     onClick={handleFilterOnContentConsumer}
                     icon="filter"
                   />
@@ -603,13 +589,7 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             <Menu.Item
-              label={t(
-                'extensions.dependency-graph.highlight-plugin-connections',
-                'Highlight {{appName}} connections',
-                {
-                  appName,
-                }
-              )}
+              label={`Highlight ${appName} connections`}
               onClick={handleHighlightArrowsToContentProvider}
               icon="arrow-right"
             />
@@ -617,17 +597,13 @@ export function ExtensionRenderer({
               <>
                 {isContentProviderFiltered(selectedContentProviderId) ? (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                      appName,
-                    })}
+                    label="Remove filter"
                     onClick={handleRemoveContentProviderFilter}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.filter-by', 'Filter by {{appName}}', {
-                      appName,
-                    })}
+                    label={`Filter by ${appName}`}
                     onClick={handleFilterOnContentProvider}
                     icon="filter"
                   />
@@ -638,17 +614,13 @@ export function ExtensionRenderer({
               <>
                 {isContentProviderFiltered(selectedContentProviderId) ? (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                      appName,
-                    })}
+                    label="Remove filter"
                     onClick={handleRemoveContentProviderFilter}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
-                    label={t('extensions.dependency-graph.filter-by', 'Filter by {{appName}}', {
-                      appName,
-                    })}
+                    label={`Filter by ${appName}`}
                     onClick={handleFilterOnContentProvider}
                     icon="filter"
                   />
@@ -666,17 +638,6 @@ export function ExtensionRenderer({
       return null;
     }
 
-    // Shorten the extension point ID for display
-    const getShortExtensionPointName = (fullId: string): string => {
-      const parts = fullId.split('/');
-      if (parts.length >= 2) {
-        return `${parts[0]}/${parts[parts.length - 1]}`;
-      }
-      return fullId;
-    };
-
-    const extensionPointsName = getShortExtensionPointName(selectedExtensionPointForFilter);
-
     return (
       <ContextMenu
         x={extensionPointsContextMenuPosition.x}
@@ -685,22 +646,9 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             {isExtensionPointFiltered(selectedExtensionPointForFilter) ? (
-              <Menu.Item
-                label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                  extensionPointsName,
-                })}
-                onClick={handleRemoveExtensionPointFilter}
-                icon="times"
-              />
+              <Menu.Item label="Remove filter" onClick={handleRemoveExtensionPointFilter} icon="times" />
             ) : (
-              <Menu.Item
-                label={t(
-                  'extensions.dependency-graph.filter-by-this-extension-point',
-                  'Filter by this extension point'
-                )}
-                onClick={handleFilterOnExtensionPoint}
-                icon="filter"
-              />
+              <Menu.Item label="Filter by this extension point" onClick={handleFilterOnExtensionPoint} icon="filter" />
             )}
           </>
         )}
@@ -718,17 +666,6 @@ export function ExtensionRenderer({
       return null;
     }
 
-    // Shorten the extension point ID for display
-    const getShortExtensionPointName = (fullId: string): string => {
-      const parts = fullId.split('/');
-      if (parts.length >= 2) {
-        return `${parts[0]}/${parts[parts.length - 1]}`;
-      }
-      return fullId;
-    };
-
-    const extensionPointsName = getShortExtensionPointName(extension.targetExtensionPoint);
-
     return (
       <ContextMenu
         x={0}
@@ -737,22 +674,9 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             {isExtensionFiltered(selectedExtensionId) ? (
-              <Menu.Item
-                label={t('extensions.dependency-graph.remove-filter', 'Remove filter', {
-                  extensionPointsName,
-                })}
-                onClick={handleRemoveExtensionFilter}
-                icon="times"
-              />
+              <Menu.Item label="Remove filter" onClick={handleRemoveExtensionFilter} icon="times" />
             ) : (
-              <Menu.Item
-                label={t(
-                  'extensions.dependency-graph.filter-by-this-extension-point',
-                  'Filter by this extension point'
-                )}
-                onClick={handleFilterOnExtensionPoint}
-                icon="filter"
-              />
+              <Menu.Item label="Filter by this extension point" onClick={handleFilterOnExtensionPoint} icon="filter" />
             )}
           </>
         )}
@@ -1071,7 +995,7 @@ export function ExtensionRenderer({
                         fill={theme.colors.text.secondary}
                         fontSize={TYPOGRAPHY_CONSTANTS.EXTENSION_LABEL_SIZE}
                       >
-                        <Trans i18nKey="dependency-graph.app-version">{polishVersion(consumerNode.version)}</Trans>
+                        {polishVersion(consumerNode.version)}
                       </text>
                     )}
                   </g>
@@ -1536,15 +1460,11 @@ export function ExtensionRenderer({
                             zIndex: 1000,
                           }}
                         >
-                          {type === 'function' ? (
-                            <Trans i18nKey="extensions.dependency-graph.function-extensions">Function extensions</Trans>
-                          ) : type === 'component' ? (
-                            <Trans i18nKey="extensions.dependency-graph.component-extensions">
-                              Component extensions
-                            </Trans>
-                          ) : (
-                            <Trans i18nKey="extensions.dependency-graph.link-extensions">Link extensions</Trans>
-                          )}
+                          {type === 'function'
+                            ? 'Function extensions'
+                            : type === 'component'
+                              ? 'Component extensions'
+                              : 'Link extensions'}
                         </text>
                       )}
 
