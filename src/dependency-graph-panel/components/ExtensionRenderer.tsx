@@ -22,8 +22,10 @@ import { GrafanaTheme2 } from '@grafana/data';
 import { PositionInfo } from './GraphLayout';
 import { dependencyGraphTestIds } from '../../components/testIds';
 import { getPluginData } from '../utils/helpers/dataAccess';
-import { locationService } from '@grafana/runtime';
+import { locationService, reportInteraction } from '@grafana/runtime';
 import semver from 'semver';
+
+import { PLUGIN_ID } from '../../constants';
 
 /**
  * Polishes version strings by removing build metadata and pre-release identifiers
@@ -184,6 +186,12 @@ export function ExtensionRenderer({
 
   const handleHighlightArrowsToContentConsumer = () => {
     if (selectedContentConsumerId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_consumer',
+        action: 'highlight_connections',
+        consumerId: selectedContentConsumerId,
+      });
       onContentConsumerClick(selectedContentConsumerId);
     }
     handleContentConsumerContextMenuClose();
@@ -191,6 +199,12 @@ export function ExtensionRenderer({
 
   const handleFilterOnContentConsumer = () => {
     if (selectedContentConsumerId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_consumer',
+        action: 'filter_by_consumer',
+        consumerId: selectedContentConsumerId,
+      });
       // Update URL parameter to filter on content consumer
       const currentUrl = new URL(window.location.href);
       currentUrl.searchParams.set('contentConsumers', selectedContentConsumerId);
@@ -201,6 +215,12 @@ export function ExtensionRenderer({
 
   const handleRemoveContentConsumerFilter = () => {
     if (selectedContentConsumerId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_consumer',
+        action: 'remove_filter',
+        consumerId: selectedContentConsumerId,
+      });
       // Remove the content consumer from URL parameters
       const currentUrl = new URL(window.location.href);
       const currentConsumers = currentUrl.searchParams.get('contentConsumers')?.split(',').filter(Boolean) || [];
@@ -266,6 +286,12 @@ export function ExtensionRenderer({
 
   const handleHighlightArrowsToContentProvider = () => {
     if (selectedContentProviderId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_provider',
+        action: 'highlight_connections',
+        providerId: selectedContentProviderId,
+      });
       onContentProviderClick(selectedContentProviderId);
     }
     handleContentProviderContextMenuClose();
@@ -273,6 +299,12 @@ export function ExtensionRenderer({
 
   const handleFilterOnContentProvider = () => {
     if (selectedContentProviderId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_provider',
+        action: 'filter_by_provider',
+        providerId: selectedContentProviderId,
+      });
       // Update URL parameter to filter on content provider
       const currentUrl = new URL(window.location.href);
       currentUrl.searchParams.set('contentProviders', selectedContentProviderId);
@@ -283,6 +315,12 @@ export function ExtensionRenderer({
 
   const handleRemoveContentProviderFilter = () => {
     if (selectedContentProviderId) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'content_provider',
+        action: 'remove_filter',
+        providerId: selectedContentProviderId,
+      });
       // Remove the content provider from URL parameters
       const currentUrl = new URL(window.location.href);
       const currentProviders = currentUrl.searchParams.get('contentProviders')?.split(',').filter(Boolean) || [];
@@ -348,6 +386,12 @@ export function ExtensionRenderer({
 
   const handleFilterOnExtensionPoint = () => {
     if (selectedExtensionPointForFilter) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'extension_point',
+        action: 'filter_by_extension_point',
+        extensionPointId: selectedExtensionPointForFilter,
+      });
       // Update URL parameter to filter on extension point
       const currentUrl = new URL(window.location.href);
       currentUrl.searchParams.set('extensionPoints', selectedExtensionPointForFilter);
@@ -358,6 +402,12 @@ export function ExtensionRenderer({
 
   const handleRemoveExtensionPointFilter = () => {
     if (selectedExtensionPointForFilter) {
+      reportInteraction('extensions_dependencygraph_context_menu_click', {
+        pluginId: PLUGIN_ID,
+        menuType: 'extension_point',
+        action: 'remove_filter',
+        extensionPointId: selectedExtensionPointForFilter,
+      });
       // Remove the extension point from URL parameters
       const currentUrl = new URL(window.location.href);
       const currentExtensionPoints = currentUrl.searchParams.get('extensionPoints')?.split(',').filter(Boolean) || [];
@@ -518,12 +568,28 @@ export function ExtensionRenderer({
           <>
             <Menu.Item
               label="Show extensions using this point"
-              onClick={handleNavigateToExtensionPoint}
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'extension',
+                  action: 'navigate_to_extension_point',
+                  extensionId: selectedExtensionPointId,
+                });
+                handleNavigateToExtensionPoint();
+              }}
               icon="external-link-alt"
             />
             <Menu.Item
               label="Highlight extension point connections"
-              onClick={handleHighlightArrows}
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'extension',
+                  action: 'highlight_connections',
+                  extensionId: selectedExtensionPointId,
+                });
+                handleHighlightArrows();
+              }}
               icon="arrow-right"
             />
           </>
@@ -548,7 +614,15 @@ export function ExtensionRenderer({
           <>
             <Menu.Item
               label={`Highlight ${appName} connections`}
-              onClick={handleHighlightArrowsToContentConsumer}
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'content_consumer',
+                  action: 'highlight_connections',
+                  consumerId: selectedContentConsumerId,
+                });
+                handleHighlightArrowsToContentConsumer();
+              }}
               icon="arrow-right"
             />
             {!isExtensionPointMode && (
@@ -556,13 +630,29 @@ export function ExtensionRenderer({
                 {isContentConsumerFiltered(selectedContentConsumerId) ? (
                   <Menu.Item
                     label="Remove filter"
-                    onClick={handleRemoveContentConsumerFilter}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_consumer',
+                        action: 'remove_filter',
+                        consumerId: selectedContentConsumerId,
+                      });
+                      handleRemoveContentConsumerFilter();
+                    }}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
                     label={`Filter by ${appName}`}
-                    onClick={handleFilterOnContentConsumer}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_consumer',
+                        action: 'filter_by_consumer',
+                        consumerId: selectedContentConsumerId,
+                      });
+                      handleFilterOnContentConsumer();
+                    }}
                     icon="filter"
                   />
                 )}
@@ -590,7 +680,15 @@ export function ExtensionRenderer({
           <>
             <Menu.Item
               label={`Highlight ${appName} connections`}
-              onClick={handleHighlightArrowsToContentProvider}
+              onClick={() => {
+                reportInteraction('extensions_dependencygraph_context_menu_click', {
+                  pluginId: PLUGIN_ID,
+                  menuType: 'content_provider',
+                  action: 'highlight_connections',
+                  providerId: selectedContentProviderId,
+                });
+                handleHighlightArrowsToContentProvider();
+              }}
               icon="arrow-right"
             />
             {!isExtensionPointMode && (
@@ -598,13 +696,29 @@ export function ExtensionRenderer({
                 {isContentProviderFiltered(selectedContentProviderId) ? (
                   <Menu.Item
                     label="Remove filter"
-                    onClick={handleRemoveContentProviderFilter}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_provider',
+                        action: 'remove_filter',
+                        providerId: selectedContentProviderId,
+                      });
+                      handleRemoveContentProviderFilter();
+                    }}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
                     label={`Filter by ${appName}`}
-                    onClick={handleFilterOnContentProvider}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_provider',
+                        action: 'filter_by_provider',
+                        providerId: selectedContentProviderId,
+                      });
+                      handleFilterOnContentProvider();
+                    }}
                     icon="filter"
                   />
                 )}
@@ -615,13 +729,29 @@ export function ExtensionRenderer({
                 {isContentProviderFiltered(selectedContentProviderId) ? (
                   <Menu.Item
                     label="Remove filter"
-                    onClick={handleRemoveContentProviderFilter}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_provider',
+                        action: 'remove_filter',
+                        providerId: selectedContentProviderId,
+                      });
+                      handleRemoveContentProviderFilter();
+                    }}
                     icon="times"
                   />
                 ) : (
                   <Menu.Item
                     label={`Filter by ${appName}`}
-                    onClick={handleFilterOnContentProvider}
+                    onClick={() => {
+                      reportInteraction('extensions_dependencygraph_context_menu_click', {
+                        pluginId: PLUGIN_ID,
+                        menuType: 'content_provider',
+                        action: 'filter_by_provider',
+                        providerId: selectedContentProviderId,
+                      });
+                      handleFilterOnContentProvider();
+                    }}
                     icon="filter"
                   />
                 )}
@@ -646,9 +776,33 @@ export function ExtensionRenderer({
         renderMenuItems={() => (
           <>
             {isExtensionPointFiltered(selectedExtensionPointForFilter) ? (
-              <Menu.Item label="Remove filter" onClick={handleRemoveExtensionPointFilter} icon="times" />
+              <Menu.Item
+                label="Remove filter"
+                onClick={() => {
+                  reportInteraction('extensions_dependencygraph_context_menu_click', {
+                    pluginId: PLUGIN_ID,
+                    menuType: 'extension_point',
+                    action: 'remove_filter',
+                    extensionPointId: selectedExtensionPointForFilter,
+                  });
+                  handleRemoveExtensionPointFilter();
+                }}
+                icon="times"
+              />
             ) : (
-              <Menu.Item label="Filter by this extension point" onClick={handleFilterOnExtensionPoint} icon="filter" />
+              <Menu.Item
+                label="Filter by this extension point"
+                onClick={() => {
+                  reportInteraction('extensions_dependencygraph_context_menu_click', {
+                    pluginId: PLUGIN_ID,
+                    menuType: 'extension_point',
+                    action: 'filter_by_extension_point',
+                    extensionPointId: selectedExtensionPointForFilter,
+                  });
+                  handleFilterOnExtensionPoint();
+                }}
+                icon="filter"
+              />
             )}
           </>
         )}
@@ -1463,8 +1617,8 @@ export function ExtensionRenderer({
                           {type === 'function'
                             ? 'Function extensions'
                             : type === 'component'
-                              ? 'Component extensions'
-                              : 'Link extensions'}
+                            ? 'Component extensions'
+                            : 'Link extensions'}
                         </text>
                       )}
 
