@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
   "name": "Extensions DevTools",
-  "id": "grafana-extensionsdevtools-app",
+  "id": "grafana-extensionsdependencygraph-app",
   "info": {
     "keywords": ["app", "extensions", "devtools", "developer-tools", "plugin-development"],
     "description": "Developer tools for plugin authors working with Grafana's plugin extensions system. Visualize and explore extension points, extensions, and plugin relationships in your development workflow.",
