@@ -1,8 +1,8 @@
-# E2E Tests for Extensions DevTools App
+# E2E Tests for Extensions Dependency Graph App
 
 ## Overview
 
-This directory contains end-to-end tests for the Extensions DevTools App, with a focus on testing the dependency graph functionality using mocked data and Playwright.
+This directory contains end-to-end tests for the Extensions Dependency Graph App, with a focus on testing the dependency graph functionality using mocked data and Playwright.
 
 ## Test Files
 

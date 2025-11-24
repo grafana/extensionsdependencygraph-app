@@ -1,10 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
-  "name": "Extensions DevTools",
+  "name": "Extensions Dependency Graph",
   "id": "grafana-extensionsdependencygraph-app",
   "info": {
-    "keywords": ["app", "extensions", "devtools", "developer-tools", "plugin-development"],
+    "keywords": ["app", "extensions", "plugin-development"],
     "description": "Developer tools for plugin authors working with Grafana's plugin extensions system. Visualize and explore extension points, extensions, and plugin relationships in your development workflow.",
     "author": {
       "name": "Grafana"
@@ -52,22 +52,7 @@
       "path": "dependency-graph/dependency-graph-panel"
     }
   ],
-  "extensions": {
-    "addedComponents": [
-      {
-        "targets": ["grafana/extension-sidebar/v0-alpha"],
-        "description": "Opens Plugin Extensions DevTools",
-        "title": "Plugin Extensions DevTools"
-      }
-    ],
-    "addedLinks": [
-      {
-        "targets": ["grafana/extension-sidebar/v0-alpha"],
-        "description": "Opens Plugin Extensions DevTools",
-        "title": "Plugin Extensions DevTools"
-      }
-    ]
-  },
+  "extensions": {},
   "dependencies": {
     "grafanaDependency": ">=10.4.0",
     "plugins": []

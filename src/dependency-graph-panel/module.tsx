@@ -3,7 +3,7 @@
  *
  * # Plugin Dependency Graph Panel
  *
- * A runtime panel plugin for the Extensions DevTools app that visualizes dependencies
+ * A runtime panel plugin for the Extensions Dependency Graph app that visualizes dependencies
  * between Grafana plugins, specifically focusing on extension relationships.
  *
  * ## Features
