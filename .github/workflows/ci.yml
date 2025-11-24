@@ -201,7 +201,7 @@ jobs:
         uses: grafana/plugin-actions/playwright-gh-pages/upload-report-artifacts@main # zizmor: ignore[unpinned-uses] provided by grafana
         if: ${{ always() && !cancelled() }}
         with:
-          upload-report: false
+          upload-report: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           test-outcome: ${{ steps.run-tests.outcome }}
 
@@ -236,6 +236,6 @@ jobs:
           # required for playwright-gh-pages
           persist-credentials: true
       - name: Publish report
-        uses: grafana/plugin-actions/playwright-gh-pages/deploy-report-pages@main # zizmor: ignore[unpinned-uses] provided by grafana
+        uses: grafana/plugin-actions/playwright-gh-pages/deploy-report-pages@deploy-report-pages/v1.1.0 # zizmor: ignore[unpinned-uses] provided by grafana
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 
 import { InlineField, MultiCombobox } from '@grafana/ui';
+import { reportInteraction } from '@grafana/runtime';
 
 import { dependencyGraphTestIds } from '../testIds';
+import { PLUGIN_ID } from '../../constants';
 
 interface ContentProviderSelectorProps {
   availableProviders: string[];
@@ -22,6 +24,14 @@ export function ContentProviderSelector({
     (selected: Array<{ value?: string }>) => {
       const selectedValues = selected.map((item) => item.value).filter((v): v is string => Boolean(v));
       const newValue = selectedValues.length === availableProviders.length ? [] : selectedValues;
+
+      reportInteraction('extensions_dependencygraph_filter_usage', {
+        pluginId: PLUGIN_ID,
+        filterType: 'content_provider',
+        selectedCount: newValue.length,
+        selectedProviders: newValue,
+      });
+
       onProviderChange(newValue.map((value) => ({ value })));
     },
     [availableProviders.length, onProviderChange]
