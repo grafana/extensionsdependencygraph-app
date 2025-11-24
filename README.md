@@ -1,4 +1,4 @@
-# Extensions DevTools
+# Extensions Dependency Graph
 
 Developer tools for plugin authors working with Grafana's [plugin extensions system](https://grafana.com/developers/plugin-tools/ui-extensions). This app helps you visualize, explore, and debug extension relationships during plugin development.
 
