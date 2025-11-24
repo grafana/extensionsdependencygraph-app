@@ -149,8 +149,8 @@ test.describe('Added Functions View', () => {
         .getByText(/Exposed components/i)
         .click();
 
-      // Verify filters are cleared
-      await page.waitForFunction(() => new URL(window.location.href).searchParams.get('view') === 'exposedComponents');
+      // Verify filters are cleared (use toHaveURL which is faster than waitForFunction)
+      await expect(page).toHaveURL(/view=exposedComponents/);
       assertUrlParamAbsent(page, 'contentConsumers');
       assertUrlParamAbsent(page, 'contentProviders');
     });

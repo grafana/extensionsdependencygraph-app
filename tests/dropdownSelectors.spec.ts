@@ -56,11 +56,11 @@ test.describe('Dropdown Selector Interactions', () => {
         });
         const { page } = depGraphPageWithMockApps.ctx;
 
-        // Verify URL parameter contains both providers
-        await page.waitForFunction(() => {
-          const params = new URL(window.location.href).searchParams.get('contentProviders');
-          return params?.includes('grafana-lokiexplore-app') && params?.includes('grafana-assistant-app');
-        });
+        // Verify URL parameter contains both providers (check directly after navigation)
+        const url = new URL(page.url());
+        const params = url.searchParams.get('contentProviders');
+        expect(params).toContain('grafana-lokiexplore-app');
+        expect(params).toContain('grafana-assistant-app');
 
         // Verify both boxes are shown
         const providerBoxes = page.getByTestId(/^content-provider-box-/);
