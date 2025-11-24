@@ -23,6 +23,8 @@ export default defineConfig<PluginOptions>({
   retries: process.env.CI ? 2 : 0,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  /* Timeout settings - increased for CI environments */
+  timeout: process.env.CI ? 60000 : 30000, // 60s in CI, 30s locally
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
