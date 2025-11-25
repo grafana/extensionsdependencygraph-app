@@ -1,4 +1,5 @@
-import { EXPECTED_COUNTS, assertUrlParam, waitForUrlParam, waitForUrlParamRemoved } from './helpers';
+import * as semver from 'semver';
+import { EXPECTED_COUNTS, waitForUrlParam, waitForUrlParamRemoved } from './helpers';
 import { clickSvg, expect, test } from './fixtures';
 import { dependencyGraphTestIdPrefixes, dependencyGraphTestIds } from '../src/components/testIds';
 
@@ -7,8 +8,9 @@ test.describe('Extension Point View', () => {
     await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=extensionpoint' });
   });
 
-  test('shows all required selectors', async ({ depGraphPageWithMockApps }) => {
+  test('shows all required selectors', async ({ depGraphPageWithMockApps, grafanaVersion }) => {
     const { page } = depGraphPageWithMockApps.ctx;
+    test.skip(semver.lt(grafanaVersion, '12.2.0'), 'Combobox not reliably testable before Grafana 12.2');
 
     await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
     await expect(page.getByTestId(dependencyGraphTestIds.contentProviderSelector)).toBeVisible();
