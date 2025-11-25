@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import {
   EXPECTED_COUNTS,
   assertUrlParam,
@@ -14,7 +15,8 @@ test.describe('Added Components View', () => {
     await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedcomponents' });
   });
 
-  test('shows correct selectors', async ({ depGraphPageWithMockApps }) => {
+  test('shows correct selectors', async ({ depGraphPageWithMockApps, grafanaVersion }) => {
+    test.skip(semver.lt(grafanaVersion, '12.2.0'), 'Combobox not reliably testable before Grafana 12.2');
     const { page } = depGraphPageWithMockApps.ctx;
 
     await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
@@ -60,16 +62,25 @@ test.describe('Added Components View', () => {
       test('removes provider filter via context menu', async ({ depGraphPageWithMockApps }) => {
         const { page } = depGraphPageWithMockApps.ctx;
         const providerBoxes = page.getByTestId(new RegExp(`^${dependencyGraphTestIdPrefixes.contentProviderBox}`));
+
+        // Wait for boxes to be visible and get a valid provider ID
+        await expect(providerBoxes.first()).toBeVisible();
         const firstProviderTestId = (await providerBoxes.first().getAttribute('data-testid'))!;
         const providerId = extractPluginIdFromTestId(
           firstProviderTestId,
           dependencyGraphTestIdPrefixes.contentProviderBox
         );
 
-        // Navigate to filtered view
+        // Navigate to filtered view with timeout and wait for load state
         await depGraphPageWithMockApps.goto({
           path: `dependency-graph?view=addedcomponents&contentProviders=${providerId}`,
         });
+
+        // Wait for the page to be ready - check for a key element
+        await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
+
+        // Wait for the filtered provider box to be visible before proceeding
+        await expect(page.getByTestId(dependencyGraphTestIds.contentProviderBox(providerId))).toBeVisible();
 
         // Remove filter
         await page.getByTestId(dependencyGraphTestIds.contentProviderBox(providerId)).click();
@@ -79,6 +90,9 @@ test.describe('Added Components View', () => {
 
         // Re-navigate to ensure proper view state
         await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedcomponents' });
+
+        // Wait for all provider boxes to be visible
+        await expect(providerBoxes.first()).toBeVisible();
         await expect(providerBoxes).toHaveCount(EXPECTED_COUNTS.addedComponents.providers);
       });
     });
@@ -104,6 +118,9 @@ test.describe('Added Components View', () => {
         await depGraphPageWithMockApps.goto({
           path: `dependency-graph?view=addedcomponents&contentConsumers=${consumerId}`,
         });
+
+        // Wait for the page to be ready
+        await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
         await waitForUrlParam(page, 'contentConsumers', consumerId);
 
         // Verify filter is applied
@@ -125,6 +142,10 @@ test.describe('Added Components View', () => {
         await depGraphPageWithMockApps.goto({
           path: `dependency-graph?view=addedcomponents&contentConsumers=${consumerId}`,
         });
+
+        // Wait for the page to be ready
+        await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
+        await expect(page.getByTestId(dependencyGraphTestIds.contentConsumerBox(consumerId))).toBeVisible();
 
         // Remove filter
         await clickSvg(page.getByTestId(dependencyGraphTestIds.contentConsumerBox(consumerId)));
@@ -155,8 +176,8 @@ test.describe('Added Components View', () => {
         .getByText(/Exposed components/i)
         .click();
 
-      // Verify filters are cleared
-      await page.waitForFunction(() => new URL(window.location.href).searchParams.get('view') === 'exposedComponents');
+      // Verify filters are cleared (use toHaveURL which is faster than waitForFunction)
+      await expect(page).toHaveURL(/view=exposedComponents/);
       assertUrlParamAbsent(page, 'contentConsumers');
       assertUrlParamAbsent(page, 'contentProviders');
     });

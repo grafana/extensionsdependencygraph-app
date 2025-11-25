@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import { EXPECTED_COUNTS, waitForUrlParam } from './helpers';
 import { expect, test } from './fixtures';
 
@@ -11,6 +12,9 @@ import { dependencyGraphTestIds } from '../src/components/testIds';
  * interactions difficult to test reliably in E2E tests.
  */
 test.describe('Dropdown Selector Interactions', () => {
+  test.beforeEach(async ({ grafanaVersion }) => {
+    test.skip(semver.lt(grafanaVersion, '12.2.0'), 'Combobox not reliably testable before Grafana 12.2');
+  });
   test.describe('Content Provider Selector', () => {
     test.describe('in Added Links view', () => {
       test.beforeEach(async ({ depGraphPageWithMockApps }) => {
@@ -56,11 +60,11 @@ test.describe('Dropdown Selector Interactions', () => {
         });
         const { page } = depGraphPageWithMockApps.ctx;
 
-        // Verify URL parameter contains both providers
-        await page.waitForFunction(() => {
-          const params = new URL(window.location.href).searchParams.get('contentProviders');
-          return params?.includes('grafana-lokiexplore-app') && params?.includes('grafana-assistant-app');
-        });
+        // Verify URL parameter contains both providers (check directly after navigation)
+        const url = new URL(page.url());
+        const params = url.searchParams.get('contentProviders');
+        expect(params).toContain('grafana-lokiexplore-app');
+        expect(params).toContain('grafana-assistant-app');
 
         // Verify both boxes are shown
         const providerBoxes = page.getByTestId(/^content-provider-box-/);
