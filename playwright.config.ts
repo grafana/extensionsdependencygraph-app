@@ -21,7 +21,7 @@ export default defineConfig<PluginOptions>({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   // retries: process.env.CI ? 2 : 0,
-  retries: 0,
+  retries: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Timeout settings - increased for CI environments */
@@ -32,7 +32,7 @@ export default defineConfig<PluginOptions>({
     baseURL: process.env.GRAFANA_URL || 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
