@@ -12,8 +12,8 @@ on:
         required: true
         type: choice
         options:
-          - 'dev'
-          #- 'ops'
+          - "dev"
+          #- "ops"
       docs-only:
         description: Only publish docs, do not publish the plugin
         default: false
@@ -38,7 +38,7 @@ jobs:
 
       # Argo inputs
       trigger-argo: ${{ github.event.inputs.branch == 'main' }}
-      argo-workflow-slack-channel: '#grafana-plugins-platform-ci'
+      argo-workflow-slack-channel: "#grafana-plugins-platform-ci"
 
       # CI inputs
       run-playwright: true

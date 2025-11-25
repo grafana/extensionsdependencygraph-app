@@ -28,7 +28,7 @@ jobs:
 
       # Argo inputs
       grafana-cloud-deployment-type: provisioned
-      argo-workflow-slack-channel: '#grafana-plugins-platform-ci'
+      argo-workflow-slack-channel: "#grafana-plugins-platform-ci"
       auto-merge-environments: dev
 
       # Add the git head ref sha to the plugin version as suffix (`+abcdef`). This is required for CD builds.
