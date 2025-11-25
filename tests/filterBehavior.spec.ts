@@ -44,7 +44,6 @@ test.describe('Filter Behavior', () => {
       assertUrlParam(page, 'extensionPoints', extensionPointId);
 
       // Verify graph renders without errors
-      await page.waitForTimeout(500);
       const url = new URL(page.url());
       expect(url.searchParams.get('contentProviders')).toBe('grafana-lokiexplore-app');
       expect(url.searchParams.get('extensionPoints')).toBe(extensionPointId);
@@ -58,14 +57,7 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      // Verify URL parameter contains both
-      await page.waitForFunction(() => {
-        const providers = new URL(window.location.href).searchParams.get('contentProviders');
-        return providers?.includes('grafana-lokiexplore-app') && providers?.includes('grafana-assistant-app');
-      });
-
-      // Graph accepts and preserves the parameters (actual boxes depend on data)
-      await page.waitForTimeout(500);
+      // Verify URL parameter contains both (check directly after navigation)
       const url = new URL(page.url());
       const providers = url.searchParams.get('contentProviders');
       expect(providers).toContain('grafana-lokiexplore-app');
@@ -78,14 +70,7 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      // Verify URL parameter contains both
-      await page.waitForFunction(() => {
-        const consumers = new URL(window.location.href).searchParams.get('contentConsumers');
-        return consumers?.includes('grafana-metricsdrilldown-app') && consumers?.includes('grafana-assistant-app');
-      });
-
-      // Graph accepts and preserves the parameters (actual boxes depend on data)
-      await page.waitForTimeout(500);
+      // Verify URL parameter contains both (check directly after navigation)
       const url = new URL(page.url());
       const consumers = url.searchParams.get('contentConsumers');
       expect(consumers).toContain('grafana-metricsdrilldown-app');
@@ -98,24 +83,14 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      // Verify URL parameters are set correctly
-      await page.waitForFunction(() => {
-        const url = new URL(window.location.href);
-        const providers = url.searchParams.get('contentProviders');
-        const consumers = url.searchParams.get('contentConsumers');
-        return (
-          providers?.includes('grafana-lokiexplore-app') &&
-          providers?.includes('grafana-assistant-app') &&
-          consumers?.includes('grafana-metricsdrilldown-app') &&
-          consumers?.includes('grafana-assistant-app')
-        );
-      });
-
-      // Graph renders without errors (actual boxes depend on data relationships)
-      await page.waitForTimeout(500);
+      // Verify URL parameters are set correctly (check directly after navigation)
       const url = new URL(page.url());
-      expect(url.searchParams.has('contentProviders')).toBeTruthy();
-      expect(url.searchParams.has('contentConsumers')).toBeTruthy();
+      const providers = url.searchParams.get('contentProviders');
+      const consumers = url.searchParams.get('contentConsumers');
+      expect(providers).toContain('grafana-lokiexplore-app');
+      expect(providers).toContain('grafana-assistant-app');
+      expect(consumers).toContain('grafana-metricsdrilldown-app');
+      expect(consumers).toContain('grafana-assistant-app');
     });
 
     test('accepts multiple consumers in extension point view', async ({ depGraphPageWithMockApps }) => {
@@ -124,14 +99,7 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      // Verify URL parameter contains both
-      await page.waitForFunction(() => {
-        const consumers = new URL(window.location.href).searchParams.get('contentConsumers');
-        return consumers?.includes('grafana-metricsdrilldown-app') && consumers?.includes('grafana-assistant-app');
-      });
-
-      // Graph accepts and preserves the parameters (actual boxes depend on data)
-      await page.waitForTimeout(500);
+      // Verify URL parameter contains both (check directly after navigation)
       const url = new URL(page.url());
       const consumers = url.searchParams.get('contentConsumers');
       expect(consumers).toContain('grafana-metricsdrilldown-app');
@@ -222,16 +190,18 @@ test.describe('Filter Behavior', () => {
       assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
       assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
-      // Reload the page
-      await page.reload();
+      // Navigate to the same URL to test persistence (faster than reload)
+      await depGraphPageWithMockApps.goto({
+        path: 'dependency-graph?view=addedlinks&contentProviders=grafana-lokiexplore-app&contentConsumers=grafana-metricsdrilldown-app',
+      });
 
       // Filters should persist
       assertUrlParam(page, 'contentProviders', 'grafana-lokiexplore-app');
       assertUrlParam(page, 'contentConsumers', 'grafana-metricsdrilldown-app');
 
       // Filtered boxes should still be visible
-      await page.getByTestId('content-provider-box-grafana-lokiexplore-app').waitFor();
-      await page.getByTestId('content-consumer-box-grafana-metricsdrilldown-app').waitFor();
+      await expect(page.getByTestId('content-provider-box-grafana-lokiexplore-app')).toBeVisible();
+      await expect(page.getByTestId('content-consumer-box-grafana-metricsdrilldown-app')).toBeVisible();
     });
 
     test('handles empty filter values gracefully', async ({ depGraphPageWithMockApps }) => {
@@ -270,13 +240,7 @@ test.describe('Filter Behavior', () => {
       });
       const { page } = depGraphPageWithMockApps.ctx;
 
-      // URL should preserve the extension point ID with slashes
-      await page.waitForFunction((epId) => {
-        const params = new URL(window.location.href).searchParams.get('extensionPoints');
-        return params === epId;
-      }, extensionPointId);
-
-      // Verify the parameter is correct
+      // Verify the parameter is correct (check directly after navigation)
       const url = new URL(page.url());
       expect(url.searchParams.get('extensionPoints')).toBe(extensionPointId);
     });

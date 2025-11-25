@@ -1,7 +1,19 @@
 import { defineConfig } from 'eslint/config';
 import baseConfig from './.config/eslint.config.mjs';
+import grafanaPlugins from '@grafana/eslint-plugin-plugins';
 
 export default defineConfig([
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    plugins: { '@grafana/plugins': grafanaPlugins },
+    rules: {
+      '@grafana/plugins/import-is-compatible': [
+        'warn',
+        // optionally pass the minimum supported version
+        // { minGrafanaVersion: '10.3.0' },
+      ],
+    },
+  },
   {
     ignores: [
       '**/logs',
