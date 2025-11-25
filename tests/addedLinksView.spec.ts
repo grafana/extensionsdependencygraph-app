@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import {
   EXPECTED_COUNTS,
   assertUrlParam,
@@ -14,7 +15,8 @@ test.describe('Added Links View', () => {
     await depGraphPageWithMockApps.goto({ path: 'dependency-graph?view=addedlinks' });
   });
 
-  test('shows correct selectors', async ({ depGraphPageWithMockApps }) => {
+  test('shows correct selectors', async ({ depGraphPageWithMockApps, grafanaVersion }) => {
+    test.skip(semver.lt(grafanaVersion, '12.2.0'), 'Combobox not reliably testable before Grafana 12.2');
     const { page } = depGraphPageWithMockApps.ctx;
 
     await expect(page.getByTestId(dependencyGraphTestIds.visualizationModeSelector)).toBeVisible();
