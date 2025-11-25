@@ -5,7 +5,7 @@
   "id": "grafana-extensionsdependencygraph-app",
   "info": {
     "keywords": ["app", "extensions", "plugin-development"],
-    "description": "Developer tools for plugin authors working with Grafana's plugin extensions system. Visualize and explore extension points, extensions, and plugin relationships in your development workflow.",
+    "description": "The graph visualizes how the installed plugins depend on one another through the Plugin Extensions framework.",
     "author": {
       "name": "Grafana"
     },
