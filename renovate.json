@@ -1,5 +1,4 @@
 {
-  "ignorePresets": ["github>grafana/grafana-renovate-config//presets/automerge"],
   "schedule": ["before 6am on the first day of the week"],
   "extends": [
     "config:best-practices",
