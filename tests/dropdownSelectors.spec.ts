@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import { EXPECTED_COUNTS, waitForUrlParam } from './helpers';
 import { expect, test } from './fixtures';
 
@@ -11,6 +12,9 @@ import { dependencyGraphTestIds } from '../src/components/testIds';
  * interactions difficult to test reliably in E2E tests.
  */
 test.describe('Dropdown Selector Interactions', () => {
+  test.beforeEach(async ({ grafanaVersion }) => {
+    test.skip(semver.lt(grafanaVersion, '12.2.0'), 'Combobox not reliably testable before Grafana 12.2');
+  });
   test.describe('Content Provider Selector', () => {
     test.describe('in Added Links view', () => {
       test.beforeEach(async ({ depGraphPageWithMockApps }) => {
