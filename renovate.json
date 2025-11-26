@@ -16,10 +16,10 @@
       "automerge": true
     },
     {
-      "groupName": "Grafana packages - minors",
+      "groupName": "Grafana packages",
       "matchPackageNames": ["/^@grafana//"],
       "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": ["minor", "major"],
       "excludePackageNames": ["@grafana/plugin-e2e"]
     },
     {
