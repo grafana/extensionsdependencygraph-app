@@ -1,10 +1,5 @@
 {
-  "schedule": ["before 6am on the first day of the week"],
-  "extends": [
-    "config:best-practices",
-    ":disableDependencyDashboard",
-    ":preserveSemverRanges"
-  ],
+  "extends": ["github>grafana/grafana-community-team//renovate/renovate"],
   "packageRules": [
     {
       "groupName": "Grafana packages - patches and minors",
