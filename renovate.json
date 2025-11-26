@@ -1,5 +1,10 @@
 {
   "extends": ["github>grafana/grafana-community-team//renovate/renovate"],
+  "ignorePresets": [
+    "github>grafana/grafana-renovate-config//presets/yarn",
+    "github>grafana/grafana-renovate-config//presets/npm",
+    "github>grafana/grafana-renovate-config//presets/automerge"
+  ],
   "packageRules": [
     {
       "groupName": "Grafana packages - patches and minors",
@@ -38,10 +43,6 @@
     }
   ],
   "ignorePaths": [".config/**"],
-  "github-actions": { "enabled": true, "groupName": "GitHub Actions" },
   "commitMessagePrefix": "chore(deps): ",
-  "minimumReleaseAge": "14 days",
-  "rebaseWhen": "behind-base-branch",
-  "rangeStrategy": "bump",
-  "branchPrefix": "renovate/"
+  "rangeStrategy": "bump"
 }
