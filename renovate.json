@@ -8,70 +8,39 @@
   ],
   "packageRules": [
     {
-      "groupName": "Grafana packages - patches",
+      "groupName": "Grafana packages - patches and minors",
       "matchPackageNames": ["/^@grafana//"],
       "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["patch", "minor"],
       "excludePackageNames": ["@grafana/plugin-e2e"],
       "automerge": true
     },
     {
-      "groupName": "Grafana packages",
+      "groupName": "Grafana packages - majors",
       "matchPackageNames": ["/^@grafana//"],
       "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchUpdateTypes": ["major"],
       "excludePackageNames": ["@grafana/plugin-e2e"]
     },
     {
       "matchPackageNames": ["@grafana/plugin-e2e"],
-      "automerge": true,
       "schedule": ["before 6am"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "minimumReleaseAge": "0 days",
+      "automerge": true
+    },
+    {
+      "groupName": "Unit tests",
+      "matchPackageNames": ["/^@testing-library//", "/^jest/", "/^@types/jest$/"]
+    },
+    {
+      "groupName": "ESlint",
+      "matchPackageNames": ["@grafana/eslint-config", "/^eslint/", "/^@typescript-eslint//", "/^@stylistic//"]
+    },
+    {
+      "groupName": "React",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      "groupName": "React ecosystem",
-      "matchPackageNames": ["/^react$/", "/^react-/", "/^@types/react/"]
-    },
-    {
-      "groupName": "Testing tools",
-      "matchPackageNames": [
-        "/^jest$/",
-        "/^jest-/",
-        "/^@jest//",
-        "/^@testing-library//",
-        "/^@playwright//",
-        "/^playwright$/",
-        "/^@types/jest/",
-        "/^@types/testing-library/"
-      ]
-    },
-    {
-      "groupName": "Build tools",
-      "matchPackageNames": [
-        "/^webpack$/",
-        "/^webpack-/",
-        "/-webpack-plugin$/",
-        "/-loader$/",
-        "/^@swc//",
-        "/^swc-/",
-        "/^terser-/",
-        "/^copy-webpack-plugin$/",
-        "/^fork-ts-checker-webpack-plugin$/",
-        "/^replace-in-file-webpack-plugin$/",
-        "/^ts-node$/"
-      ]
-    },
-    {
-      "groupName": "TypeScript and linting",
-      "matchPackageNames": [
-        "/^typescript$/",
-        "/^@typescript-eslint//",
-        "/^eslint$/",
-        "/^eslint-/",
-        "/^@stylistic//",
-        "/^prettier$/",
-        "/^@types/eslint/"
-      ]
     }
   ],
   "ignorePaths": [".config/**"],
