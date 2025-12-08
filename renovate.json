@@ -1,0 +1,48 @@
+{
+  "extends": ["github>grafana/grafana-community-team//renovate/renovate"],
+  "ignorePresets": [
+    "github>grafana/grafana-renovate-config//presets/yarn",
+    "github>grafana/grafana-renovate-config//presets/npm",
+    "github>grafana/grafana-renovate-config//presets/automerge"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Grafana packages - patches and minors",
+      "matchPackageNames": ["/^@grafana//"],
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "excludePackageNames": ["@grafana/plugin-e2e"],
+      "automerge": true
+    },
+    {
+      "groupName": "Grafana packages - majors",
+      "matchPackageNames": ["/^@grafana//"],
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["major"],
+      "excludePackageNames": ["@grafana/plugin-e2e"]
+    },
+    {
+      "matchPackageNames": ["@grafana/plugin-e2e"],
+      "schedule": ["before 6am"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "minimumReleaseAge": "0 days",
+      "automerge": true
+    },
+    {
+      "groupName": "Unit tests",
+      "matchPackageNames": ["/^@testing-library//", "/^jest/", "/^@types/jest$/"]
+    },
+    {
+      "groupName": "ESlint",
+      "matchPackageNames": ["@grafana/eslint-config", "/^eslint/", "/^@typescript-eslint//", "/^@stylistic//"]
+    },
+    {
+      "groupName": "React",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchUpdateTypes": ["minor", "patch"]
+    }
+  ],
+  "ignorePaths": [".config/**"],
+  "commitMessagePrefix": "chore(deps): ",
+  "rangeStrategy": "bump"
+}
