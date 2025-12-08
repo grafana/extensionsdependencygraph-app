@@ -8,18 +8,16 @@
   "packageRules": [
     {
       "groupName": "Grafana packages - patches and minors",
-      "matchPackageNames": ["/^@grafana//"],
+      "matchPackageNames": ["/^@grafana//", "!@grafana/plugin-e2e"],
       "matchDepTypes": ["dependencies"],
       "matchUpdateTypes": ["patch", "minor"],
-      "excludePackageNames": ["@grafana/plugin-e2e"],
       "automerge": true
     },
     {
       "groupName": "Grafana packages - majors",
-      "matchPackageNames": ["/^@grafana//"],
+      "matchPackageNames": ["/^@grafana//", "!@grafana/plugin-e2e"],
       "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["major"],
-      "excludePackageNames": ["@grafana/plugin-e2e"]
+      "matchUpdateTypes": ["major"]
     },
     {
       "matchPackageNames": ["@grafana/plugin-e2e"],
@@ -30,15 +28,29 @@
     },
     {
       "groupName": "Unit tests",
-      "matchPackageNames": ["/^@testing-library//", "/^jest/", "/^@types/jest$/"]
+      "matchPackageNames": [
+        "/^@testing-library//",
+        "/^jest/",
+        "/^@types/jest$/"
+      ]
     },
     {
       "groupName": "ESlint",
-      "matchPackageNames": ["@grafana/eslint-config", "/^eslint/", "/^@typescript-eslint//", "/^@stylistic//"]
+      "matchPackageNames": [
+        "@grafana/eslint-config",
+        "/^eslint/",
+        "/^@typescript-eslint//",
+        "/^@stylistic//"
+      ]
     },
     {
       "groupName": "React",
-      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
       "matchUpdateTypes": ["minor", "patch"]
     }
   ],
