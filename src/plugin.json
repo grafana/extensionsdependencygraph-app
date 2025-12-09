@@ -4,7 +4,7 @@
   "name": "Extensions Dependency Graph",
   "id": "grafana-extensionsdependencygraph-app",
   "info": {
-    "keywords": ["app", "extensions", "plugin-development"],
+    "keywords": ["app", "extensions"],
     "description": "The graph shows how the installed plugins depend on one another through the Plugin Extensions framework. The information is derived from the extension settings specified in each plugin’s plugin.json file.",
     "author": {
       "name": "Grafana"
