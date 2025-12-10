@@ -18,31 +18,31 @@ The Dependency Graph provides an interactive visualization of your plugin ecosys
 
 Visualize plugins adding link extensions to extension points.
 
-![Added Links Mode](img/added-links.jpg)
+![Added Links Mode](https://github.com/grafana/extensionsdependencygraph-app/raw/main/src/img/added-links.jpg)
 
 #### Added Components Mode
 
 See plugins adding component extensions to extension points.
 
-![Added Components Mode](img/added-components.jpg)
+![Added Components Mode](https://github.com/grafana/extensionsdependencygraph-app/raw/main/src/img/added-components.jpg)
 
 #### Added Functions Mode
 
 Track plugins adding function extensions to extension points.
 
-![Added Functions Mode](img/added-functions.jpg)
+![Added Functions Mode](https://github.com/grafana/extensionsdependencygraph-app/raw/main/src/img/added-functions.jpg)
 
 #### Exposed Components Mode
 
 View plugins exposing components to other plugins.
 
-![Exposed Components Mode](img/exposed-components.jpg)
+![Exposed Components Mode](https://github.com/grafana/extensionsdependencygraph-app/raw/main/src/img/exposed-components.jpg)
 
 #### Extension Points Mode
 
 Detailed view of extension points and their consumers.
 
-![Extension Points Mode](img/extension-points.jpg)
+![Extension Points Mode](https://github.com/grafana/extensionsdependencygraph-app/raw/main/src/img/extension-points.jpg)
 
 ### Interactive Features
 
