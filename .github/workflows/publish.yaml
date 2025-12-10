@@ -13,7 +13,7 @@ on:
         type: choice
         options:
           - "dev"
-          #- "ops"
+          - "ops"
       docs-only:
         description: Only publish docs, do not publish the plugin
         default: false
