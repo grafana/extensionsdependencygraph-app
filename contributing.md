@@ -63,13 +63,9 @@ Additional developer tools for working with plugin extensions will be added in f
 
 # Releases
 
-## Automatic Deployments
+## Manual Deployments
 
-All pushes to the `main` branch are automatically deployed to the **dev** environment.
-
-## Manual Deployments (OPS)
-
-To deploy to OPS or other environments:
+All deployments are manual. To deploy to dev, ops, or other environments:
 
 1. Go to the [Plugins - CD workflow](https://github.com/grafana/extensionsdependencygraph-app/actions/workflows/publish.yaml)
 2. Click **"Run workflow"**
