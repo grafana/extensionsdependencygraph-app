@@ -1,4 +1,4 @@
-name: Plugins - CI / CD
+name: Plugins - CI
 
 on:
   push:
@@ -9,30 +9,16 @@ on:
 permissions: {}
 
 jobs:
-  cd:
-    name: CI / CD
-    uses: grafana/plugin-ci-workflows/.github/workflows/cd.yml@ci-cd-workflows/v4.2.0
+  ci:
+    name: CI
+    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v4.2.0
     permissions:
-      contents: write
+      contents: read
       id-token: write
-      attestations: write
     with:
-      # Checkout/build PR or main branch, depending on event
-      branch: ${{ github.event_name == 'push' && github.ref_name || github.ref }}
+      plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
 
-      # When pushing to "main", publish and deploy to Grafana Cloud (CD).
-      # For PRs, skip publishing and deploying (run CI only).
-      environment: ${{ (github.event_name == 'push' && github.ref_name == 'main') && 'dev' || 'none' }} # TODO: Change to environment(s) you want to deploy to when pushed to main
-
-      scopes: grafana_cloud
-
-      # Argo inputs
-      grafana-cloud-deployment-type: provisioned
-      argo-workflow-slack-channel: "#grafana-plugins-platform-ci"
-      
-      # Add the git head ref sha to the plugin version as suffix (`+abcdef`). This is required for CD builds.
-      plugin-version-suffix: ${{ github.event_name == 'push' && github.sha || github.event.pull_request.head.sha }}
-
+      # CI inputs
       run-playwright: true
       upload-playwright-artifacts: true
       node-version: 22
