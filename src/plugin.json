@@ -71,7 +71,7 @@
     {
       "type": "panel",
       "name": "Dependency Graph Panel",
-      "path": "dependency-graph/dependency-graph-panel"
+      "path": "dependency-graph-panel"
     }
   ],
   "extensions": {},
