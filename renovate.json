@@ -27,30 +27,23 @@
       "automerge": true
     },
     {
+      "matchPackageNames": ["@grafana/plugin-e2e"],
+      "schedule": ["before 6am"],
+      "matchUpdateTypes": ["major"],
+      "minimumReleaseAge": "0 days",
+      "automerge": false
+    },
+    {
       "groupName": "Unit tests",
-      "matchPackageNames": [
-        "/^@testing-library//",
-        "/^jest/",
-        "/^@types/jest$/"
-      ]
+      "matchPackageNames": ["/^@testing-library//", "/^jest/", "/^@types/jest$/"]
     },
     {
       "groupName": "ESlint",
-      "matchPackageNames": [
-        "@grafana/eslint-config",
-        "/^eslint/",
-        "/^@typescript-eslint//",
-        "/^@stylistic//"
-      ]
+      "matchPackageNames": ["@grafana/eslint-config", "/^eslint/", "/^@typescript-eslint//", "/^@stylistic//"]
     },
     {
       "groupName": "React",
-      "matchPackageNames": [
-        "react",
-        "react-dom",
-        "@types/react",
-        "@types/react-dom"
-      ],
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "matchUpdateTypes": ["minor", "patch"]
     }
   ],
