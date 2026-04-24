@@ -12,7 +12,7 @@ permissions: {}
 jobs:
   ci:
     name: CI
-    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v4.2.0
+    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@feat/bump-e2e-version-v2
     permissions:
       contents: read
       id-token: write
