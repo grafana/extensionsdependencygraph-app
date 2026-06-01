@@ -5,46 +5,21 @@
     "github>grafana/grafana-renovate-config//presets/npm",
     "github>grafana/grafana-renovate-config//presets/automerge"
   ],
+  "schedule": ["before 6am on the first day of the month"],
   "packageRules": [
     {
-      "groupName": "Grafana packages - patches and minors",
-      "matchPackageNames": ["/^@grafana//", "!@grafana/plugin-e2e"],
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Patch updates",
+      "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true
     },
     {
-      "groupName": "Grafana packages - majors",
-      "matchPackageNames": ["/^@grafana//", "!@grafana/plugin-e2e"],
-      "matchDepTypes": ["dependencies"],
+      "groupName": "Minor updates",
+      "matchUpdateTypes": ["minor"],
+      "automerge": true
+    },
+    {
+      "groupName": "Major updates",
       "matchUpdateTypes": ["major"]
-    },
-    {
-      "matchPackageNames": ["@grafana/plugin-e2e"],
-      "schedule": ["before 6am"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "minimumReleaseAge": "0 days",
-      "automerge": true
-    },
-    {
-      "matchPackageNames": ["@grafana/plugin-e2e"],
-      "schedule": ["before 6am"],
-      "matchUpdateTypes": ["major"],
-      "minimumReleaseAge": "0 days",
-      "automerge": false
-    },
-    {
-      "groupName": "Unit tests",
-      "matchPackageNames": ["/^@testing-library//", "/^jest/", "/^@types/jest$/"]
-    },
-    {
-      "groupName": "ESlint",
-      "matchPackageNames": ["@grafana/eslint-config", "/^eslint/", "/^@typescript-eslint//", "/^@stylistic//"]
-    },
-    {
-      "groupName": "React",
-      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
-      "matchUpdateTypes": ["minor", "patch"]
     }
   ],
   "ignorePaths": [".config/**"],
