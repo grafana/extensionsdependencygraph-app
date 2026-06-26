@@ -18,7 +18,7 @@
   "devDependencies": {
     "@grafana/eslint-config": "8.2.0",
     "@grafana/eslint-plugin-plugins": "0.6.0",
-    "@grafana/plugin-e2e": "^3.8.0",
+    "@grafana/plugin-e2e": "3.9.1",
     "@grafana/tsconfig": "2.0.0",
     "@playwright/test": "1.60.0",
     "@stylistic/eslint-plugin-ts": "2.13.0",
@@ -69,15 +69,22 @@
   },
   "dependencies": {
     "@emotion/css": "11.13.5",
-    "@grafana/data": "13.1.0-25893932881",
-    "@grafana/runtime": "13.1.0-25893932881",
-    "@grafana/schema": "13.1.0-25893932881",
-    "@grafana/ui": "13.1.0-25893932881",
+    "@grafana/data": "13.1.0-27994349655",
+    "@grafana/runtime": "13.1.0-27994349655",
+    "@grafana/schema": "13.1.0-27994349655",
+    "@grafana/ui": "13.1.0-27994349655",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.30.3",
+    "react-router-dom": "6.30.4",
     "react-virtualized-auto-sizer": "1.0.26",
     "rxjs": "7.8.2"
+  },
+  "overrides": {
+    "js-cookie": "3.0.7",
+    "@opentelemetry/core": "2.8.0",
+    "js-yaml": "4.2.0",
+    "tar": "7.5.16",
+    "dompurify": "3.4.11"
   },
   "packageManager": "npm@11.9.0"
 }
