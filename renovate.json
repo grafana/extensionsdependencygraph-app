@@ -24,7 +24,6 @@
       "matchUpdateTypes": ["major"]
     }
   ],
-  "ignorePaths": ["**/node_modules/**", "**/bower_components/**", ".config/**"],
   "commitMessagePrefix": "chore(deps): ",
   "rangeStrategy": "bump"
 }
