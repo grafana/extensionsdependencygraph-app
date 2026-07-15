@@ -1,6 +1,8 @@
 {
-  "extends": ["github>grafana/grafana-community-team//renovate/renovate"],
+  "extends": ["github>grafana/grafana-catalog-team//renovate/renovate"],
   "ignorePresets": [
+    "github>grafana/grafana-renovate-config//presets/base",
+    "github>grafana/grafana-renovate-config//presets/labels",
     "github>grafana/grafana-renovate-config//presets/yarn",
     "github>grafana/grafana-renovate-config//presets/npm",
     "github>grafana/grafana-renovate-config//presets/automerge"
@@ -22,7 +24,6 @@
       "matchUpdateTypes": ["major"]
     }
   ],
-  "ignorePaths": [".config/**"],
   "commitMessagePrefix": "chore(deps): ",
   "rangeStrategy": "bump"
 }
