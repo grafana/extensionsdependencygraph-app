@@ -84,7 +84,7 @@
     "@opentelemetry/core": "2.8.0",
     "js-yaml": "4.2.0",
     "tar": "7.5.16",
-    "dompurify": "3.4.11"
+    "dompurify": "3.4.12"
   },
   "packageManager": "npm@11.9.0"
 }
