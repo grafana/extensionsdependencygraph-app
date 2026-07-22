@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { VisualizationMode } from './useDependencyGraphData';
 import { useSearchParams } from 'react-router-dom';
@@ -67,33 +67,35 @@ const serializeArrayParam = (array: string[]): string => {
 export function useDependencyGraphControls(): DependencyGraphControls {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Initialize state from URL parameters
-  const [visualizationMode, setVisualizationModeState] = useState<VisualizationMode>(() => {
-    const mode = searchParams.get(URL_PARAMS.API_MODE);
-    return isValidVisualizationMode(mode) ? mode : 'addedlinks';
-  });
+  // The URL is the source of truth: derive all control state from it
+  const mode = searchParams.get(URL_PARAMS.API_MODE);
+  // Default to 'addedlinks' mode when no view parameter is present
+  const visualizationMode: VisualizationMode = isValidVisualizationMode(mode) ? mode : 'addedlinks';
 
-  const [selectedContentProviders, setSelectedContentProvidersState] = useState<string[]>(() => {
-    return parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_PROVIDERS));
-  });
+  const selectedContentProviders = useMemo(
+    () => parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_PROVIDERS)),
+    [searchParams]
+  );
 
-  const [selectedContentConsumers, setSelectedContentConsumersState] = useState<string[]>(() => {
-    return parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_CONSUMERS));
-  });
+  const selectedContentConsumers = useMemo(
+    () => parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_CONSUMERS)),
+    [searchParams]
+  );
 
-  const [selectedContentConsumersForExtensionPoint, setSelectedContentConsumersForExtensionPointState] = useState<
-    string[]
-  >(() => {
-    return parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_CONSUMERS_FOR_EXTENSION_POINT));
-  });
+  const selectedContentConsumersForExtensionPoint = useMemo(
+    () => parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_CONSUMERS_FOR_EXTENSION_POINT)),
+    [searchParams]
+  );
 
-  const [selectedExtensionPoints, setSelectedExtensionPointsState] = useState<string[]>(() => {
-    return parseArrayParam(searchParams.get(URL_PARAMS.EXTENSION_POINTS));
-  });
+  const selectedExtensionPoints = useMemo(
+    () => parseArrayParam(searchParams.get(URL_PARAMS.EXTENSION_POINTS)),
+    [searchParams]
+  );
 
-  const [selectedExtensions, setSelectedExtensionsState] = useState<string[]>(() => {
-    return parseArrayParam(searchParams.get(URL_PARAMS.EXTENSIONS));
-  });
+  const selectedExtensions = useMemo(
+    () => parseArrayParam(searchParams.get(URL_PARAMS.EXTENSIONS)),
+    [searchParams]
+  );
 
   // Update URL parameters when state changes
   const updateUrlParams = useCallback(
@@ -123,16 +125,10 @@ export function useDependencyGraphControls(): DependencyGraphControls {
     [setSearchParams]
   );
 
-  // Wrapper functions that update both state and URL
+  // Wrapper functions that update the URL, which the derived state follows
   const setVisualizationMode = useCallback(
     (mode: VisualizationMode) => {
-      setVisualizationModeState(mode);
       // Reset filters when changing views via dropdown
-      setSelectedContentProvidersState([]);
-      setSelectedContentConsumersState([]);
-      setSelectedContentConsumersForExtensionPointState([]);
-      setSelectedExtensionPointsState([]);
-      setSelectedExtensionsState([]);
       updateUrlParams({
         [URL_PARAMS.API_MODE]: mode,
         [URL_PARAMS.CONTENT_PROVIDERS]: null,
@@ -147,7 +143,6 @@ export function useDependencyGraphControls(): DependencyGraphControls {
 
   const setSelectedContentProviders = useCallback(
     (providers: string[]) => {
-      setSelectedContentProvidersState(providers);
       updateUrlParams({
         [URL_PARAMS.CONTENT_PROVIDERS]: providers.length > 0 ? serializeArrayParam(providers) : null,
       });
@@ -157,7 +152,6 @@ export function useDependencyGraphControls(): DependencyGraphControls {
 
   const setSelectedContentConsumers = useCallback(
     (consumers: string[]) => {
-      setSelectedContentConsumersState(consumers);
       updateUrlParams({
         [URL_PARAMS.CONTENT_CONSUMERS]: consumers.length > 0 ? serializeArrayParam(consumers) : null,
       });
@@ -167,7 +161,6 @@ export function useDependencyGraphControls(): DependencyGraphControls {
 
   const setSelectedContentConsumersForExtensionPoint = useCallback(
     (consumers: string[]) => {
-      setSelectedContentConsumersForExtensionPointState(consumers);
       updateUrlParams({
         [URL_PARAMS.CONTENT_CONSUMERS_FOR_EXTENSION_POINT]:
           consumers.length > 0 ? serializeArrayParam(consumers) : null,
@@ -178,7 +171,6 @@ export function useDependencyGraphControls(): DependencyGraphControls {
 
   const setSelectedExtensionPoints = useCallback(
     (extensionPoints: string[]) => {
-      setSelectedExtensionPointsState(extensionPoints);
       updateUrlParams({
         [URL_PARAMS.EXTENSION_POINTS]: extensionPoints.length > 0 ? serializeArrayParam(extensionPoints) : null,
       });
@@ -188,41 +180,12 @@ export function useDependencyGraphControls(): DependencyGraphControls {
 
   const setSelectedExtensions = useCallback(
     (extensions: string[]) => {
-      setSelectedExtensionsState(extensions);
       updateUrlParams({
         [URL_PARAMS.EXTENSIONS]: extensions.length > 0 ? serializeArrayParam(extensions) : null,
       });
     },
     [updateUrlParams]
   );
-
-  // Sync state with URL parameters when they change externally
-  useEffect(() => {
-    const mode = searchParams.get(URL_PARAMS.API_MODE);
-    if (isValidVisualizationMode(mode)) {
-      setVisualizationModeState(mode);
-    } else {
-      // Default to 'addedlinks' mode when no view parameter is present
-      setVisualizationModeState('addedlinks');
-    }
-
-    const providers = parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_PROVIDERS));
-    setSelectedContentProvidersState(providers);
-
-    const consumers = parseArrayParam(searchParams.get(URL_PARAMS.CONTENT_CONSUMERS));
-    setSelectedContentConsumersState(consumers);
-
-    const consumersForExtensionPoint = parseArrayParam(
-      searchParams.get(URL_PARAMS.CONTENT_CONSUMERS_FOR_EXTENSION_POINT)
-    );
-    setSelectedContentConsumersForExtensionPointState(consumersForExtensionPoint);
-
-    const extensionPoints = parseArrayParam(searchParams.get(URL_PARAMS.EXTENSION_POINTS));
-    setSelectedExtensionPointsState(extensionPoints);
-
-    const extensions = parseArrayParam(searchParams.get(URL_PARAMS.EXTENSIONS));
-    setSelectedExtensionsState(extensions);
-  }, [searchParams]);
 
   const modeOptions = [
     { label: 'Added links', value: 'addedlinks' as const },
