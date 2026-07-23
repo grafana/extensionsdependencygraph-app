@@ -9,18 +9,9 @@
   ],
   "packageRules": [
     {
-      "groupName": "Patch updates",
-      "matchUpdateTypes": ["patch", "pin", "digest"],
-      "automerge": true
-    },
-    {
-      "groupName": "Minor updates",
-      "matchUpdateTypes": ["minor"],
-      "automerge": true
-    },
-    {
-      "groupName": "Major updates",
-      "matchUpdateTypes": ["major"]
+      "groupName": "All non-major npm dependencies",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
     },
     {
       "description": "Automerge pilot: minor/major updates need an approval from the Claude gate workflow before GitHub auto-merge fires",
@@ -30,13 +21,7 @@
     },
     {
       "description": "Automerge pilot: clear-cut updates get a direct bot approval, required CI checks still gate the merge",
-      "matchUpdateTypes": ["patch", "pin", "digest"],
-      "automerge": true,
-      "addLabels": ["automerge-direct"]
-    },
-    {
-      "description": "Automerge pilot: dev dependencies get a direct bot approval, required CI checks still gate the merge",
-      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "pin", "digest", "lockFileMaintenance"],
       "automerge": true,
       "addLabels": ["automerge-direct"]
     }
