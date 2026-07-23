@@ -2,7 +2,7 @@ import { LAYOUT_CONSTANTS, getThemeColors } from '../dependency-graph-panel/cons
 import React, { useMemo } from 'react';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 
-import AutoSizer from 'react-virtualized-auto-sizer';
+import { AutoSizer } from 'react-virtualized-auto-sizer';
 import { DependencyGraph } from '../dependency-graph-panel/components/DependencyGraph';
 import { DependencyGraphControls } from '../hooks/useDependencyGraphControls';
 import { ExtensionTypeLegend } from './ExtensionTypeLegend';
@@ -99,8 +99,8 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
 
   return (
     <div className={styles.container}>
-      <AutoSizer disableHeight>
-        {({ width }: { width: number }) => {
+      <AutoSizer
+        renderProp={({ width }) => {
           const effectiveWidth = width || LAYOUT_CONSTANTS.VISUALIZATION_FALLBACK_WIDTH;
           // Calculate required height based on actual content for all views
           const isExposeMode = visualizationMode === 'exposedComponents';
@@ -158,7 +158,7 @@ export function DependencyGraphPanel({ controls }: DependencyGraphPanelProps): R
             </div>
           );
         }}
-      </AutoSizer>
+      />
     </div>
   );
 }
