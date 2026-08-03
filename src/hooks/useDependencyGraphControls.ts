@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { VisualizationMode } from './useDependencyGraphData';
-import { useSearchParams } from 'react-router-dom';
+import { locationService } from '@grafana/runtime';
 
 /**
  * Type guard to check if a string is a valid VisualizationMode
@@ -65,7 +65,15 @@ const serializeArrayParam = (array: string[]): string => {
  * Custom hook for managing dependency graph control state with URL synchronization
  */
 export function useDependencyGraphControls(): DependencyGraphControls {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useState(() => locationService.getSearch());
+
+  // Re-derive control state whenever the URL changes (e.g. node clicks pushing new params)
+  useEffect(() => {
+    const subscription = locationService.getLocationObservable().subscribe(() => {
+      setSearchParams(locationService.getSearch());
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   // The URL is the source of truth: derive all control state from it
   const mode = searchParams.get(URL_PARAMS.API_MODE);
@@ -97,33 +105,15 @@ export function useDependencyGraphControls(): DependencyGraphControls {
     [searchParams]
   );
 
-  // Update URL parameters when state changes
-  const updateUrlParams = useCallback(
-    (updates: Record<string, string | null>) => {
-      setSearchParams((prev) => {
-        const newParams = new URLSearchParams(prev);
-
-        // Preserve useFakeData parameter if it's set to true
-        const useFakeData = prev.get('useFakeData');
-
-        Object.entries(updates).forEach(([key, value]) => {
-          if (value === null || value === '') {
-            newParams.delete(key);
-          } else {
-            newParams.set(key, value);
-          }
-        });
-
-        // Restore useFakeData if it was true
-        if (useFakeData === 'true') {
-          newParams.set('useFakeData', 'true');
-        }
-
-        return newParams;
-      });
-    },
-    [setSearchParams]
-  );
+  // Update URL parameters when state changes. locationService.partial only touches
+  // the given keys, so unrelated params like useFakeData are preserved.
+  const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
+    const partial: Record<string, string | null> = {};
+    Object.entries(updates).forEach(([key, value]) => {
+      partial[key] = value === '' ? null : value;
+    });
+    locationService.partial(partial);
+  }, []);
 
   // Wrapper functions that update the URL, which the derived state follows
   const setVisualizationMode = useCallback(
