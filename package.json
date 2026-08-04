@@ -20,7 +20,7 @@
     "@grafana/eslint-plugin-plugins": "0.7.0",
     "@grafana/plugin-e2e": "3.10.0",
     "@grafana/tsconfig": "2.2.0",
-    "@playwright/test": "1.61.1",
+    "@playwright/test": "1.62.1",
     "@stylistic/eslint-plugin": "5.10.0",
     "@swc/core": "1.15.47",
     "@swc/helpers": "0.5.23",
@@ -80,7 +80,7 @@
   },
   "overrides": {
     "@opentelemetry/core": "2.10.0",
-    "js-yaml": "5.2.2",
+    "js-yaml": "5.2.3",
     "tar": "7.5.22",
     "dompurify": "3.4.12"
   },
