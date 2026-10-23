@@ -50,4 +50,4 @@ jobs:
       # CI inputs
       run-playwright: true
       upload-playwright-artifacts: true
-      node-version: 22
+      node-version: 24
