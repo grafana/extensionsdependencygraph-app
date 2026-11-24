@@ -12,7 +12,7 @@ permissions: {}
 jobs:
   ci:
     name: CI
-    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v12.1.1
+    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@sunker/gar-enterprise-nightly-test
     permissions:
       contents: read
       id-token: write
@@ -21,5 +21,6 @@ jobs:
 
       # CI inputs
       run-playwright: true
-      upload-playwright-artifacts: true
+      upload-playwright-artifacts: false
+      run-playwright-with-enterprise-nightly-registry: us-docker.pkg.dev/example-project/example-repository
       node-version: 24
